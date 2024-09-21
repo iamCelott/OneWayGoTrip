@@ -57,8 +57,7 @@
         </div>
 
         @foreach ($images as $index => $image)
-            <div id="hero-img"
-                class="absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
+            <div class="hero-image-background absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
                 style="background-image: url('{{ $image }}');" id="image-{{ $index }}"></div>
         @endforeach
 
@@ -101,7 +100,7 @@
         </div>
 
         {{-- Main Content --}}
-        <div class="p-6 sm:p-10">
+        <div class="p-6 lg:p-10">
 
             <style>
                 .img-trip {
@@ -122,7 +121,7 @@
                 }
             </style>
 
-            <div class="p-6 rounded-sm" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Tours</h1>
@@ -130,7 +129,7 @@
                     <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
                         satisfy you</p>
                 </div>
-                <div class="owl-carousel">
+                <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     <a href="" class="image-hover relative rounded-sm">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/images/views/view1.jpg') }}"
@@ -165,6 +164,66 @@
                     </a>
                 </div>
             </div>
+
+            <div class="">
+                <h1 class="text-3xl">Why <span class="font-bold">OneWayGoTrip</span></h1>
+                <p class="mb-3">Here are the reasons why you should choose OneWayGoTrip as your travel partner</p>
+
+                <div class="grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2 gap-3">
+                    <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
+                        class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
+                        <img src="{{ asset('storage/images/views/view1-square.jpg') }}" class="w-full sm:w-1/3"
+                            alt="">
+                        <div class="mt-3 sm:mt-0">
+                            <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#1</span>
+                            <h1 class="font-bold text-2xl md:text-3xl lg:text-xl xl:text-2xl">Interesting Tourist
+                                Destinations</h1>
+                            <p class="sm:text-sm md:text-lg lg:text-xs xl:text-lg">Offers a variety of experiences,
+                                from stunning beaches to stunning natural views. This destination promises beauty and
+                                lasting, unforgettable memories for every tourist.</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
+                        class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
+                        <img src="{{ asset('storage/images/views/view2-square.jpg') }}" class="w-full sm:w-1/3"
+                            alt="">
+                        <div class="mt-3 sm:mt-0">
+                            <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#2</span>
+                            <h1 class="font-bold text-2xl md:text-3xl lg:text-xl xl:text-2xl">Best Service Quality</h1>
+                            <p class="sm:text-sm md:text-lg lg:text-xs xl:text-lg">ensuring every traveler enjoys a
+                                smooth and memorable experience, from personalized itineraries to attentive customer
+                                support. Making your trip as enjoyable as the destination itself.</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
+                        class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
+                        <img src="{{ asset('storage/images/views/view3-square.jpg') }}" class="w-full sm:w-1/3"
+                            alt="">
+                        <div class="mt-3 sm:mt-0">
+                            <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#3</span>
+                            <h1 class="font-bold text-2xl md:text-3xl lg:text-xl xl:text-2xl">Experienced Agent</h1>
+                            <p class="sm:text-sm md:text-lg lg:text-xs xl:text-lg">Providing expert guidance and
+                                personalized recommendations for your trip. We guarantee a smooth and hassle-free travel
+                                experience. Trust us to make every trip unforgettable.</p>
+                        </div>
+                    </div>
+
+                    <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
+                        class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
+                        <img src="{{ asset('storage/images/views/view4-square.jpg') }}" class="w-full sm:w-1/3"
+                            alt="">
+                        <div class="mt-3 sm:mt-0">
+                            <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#4</span>
+                            <h1 class="font-bold text-2xl md:text-3xl lg:text-xl xl:text-2xl">Affordable prices</h1>
+                            <p class="sm:text-sm md:text-lg lg:text-xs xl:text-lg">Enjoy an extraordinary travel
+                                experience at our affordable prices. We offer tour packages for all budgets, ensuring
+                                you can explore your dream destination without worrying about costs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -175,25 +234,31 @@
             $('.owl-carousel').owlCarousel({
                 loop: true,
                 margin: 10,
-                nav: true,
+                nav: false,
                 autoplay: true,
                 autoplayTimeout: 3000,
                 autoplayHoverPause: true,
+                nav: true,
                 responsive: {
                     0: {
-                        items: 1
+                        items: 1,
+                        nav: false,
                     },
                     640: {
-                        items: 2
+                        items: 2,
+                        nav: false,
                     },
                     768: {
-                        items: 3
+                        items: 3,
+                        nav: false,
                     },
                     1024: {
-                        items: 3
+                        items: 3,
+                        nav: false,
                     },
                     1280: {
-                        items: 4
+                        items: 4,
+                        nav: false,
                     }
                 }
             });
@@ -237,12 +302,12 @@
 
                 document.getElementById('image-' + currentImageIndex).classList.remove('opacity-0');
                 document.getElementById('image-' + currentImageIndex).classList.add('opacity-100');
-            }, 5000);
+            }, 1000);
         });
 
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
-            const heroHeight = document.getElementById('hero-img').offsetHeight;
+            const heroHeight = document.querySelectorAll('.hero-image-background')[0].offsetHeight;
             const navbarLists = document.querySelectorAll('ul li a');
 
             if (window.scrollY > 0) {
