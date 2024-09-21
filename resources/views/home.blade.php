@@ -45,15 +45,20 @@
             </a>
 
             <ul class="hidden sm:flex gap-10 items-center font-semibold">
-                <li><a href="#" class="text-sm lg:text-lg hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
-                <li><a href="#" class="text-sm lg:text-lg hover:text-[rgba(255,255,255,0.8)]">About Us</a></li>
-                <li><a href="#" class="text-sm lg:text-lg hover:text-[rgba(255,255,255,0.8)]">Gallery</a></li>
-                <li><a href="#" class="text-sm lg:text-lg hover:text-[rgba(255,255,255,0.8)]">Contact</a></li>
+                <li><a href="#"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
+                <li><a href="#" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
+                        Us</a></li>
+                <li><a href="#"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a></li>
+                <li><a href="#"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Contact</a></li>
             </ul>
         </div>
 
         @foreach ($images as $index => $image)
-            <div class="absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
+            <div id="hero-img"
+                class="absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
                 style="background-image: url('{{ $image }}');" id="image-{{ $index }}"></div>
         @endforeach
 
@@ -119,11 +124,11 @@
 
             <div class="p-6 rounded-sm" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
-                    <h1
-                        class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
+                    <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Tours</h1>
 
-                        <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely satisfy you</p>
+                    <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
+                        satisfy you</p>
                 </div>
                 <div class="owl-carousel">
                     <a href="" class="image-hover relative rounded-sm">
@@ -160,69 +165,7 @@
                     </a>
                 </div>
             </div>
-
-
-
-            {{-- <img src="{{ asset('storage/images/views/view1.jpg') }}" alt=""> --}}
         </div>
-
-
-        {{-- <div class="flex justify-between gap-3">
-                <div class="w-1/2">
-                    <h1 class="font-bold text-3xl">Lorem ipsum dolor sit amet.</h1>
-                    <p class="font-semibold">Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit deserunt ab
-                        praesentium ipsa
-                        laborum nulla eum minima tenetur suscipit soluta, veniam atque, enim unde vero iusto, aliquid
-                        magnam! Tempore sunt architecto quia sequi ratione sed deserunt accusamus consequatur explicabo
-                        perferendis autem voluptatum, ut, neque expedita qui ad molestias quos impedit fuga nobis
-                        voluptatibus possimus! Blanditiis, autem quas minus enim molestiae perferendis maxime ea
-                        repudiandae, doloribus accusamus iure eos quis, corrupti amet aspernatur. Officia officiis
-                        dolorum rerum et id sed saepe? Repellat velit perspiciatis molestiae nesciunt soluta nihil odit
-                        laudantium mollitia laborum dolorem commodi molestias, repudiandae modi. Deleniti inventore
-                        nulla quod magni enim aut quae asperiores! Odio, eaque magnam rerum veritatis quaerat
-                        repellendus numquam saepe porro deserunt possimus beatae consectetur! Nostrum.</p>
-                </div>
-                <div class="overflow-hidden w-1/2">
-                    <img src="{{ asset('storage/images/views/view1.jpg') }}" class="w-full duration-300 hover:scale-105"
-                        alt="">
-                </div> --}}
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    </div>
     </div>
 
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
@@ -299,10 +242,25 @@
 
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
+            const heroHeight = document.getElementById('hero-img').offsetHeight;
+            const navbarLists = document.querySelectorAll('ul li a');
+
             if (window.scrollY > 0) {
                 navbar.classList.add('backdrop-blur-sm');
             } else {
                 navbar.classList.remove('backdrop-blur-sm');
+            }
+
+            if (window.scrollY > heroHeight) {
+                navbarLists.forEach(list => {
+                    list.classList.add(
+                        'text-[rgba(0,0,0,0.5)]')
+                });
+            } else {
+                navbarLists.forEach(list => {
+                    list.classList.remove(
+                        'text-[rgba(0,0,0,0.5)]')
+                });
             }
 
         })
