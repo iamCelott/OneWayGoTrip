@@ -19,12 +19,32 @@
     {{-- Aos --}}
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 
+    {{-- FontAwesome --}}
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+
     <style>
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        html {
+            scrollbar-width: none;
+        }
+
         .stroked-text {
             font-weight: bold;
             color: transparent;
             -webkit-text-stroke: 2px #FFFF;
             text-align: center;
+        }
+
+        .description-trip {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -35,17 +55,19 @@
             asset('storage/images/views/view1.jpg'),
             asset('storage/images/views/view2.jpg'),
             asset('storage/images/views/view3.jpg'),
+            asset('storage/images/views/view4.jpg'),
+            asset('storage/images/views/view5.jpg'),
+            asset('storage/images/views/view6.jpg'),
         ];
     @endphp
     <div class="w-full relative font-poppins">
         <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300" id="navbar">
-            <a class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
-                <img src="{{ asset('storage/images/logo/transparent_logo.png') }}" class="w-52 h-10 object-cover"
-                    alt="">
+            <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
+                <img src="{{ asset('storage/images/logo/white.png') }}" class="h-8" id="navLogo" alt="">
             </a>
 
             <ul class="hidden sm:flex gap-10 items-center font-semibold">
-                <li><a href="#"
+                <li><a href="{{ route('landing.tour') }}"
                         class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
                 <li><a href="#" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
                         Us</a></li>
@@ -127,13 +149,14 @@
                         Our Tours</h1>
 
                     <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
-                        satisfy you</p>
+                        satisfy you. <a href="" class="text-blue-600 hover:text-blue-900">Click here to see other
+                            tours.</a></p>
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     <a href="" class="image-hover relative rounded-sm">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/images/views/view1.jpg') }}"
-                                class="img-trip h-[80vh] object-cover brightness-75" alt="">
+                                class="img-trip object-cover brightness-75" alt="">
                         </div>
                         <div class="absolute w-full bottom-3 left-3 text-white">
                             <h1 class="font-semibold text-xl">Komodo Island Trip</h1>
@@ -144,7 +167,7 @@
                     <a href="" class="image-hover relative rounded-sm">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/images/views/view2.jpg') }}"
-                                class="img-trip h-[80vh] object-cover brightness-75" alt="">
+                                class="img-trip object-cover brightness-75" alt="">
                         </div>
                         <div class="absolute w-full bottom-3 left-3 text-white">
                             <h1 class="font-semibold text-xl">Siaba Island Trip</h1>
@@ -155,7 +178,7 @@
                     <a href="" class="image-hover relative rounded-sm">
                         <div class="overflow-hidden">
                             <img src="{{ asset('storage/images/views/view3.jpg') }}"
-                                class="img-trip h-[80vh] object-cover brightness-75" alt="">
+                                class="img-trip object-cover brightness-75" alt="">
                         </div>
                         <div class="absolute w-full bottom-3 left-3 text-white">
                             <h1 class="font-semibold text-xl">Padar Island Trip</h1>
@@ -165,7 +188,7 @@
                 </div>
             </div>
 
-            <div class="">
+            <div class="mb-20">
                 <h1 class="text-3xl">Why <span class="font-bold">OneWayGoTrip</span></h1>
                 <p class="mb-3">Here are the reasons why you should choose OneWayGoTrip as your travel partner</p>
 
@@ -224,6 +247,117 @@
                     </div>
                 </div>
             </div>
+
+            <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+                <h1 class="text-3xl font-bold">GALLERY</h1>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view1.jpg') }}" alt="">
+                    </div>
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view2.jpg') }}" alt="">
+                    </div>
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view3.jpg') }}" alt="">
+                    </div>
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view4.jpg') }}" alt="">
+                    </div>
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view5.jpg') }}" alt="">
+                    </div>
+                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                        <img src="{{ asset('storage/images/views/view6.jpg') }}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
+        <div class="h-[100vh] flex justify-end"
+            style="background-image: url({{ asset('storage/images/views/view5.jpg') }})">
+            <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
+                <div class="text-white h-4/5 w-3/4 overflow-auto">
+                    <img src="{{ asset('storage/images/logo/white.png') }}" class="w-2/3 mb-3" alt="">
+
+                    <p class="mb-3 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam voluptas
+                        officiis
+                        repudiandae
+                        molestiae veniam perspiciatis fuga sequi corrupti, debitis eum maiores qui vero impedit
+                        assumenda
+                        nihil, unde, est voluptatum. Veniam.</p>
+
+                    <p class="mb-3 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nisi
+                        voluptatum,
+                        aliquam alias qui
+                        ex quibusdam rerum aspernatur expedita voluptas! Alias eaque delectus voluptates labore sint
+                        animi
+                        error nulla consequuntur, id recusandae rerum veritatis inventore commodi numquam vel illo,
+                        temporibus corrupti laborum dolor. Iure cupiditate deleniti dolor qui necessitatibus assumenda
+                        officia excepturi, modi eligendi quod quas ipsa ratione iste quam, pariatur eius! Ratione
+                        temporibus
+                        quasi ducimus fuga ipsum necessitatibus voluptatem suscipit, ex dolor ab soluta itaque
+                        praesentium
+                        voluptatum atque in.</p>
+
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, veritatis dignissimos fugit
+                        pariatur
+                        excepturi quaerat fuga at consequuntur impedit nisi corporis architecto quae ullam vitae ad a
+                        magni
+                        iste aliquid?</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full bg-[#efefef] py-3">
+            <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
+                <div class="sm:w-2/3 lg:h-32 lg:w-1/3">
+                    <img src="{{ asset('storage/images/logo/blue.png') }}" alt="">
+                </div>
+                <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-3">
+                    <div class="">
+                        <h1 class="font-bold">NEWEST TOUR</h1>
+                        <div class="text-sm md:text-lg lg:text-sm">
+                            <h2>Siaba Island</h2>
+                            <h2>Comodo Island</h2>
+                            <h2>Padar Island</h2>
+                            <h2>Pink Beach</h2>
+                            <h2>Taka Makasar Island</h2>
+                            <h2>Manta Point</h2>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h1 class="font-bold">INFORMATION</h1>
+                        <div class="text-sm md:text-lg lg:text-sm">
+                            <h2>Tours</h2>
+                            <h2>About Us</h2>
+                            <h2>Gallery</h2>
+                            <h2>Contact</h2>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h1 class="font-bold">FOLLOW US</h1>
+                        <div class="text-sm md:text-lg lg:text-sm">
+                            <h2>Instagram</h2>
+                            <h2>Facebook</h2>
+                            <h2>Twitter</h2>
+                            <h2>TikTok</h2>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h1 class="font-bold">CONTACT</h1>
+                        <div class="text-sm md:text-lg lg:text-sm">
+                            <h2><i class="far fa-phone-alt"></i> +62 8123 0932 23</h2>
+                            <h2><i class="far fa-phone-alt"></i> +62 8123 0932 123</h2>
+                            <h2><i class="fab fa-whatsapp"></i> +62 8123 0932 123</h2>
+                            <h2><i class="fal fa-envelope"></i> Dcviriya313@gmail.com</h2>
+                            <h2><i class="far fa-user-headset"></i> Dcviriya313@gmail.com</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-3 border-t-2" id="copyrightYear"></div>
         </div>
     </div>
 
@@ -256,7 +390,7 @@
                         items: 3,
                         nav: false,
                     },
-                    1280: {
+                    1440: {
                         items: 4,
                         nav: false,
                     }
@@ -302,13 +436,14 @@
 
                 document.getElementById('image-' + currentImageIndex).classList.remove('opacity-0');
                 document.getElementById('image-' + currentImageIndex).classList.add('opacity-100');
-            }, 1000);
+            }, 5000);
         });
 
         window.addEventListener('scroll', function() {
             const navbar = document.getElementById('navbar');
             const heroHeight = document.querySelectorAll('.hero-image-background')[0].offsetHeight;
             const navbarLists = document.querySelectorAll('ul li a');
+            const navLogo = document.getElementById('navLogo');
 
             if (window.scrollY > 0) {
                 navbar.classList.add('backdrop-blur-sm');
@@ -318,17 +453,32 @@
 
             if (window.scrollY > heroHeight) {
                 navbarLists.forEach(list => {
-                    list.classList.add(
-                        'text-[rgba(0,0,0,0.5)]')
+                    list.classList.add('text-[rgba(0,0,0,0.5)]')
+                    list.classList.remove('hover:text-[rgba(255,255,255,0.8)]')
+                    list.classList.add('hover:text-black')
                 });
+                navbar.classList.add('bg-[#f5f5f5]')
+                navLogo.src = "{{ asset('storage/images/logo/blue.png') }}"
             } else {
                 navbarLists.forEach(list => {
-                    list.classList.remove(
-                        'text-[rgba(0,0,0,0.5)]')
+                    list.classList.remove('text-[rgba(0,0,0,0.5)]')
+                    list.classList.add('hover:text-[rgba(255,255,255,0.8)]')
+                    list.classList.remove('hover:text-black')
                 });
+                navbar.classList.remove('bg-[#f5f5f5]')
+                navLogo.src = "{{ asset('storage/images/logo/white.png') }}"
             }
 
         })
+
+        function setCopyrightYear(elementId) {
+            const currentYear = new Date().getFullYear();
+            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - OneWayGoTrip';
+        }
+
+        window.onload = function() {
+            setCopyrightYear('copyrightYear');
+        };
     </script>
 
 </body>
