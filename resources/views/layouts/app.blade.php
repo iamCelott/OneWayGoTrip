@@ -12,9 +12,6 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
-
     <!-- plugin css -->
     <link href="{{ asset('assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -27,8 +24,21 @@
     <!-- Theme Config Js -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
 
+    {{-- FontAwesome --}}
+    <link href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css" rel="stylesheet"
+        type="text/css" />
+
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        .swal-custom-btn {
+            background-color: rgb(75, 75, 255)
+        }
+    </style>
 </head>
 
 <body>
@@ -39,8 +49,55 @@
         <div class="page-content">
             @include('layouts.topbar')
 
-            <main class="p-6">
-                {{ $slot }}
+            <main class="p-6 font-poppins">
+                @if (session('success'))
+                    <script>
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "{{ session('success') }}",
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'swal-custom-btn'
+                            }
+                        });
+                    </script>
+                @endif
+
+                @if (session('error'))
+                    <script>
+                        Swal.fire({
+                            title: 'Error!',
+                            text: "{{ session('error') }}",
+                            icon: 'error',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'swal-custom-btn'
+                            }
+                        });
+                    </script>
+                @endif
+
+                @if ($errors->any())
+                    <script>
+                        let errorMsg = "";
+
+                        @foreach ($errors->all() as $error)
+                            errorMsg += "{{ $error }}<br>";
+                        @endforeach
+
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            html: errorMsg,
+                            customClass: {
+                                confirmButton: 'swal-custom-btn'
+                            }
+                        });
+                    </script>
+                @endif
+
+                @yield('content')
             </main>
         </div>
     </div>

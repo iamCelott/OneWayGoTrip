@@ -11,11 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('trip_includes', function (Blueprint $table) {
+        Schema::create('trip_packages', function (Blueprint $table) {
             $table->id();
             $table->foreignId('trip_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-            $table->string('name');
-            $table->enum('trip_type', ['private', 'open']);
+            $table->foreignId('package_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->text('price');
+            $table->text('include');
+            $table->text('exclude');
+            $table->text('destination');
+            $table->text('notes');
             $table->timestamps();
         });
     }
@@ -25,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('trip_includes');
+        Schema::dropIfExists('trip_packages');
     }
 };

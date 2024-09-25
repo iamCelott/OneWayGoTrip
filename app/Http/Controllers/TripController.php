@@ -12,7 +12,8 @@ class TripController extends Controller
      */
     public function index()
     {
-        //
+        $trips = Trip::latest()->paginate(10);
+        return view('trips.index', compact('trips'));
     }
 
     /**

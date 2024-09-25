@@ -26,10 +26,10 @@
     <!-- Topbar Search Input -->
     <div class="relative hidden lg:block">
 
-        <form data-fc-type="dropdown" type="button">
+        {{-- <form data-fc-type="dropdown" type="button">
             <input type="search" class="form-input bg-black/5 border-none ps-8 relative" placeholder="Search...">
             <span class="ri-search-line text-base z-10 absolute start-2 top-1/2 -translate-y-1/2"></span>
-        </form>
+        </form> --}}
 
         <div
             class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-80 z-50 mt-3.5 transition-all duration-300 bg-white shadow-lg border rounded-lg py-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800">
@@ -88,7 +88,7 @@
 
     <!-- Language Dropdown Button -->
     <div class="relative ms-auto">
-        <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2 fc-dropdown">
+        {{-- <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2 fc-dropdown">
             <span class="flex items-center gap-2">
                 <img src="assets/images/flags/us.jpg" alt="flag-image" class="h-3">
                 <div class="lg:block hidden">
@@ -96,7 +96,7 @@
                     <i class="ri-arrow-down-s-line"></i>
                 </div>
             </span>
-        </button>
+        </button> --}}
 
 
         <div
@@ -133,13 +133,13 @@
 
     <!-- Notification Bell Button -->
     <div class="relative lg:flex hidden">
-        <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
+        {{-- <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
             <span class="sr-only">View notifications</span>
             <span class="flex items-center justify-center">
                 <i class="ri-notification-3-line text-2xl"></i>
                 <span class="absolute top-5 end-2.5 w-2 h-2 rounded-full bg-danger"></span>
             </span>
-        </button>
+        </button> --}}
         <div
             class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-80 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg">
 
@@ -257,7 +257,7 @@
     </div>
 
     <!-- Apps Dropdown -->
-    <div class="relative lg:flex hidden">
+    {{-- <div class="relative lg:flex hidden">
         <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button" class="nav-link p-2">
             <span class="sr-only">Apps</span>
             <span class="flex items-center justify-center">
@@ -304,17 +304,17 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Theme Setting Button -->
-    <div class="flex">
+    {{-- <div class="flex">
         <button data-fc-type="offcanvas" data-fc-target="theme-customization" type="button" class="nav-link p-2">
             <span class="sr-only">Customization</span>
             <span class="flex items-center justify-center">
                 <i class="ri-settings-3-line text-2xl"></i>
             </span>
         </button>
-    </div>
+    </div> --}}
 
     <!-- Light/Dark Toggle Button -->
     <div class="lg:flex hidden">

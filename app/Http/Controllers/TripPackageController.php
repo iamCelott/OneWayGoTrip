@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TripSpecification;
+use App\Models\TripPackage;
 use Illuminate\Http\Request;
 
-class TripSpecificationController extends Controller
+class TripPackageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class TripSpecificationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TripSpecification $tripSpecification)
+    public function show(TripPackage $tripPackage)
     {
         //
     }
@@ -42,7 +42,7 @@ class TripSpecificationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TripSpecification $tripSpecification)
+    public function edit(TripPackage $tripPackage)
     {
         //
     }
@@ -50,7 +50,7 @@ class TripSpecificationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TripSpecification $tripSpecification)
+    public function update(Request $request, TripPackage $tripPackage)
     {
         //
     }
@@ -58,7 +58,7 @@ class TripSpecificationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TripSpecification $tripSpecification)
+    public function destroy(TripPackage $tripPackage)
     {
         //
     }
