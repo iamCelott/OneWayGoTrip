@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
+            $table->string('image');
             $table->string('name')->unique();
             $table->text('description');
             $table->string('slug')->unique();

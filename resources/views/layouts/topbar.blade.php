@@ -1,17 +1,17 @@
 <header class="app-header flex items-center px-4 gap-3.5">
 
     <!-- App Logo -->
-    <a href="index.html" class="logo-box">
+    <a href="/" class="logo-box">
         <!-- Light Logo -->
         <div class="logo-light">
-            <img src="assets/images/logo.png" class="logo-lg h-[22px]" alt="Light logo">
-            <img src="assets/images/logo-sm.png" class="logo-sm h-[22px]" alt="Small logo">
+            <img src="{{ asset('storage/images/logo/blue.png') }}" class="logo-lg h-[22px]" alt="Light logo">
+            <img src="{{ asset('storage/images/logo/logo.jpg') }}" class="logo-sm h-[40px]" alt="Light logo">
         </div>
 
         <!-- Dark Logo -->
         <div class="logo-dark">
-            <img src="assets/images/logo-dark.png" class="logo-lg h-[22px]" alt="Dark logo">
-            <img src="assets/images/logo-sm.png" class="logo-sm h-[22px]" alt="Small logo">
+            <img src="{{ asset('storage/images/logo/blue.png') }}" class="logo-lg h-[22px]" alt="Dark logo">
+            <img src="{{ asset('storage/images/logo/logo.jpg') }}" class="logo-sm h-[40px]" alt="Dark logo">
         </div>
     </a>
 
@@ -317,7 +317,7 @@
     </div> --}}
 
     <!-- Light/Dark Toggle Button -->
-    <div class="lg:flex hidden">
+    {{-- <div class="lg:flex hidden">
         <button id="light-dark-mode" type="button" class="nav-link p-2">
             <span class="sr-only">Light/Dark Mode</span>
             <span class="flex items-center justify-center">
@@ -325,7 +325,7 @@
                 <i class="ri-sun-line text-2xl hidden dark:block"></i>
             </span>
         </button>
-    </div>
+    </div> --}}
 
     <!-- Fullscreen Toggle Button -->
     <div class="md:flex hidden">

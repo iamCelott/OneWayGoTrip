@@ -31,12 +31,24 @@
     {{-- SweetAlert --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- CkEditor5 --}}
+    <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.css" />
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         .swal-custom-btn {
             background-color: rgb(75, 75, 255)
+        }
+
+        .ck-editor__editable {
+            min-height: 200px;
+            line-height: 1.6;
+        }
+
+        .ck-editor__editable_inline {
+            padding: 0px 20px 0px 20px !important;
         }
     </style>
 </head>
@@ -120,6 +132,23 @@
 
     <!-- Dashboard App js -->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            ClassicEditor
+                .create(document.querySelector('#createDescription'))
+                .then(editor => {
+                    editor.ui.view.editable.element.style.minHeight = '200px';
+                    editor.ui.view.editable.element.style.lineHeight = '1.6';
+                    editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px !important';
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+    </script>
 </body>
 
 </html>
