@@ -84,12 +84,12 @@
                                                         class="fc-dropdown fc-dropdown-open:opacity-100 opacity-0 min-w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-md py-1 hidden">
                                                         <button
                                                             class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="editModal" data-fc-type="modal"
+                                                            data-fc-target="editModal{{ $package->id }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-pencil mr-1"></i>
                                                             <span>Edit</span></button>
                                                         <button
                                                             class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="deleteModal" data-fc-type="modal"
+                                                            data-fc-target="deleteModal{{ $package->id }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-trash mr-1"></i>
                                                             <span>Delete</span></button>
                                                     </div>
@@ -98,7 +98,7 @@
                                         </tr>
 
                                         {{-- StartEditModal --}}
-                                        <div id="editModal"
+                                        <div id="editModal{{ $package->id }}"
                                             class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
                                             <div
                                                 class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
@@ -138,7 +138,7 @@
                                         {{-- EndEditModal --}}
 
                                         {{-- StartDeleteModal --}}
-                                        <div id="deleteModal"
+                                        <div id="deleteModal{{ $package->id }}"
                                             class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
                                             <div
                                                 class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">

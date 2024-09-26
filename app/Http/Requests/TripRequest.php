@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class TripRequest extends FormRequest
 {
@@ -22,10 +23,9 @@ class TripRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => 'required|string|max:255|unique:trips,name',
-            'description' => 'required|string',
-            'slug' => 'required|string|max:255|unique:trips,slug',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'name' => ['required', 'string', 'max:255', Rule::unique('trips', 'name')->ignore($this->route('trip'))],
+            'description' => 'nullable|string',
         ];
     }
 }

@@ -147,6 +147,19 @@
                 .catch(error => {
                     console.error(error);
                 });
+
+            document.querySelectorAll('.editDescription').forEach(editDescriptionElement => {
+                ClassicEditor
+                    .create(editDescriptionElement)
+                    .then(editor => {
+                        editor.ui.view.editable.element.style.minHeight = '200px';
+                        editor.ui.view.editable.element.style.lineHeight = '1.6';
+                        editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px';
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
         });
     </script>
 </body>

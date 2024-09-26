@@ -2,17 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use Illuminate\Http\Request;
+use App\Helpers\SlugHelper;
+use Illuminate\Support\Facades\Storage;
 
 class TripController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::latest()->paginate(10);
+        $search = $request->search;
+        $trips = Trip::query()->when($search, function ($query, $search) {
+            return $query->where('name', 'LIKE', '%' . $search . '%');
+        })->latest()->paginate(6);
         return view('trips.index', compact('trips'));
     }
 
@@ -27,9 +33,25 @@ class TripController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TripRequest $request)
     {
-        //
+        if ($request->image) {
+            $imagePath = $request->image->store('trip_images', 'public');
+            Trip::create([
+                'image' => $imagePath,
+                'name' => $request->name,
+                'description' => $request->description,
+                'slug' => SlugHelper::generateSlug($request->name),
+            ]);
+        } else {
+            Trip::create([
+                'name' => $request->name,
+                'description' => $request->description,
+                'slug' => SlugHelper::generateSlug($request->name),
+            ]);
+        }
+
+        return redirect()->route('trips.index')->with('success', 'Success created trip.');
     }
 
     /**
@@ -51,9 +73,33 @@ class TripController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Trip $trip)
+    public function update(TripRequest $request, Trip $trip)
     {
-        //
+        if ($request->image) {
+
+            $oldImagePath = storage_path('app/public/' . $trip->image);
+
+            if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                unlink($oldImagePath);
+            }
+
+            $imagePath = $request->image->store('trip_images', 'public');
+
+            $trip->update([
+                'image' => $imagePath,
+                'name' => $request->name,
+                'description' => $request->description,
+                'slug' => SlugHelper::generateSlug($request->name),
+            ]);
+        } else {
+            $trip->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'slug' => SlugHelper::generateSlug($request->name),
+            ]);
+        }
+
+        return redirect()->route('trips.index')->with('success', 'Success updated trip.');
     }
 
     /**
@@ -61,6 +107,13 @@ class TripController extends Controller
      */
     public function destroy(Trip $trip)
     {
-        //
+        $imagePath = storage_path('app/public/' . $trip->image);
+
+        if (file_exists($imagePath) && is_file($imagePath)) {
+            unlink($imagePath);
+        }
+
+        $trip->delete();
+        return redirect()->route('trips.index')->with('success', 'Success deleted trip.');
     }
 }
