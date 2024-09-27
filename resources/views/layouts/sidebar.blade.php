@@ -51,7 +51,7 @@
             </li>
 
             <li class="menu-item">
-                <a href="{{ route('trips.index') }}" class="menu-link">
+                <a href="/" class="menu-link">
                     <span class="menu-icon">
                         <i class="fal fa-ship"></i>
                     </span>
@@ -80,7 +80,7 @@
             </li>
 
             <li class="menu-item">
-                <a href="/" class="menu-link">
+                <a href="{{ route('trip_packages.index') }}" class="menu-link">
                     <span class="menu-icon pl-1">
                         <i class="fal fa-clipboard-list"></i>
                     </span>

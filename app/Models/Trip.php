@@ -10,9 +10,9 @@ class Trip extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
     public function packages()
     {
-        return $this->belongsToMany(Package::class, 'trip_id', 'package_id', 'trip_packages');
+        return $this->belongsToMany(Package::class, 'trip_packages', 'trip_id', 'package_id')->withPivot('price', 'include', 'exclude', 'destination', 'notes')
+            ->withTimestamps();
     }
 }

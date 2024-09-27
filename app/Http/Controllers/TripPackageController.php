@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TripPackageRequest;
+use App\Models\Package;
+use App\Models\Trip;
 use App\Models\TripPackage;
 use Illuminate\Http\Request;
 
@@ -12,7 +15,7 @@ class TripPackageController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.trip_packages.index');
     }
 
     /**
@@ -26,9 +29,22 @@ class TripPackageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TripPackageRequest $request)
     {
-        //
+        $trip = Trip::find($request->trip_id);
+        $package_id = Package::find($request->package_id)->id;
+
+        $pivotData = [
+            'price' => $request->price,
+            'include' => $request->include,
+            'exclude' => $request->exclude,
+            'destination' => $request->destination,
+            'notes' => $request->notes,
+        ];
+
+        $trip->packages()->attach($package_id, $pivotData);
+
+        return redirect()->back()->with('success', 'Success set package.');
     }
 
     /**

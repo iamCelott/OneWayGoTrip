@@ -6,6 +6,7 @@ use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use App\Helpers\SlugHelper;
+use App\Models\Package;
 use Illuminate\Support\Facades\Storage;
 
 class TripController extends Controller
@@ -19,7 +20,9 @@ class TripController extends Controller
         $trips = Trip::query()->when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', '%' . $search . '%');
         })->latest()->paginate(6);
-        return view('pages.trips.index', compact('trips'));
+
+        $packages = Package::all();
+        return view('pages.trips.index', compact('trips', 'packages'));
     }
 
     /**

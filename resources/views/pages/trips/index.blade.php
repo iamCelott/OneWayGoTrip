@@ -26,7 +26,7 @@
             </div>
             <form action="{{ route('trips.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="p-4 overflow-y-auto">
+                <div class="p-4 overflow-y-auto max-h-[400px]">
                     <img src="" alt="" id="imageCreatePreview" class="w-1/2 mb-3">
                     <div class="mb-3">
                         <label class="mb-2" for="image">Image</label>
@@ -76,7 +76,7 @@
         @forelse ($trips as $trip)
             <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between">
                 <div>
-                    <img class="w-full h-[200px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover"
+                    <img class="w-full h-[200px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover border-b-2"
                         src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                         alt="{{ $trip->name }}">
                     <div class="px-6 py-3">
@@ -88,10 +88,25 @@
                                 </a>
                                 <div
                                     class="fc-dropdown fc-dropdown-open:opacity-100 opacity-0 min-w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-md py-1 hidden">
+                                    {{-- @if ($trip->packages->isNotEmpty())
+                                        <button
+                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                            data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal"
+                                            type="button"><i class="far fa-pencil mr-1"></i>
+                                            <span>Edit</span></button>
+                                    @else
+                                        <p>No packages available for this trip.</p>
+                                    @endif --}}
+                                    <button
+                                        class="setPackageBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                        data-fc-target="setPackageModal" data-fc-type="modal" data-id="{{ $trip->id }}"
+                                        data-name="{{ $trip->name }}" type="button"><i
+                                            class="fal fa-clipboard-list mr-1"></i>
+                                        <span>Set Package</span></button>
                                     <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                        data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal" type="button"><i
-                                            class="far fa-pencil mr-1"></i>
+                                        data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal"
+                                        type="button"><i class="far fa-pencil mr-1"></i>
                                         <span>Edit</span></button>
                                     <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
@@ -132,14 +147,55 @@
                         </button>
                     </div>
 
-                    <div class="p-4 overflow-y-auto">
+                    <div class="p-4 overflow-y-auto max-h-[400px]">
                         <img class="w-full h-[200px] rounded-md object-cover mb-3"
                             src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                             alt="{{ $trip->name }}">
                         <h1 class="card-title mb-3">{{ $trip->name }}</h1>
 
                         {!! $trip->description !!}
+
+                        <div class="flex space-x-4 border-b">
+                            @foreach ($trip->packages as $package)
+                                <button id="tab{{ $package->id }}-btn"
+                                    class="relative py-2 px-1.5 text-sm text-gray-600 hover:text-black transition duration-300 focus:outline-none">
+                                    {{ $package->name }}
+                                    <span
+                                        class="absolute left-0 bottom-0 w-full h-0.5 bg-transparent hover:bg-black transition duration-300"></span>
+                                </button>
+                            @endforeach
+                        </div>
+
+                        @foreach ($trip->packages as $package)
+                            <div id="tab{{ $package->id }}-content" class="tab-content hidden py-3">
+                                <div class="mb-3">
+                                    <strong>Price:</strong>
+                                    {!! $package->pivot->price !!}
+                                </div>
+                                <div class="sm:flex mb-3 gap-3">
+                                    <div class="w-full sm:w-1/2">
+                                        <strong>Include:</strong>
+                                        <br>
+                                        <p>{!! $package->pivot->include !!}</p>
+                                    </div>
+                                    <div class="w-ful sm:w-1/2">
+                                        <strong>Exclude:</strong>
+                                        <br>
+                                        <p>{!! $package->pivot->exclude !!}</p>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Destination:</strong>
+                                    {!! $package->pivot->destination !!}
+                                </div>
+                                <div class="mb-3">
+                                    <strong>Notes:</strong>
+                                    {!! $package->pivot->notes !!}
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
+
 
                     <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
                         <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
@@ -148,6 +204,33 @@
                 </div>
             </div>
             {{-- EndDetailModal --}}
+
+            <script>
+                const tabButtons = document.querySelectorAll('[id$="-btn"]');
+                const tabContents = document.querySelectorAll('[id$="-content"]');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+
+                        tabButtons.forEach(btn => {
+                            btn.classList.remove('text-black', 'font-bold');
+                            btn.querySelector('span').classList.remove('bg-black');
+                            btn.classList.add('text-gray-600');
+                        });
+                        tabContents.forEach(content => content.classList.add('hidden'));
+
+                        const tabId = button.id.split('-btn')[0];
+                        button.classList.add('text-black', 'font-bold');
+                        button.querySelector('span').classList.add('bg-black');
+                        document.getElementById(`${tabId}-content`).classList.remove('hidden');
+                    });
+                });
+
+                const firstButton = tabButtons[0];
+                if (firstButton) {
+                    firstButton.click();
+                }
+            </script>
 
             {{-- StartEditModal --}}
             <div id="editModal{{ $trip->id }}"
@@ -166,7 +249,7 @@
                     <form action="{{ route('trips.update', $trip->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="p-4 overflow-y-auto image-container">
+                        <div class="p-4 overflow-y-auto max-h-[400px] image-container">
                             <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                                 class="imageEditPreview w-1/2 mb-3">
                             <div class="mb-3">
@@ -235,8 +318,75 @@
                     {{ request('search') ? 'Trip ' . request('search') . ' not found' : 'Trip is empty.' }}</h1>
             </div>
         @endforelse
+
+
+        {{-- StartSetPackageModal --}}
+        <div id="setPackageModal"
+            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+            <div
+                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                    <h3 class="font-medium text-gray-600 dark:text-white text-lg" id="packageTripName">
+                        Set Package And Detail For
+                    </h3>
+                    <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                        data-fc-dismiss type="button">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <form action="{{ route('trip_packages.store') }}" method="POST">
+                    @csrf
+                    <div class="p-4 max-h-[300px] overflow-y-auto">
+
+                        <input type="hidden" name="trip_id" id="trip_id" value="">
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="price">Choose Package</label>
+                            <select class="form-select outline-none" name="package_id">
+                                @foreach ($packages as $package)
+                                    <option value="{{ $package->id }}">{{ $package->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="price">Price</label>
+                            <textarea class="ckeditor rounded-md text-sm" name="price" placeholder="write your package price here...">{{ old('price') }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="include">Include</label>
+                            <textarea class="ckeditor rounded-md text-sm" name="include" placeholder="write your package include here...">{{ old('include') }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="exclude">Exclude</label>
+                            <textarea class="ckeditor rounded-md text-sm" name="exclude" placeholder="write your package exclude here...">{{ old('exclude') }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="destination">Destinations</label>
+                            <textarea class="ckeditor rounded-md text-sm" name="destination" placeholder="write your trip destination here...">{{ old('destination') }}</textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="notes">Notes</label>
+                            <textarea class="ckeditor rounded-md text-sm" name="notes" placeholder="write your trip note here...">{{ old('notes') }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                        <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
+                            type="button">Close</button>
+                        <button type="submit" class="btn bg-primary text-white">Set Package</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {{-- EndSetPackageModal --}}
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         const createImage = document.getElementById('imageCreate');
 
@@ -274,5 +424,13 @@
                 }
             });
         });
+
+        $(document).on('click', '.setPackageBtn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            $('#packageTripName').html("Set Package And Title For " + name);
+            $('#idTrip').html(id);
+            $('#trip_id').val(id);
+        })
     </script>
 @endsection
