@@ -166,14 +166,14 @@
                     <form action="{{ route('trips.update', $trip->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
-                        <div class="p-4 overflow-y-auto">
+                        <div class="p-4 overflow-y-auto image-container">
                             <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                                alt="{{ $trip->name }}" id="imageEditPreview" class="w-1/2 mb-3">
+                                class="imageEditPreview w-1/2 mb-3">
                             <div class="mb-3">
                                 <label class="mb-2" for="image">Image</label>
                                 <br>
-                                <input type="file" name="image" id="imageEdit" value="{{ $trip->image }}"
-                                    class="border w-full rounded-md">
+                                <input type="file" name="image" value="{{ $trip->image }}"
+                                    class="imageEdit border w-full rounded-md">
                             </div>
 
                             <div class="mb-3">
@@ -239,7 +239,6 @@
 
     <script>
         const createImage = document.getElementById('imageCreate');
-        const editImage = document.getElementById('imageEdit');
 
         createImage.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -250,19 +249,30 @@
                     imageCreatePreview.src = event.target.result;
                 }
                 reader.readAsDataURL(file);
+            } else {
+                imageCreatePreview.src = '';
             }
         });
 
-        editImage.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const imageCreatePreview = document.getElementById('imageEditPreview');
-                    imageCreatePreview.src = event.target.result;
+        const editImages = document.querySelectorAll('.imageEdit');
+
+        editImages.forEach(function(editImage) {
+            editImage.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        const imageEditPreview = editImage.closest('.image-container').querySelector(
+                            '.imageEditPreview');
+                        imageEditPreview.src = event.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    const imageEditPreview = editImage.closest('.image-container').querySelector(
+                        '.imageEditPreview');
+                    imageEditPreview.src = '';
                 }
-                reader.readAsDataURL(file);
-            }
+            });
         });
     </script>
 @endsection

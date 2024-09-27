@@ -19,7 +19,7 @@ class TripController extends Controller
         $trips = Trip::query()->when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', '%' . $search . '%');
         })->latest()->paginate(6);
-        return view('trips.index', compact('trips'));
+        return view('pages.trips.index', compact('trips'));
     }
 
     /**

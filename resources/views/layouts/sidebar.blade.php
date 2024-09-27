@@ -50,6 +50,15 @@
                 </ul>
             </li>
 
+            <li class="menu-item">
+                <a href="{{ route('trips.index') }}" class="menu-link">
+                    <span class="menu-icon">
+                        <i class="fal fa-ship"></i>
+                    </span>
+                    <span class="menu-text"> Company Profile </span>
+                </a>
+            </li>
+
             <li class="menu-title">CONTENT</li>
 
             <li class="menu-item">
@@ -67,6 +76,35 @@
                         <i class="fal fa-anchor"></i>
                     </span>
                     <span class="menu-text"> Package </span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="/" class="menu-link">
+                    <span class="menu-icon pl-1">
+                        <i class="fal fa-clipboard-list"></i>
+                    </span>
+                    <span class="menu-text pl-1"> Trip Package </span>
+                </a>
+            </li>
+
+            <li class="menu-title">GET IN TOUCH</li>
+
+            <li class="menu-item">
+                <a href="{{ route('social_media.index') }}" class="menu-link">
+                    <span class="menu-icon pl-1">
+                        <i class="fal fa-hashtag"></i>
+                    </span>
+                    <span class="menu-text pl-1"> Social Media </span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="{{ route('contacts.index') }}" class="menu-link">
+                    <span class="menu-icon pl-1">
+                        <i class="fal fa-id-card"></i>
+                    </span>
+                    <span class="menu-text pl-1"> Contact </span>
                 </a>
             </li>
 
