@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\HeroBackgroundController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialMediaController;
@@ -8,13 +12,9 @@ use App\Http\Controllers\TripController;
 use App\Http\Controllers\TripPackageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
-
-Route::get('/tours', function () {
-    return view('tour');
-})->name('landing.tour');
+Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+Route::get('/tours', [LandingController::class, 'tours'])->name('landing.tour');
+Route::get('/tour/{slug}', [LandingController::class, 'tour_show'])->name('landing.tour.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('packages', PackageController::class);
     Route::resource('social_media', SocialMediaController::class);
     Route::resource('contacts', ContactController::class);
+    Route::resource('hero_backgrounds', HeroBackgroundController::class);
+    Route::resource('galleries', GalleryController::class);
+    Route::resource('company_profile', CompanyProfileController::class);
 });
 
 require __DIR__ . '/auth.php';

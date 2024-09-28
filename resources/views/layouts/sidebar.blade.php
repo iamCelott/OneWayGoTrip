@@ -51,9 +51,9 @@
             </li>
 
             <li class="menu-item">
-                <a href="/" class="menu-link">
+                <a href="{{ route('company_profile.index') }}" class="menu-link">
                     <span class="menu-icon">
-                        <i class="fal fa-ship"></i>
+                        <i class="fal fa-building"></i>
                     </span>
                     <span class="menu-text"> Company Profile </span>
                 </a>
@@ -108,6 +108,25 @@
                 </a>
             </li>
 
+            <li class="menu-title">IMAGE MANAGEMENT</li>
+
+            <li class="menu-item">
+                <a href="{{ route('hero_backgrounds.index') }}" class="menu-link">
+                    <span class="menu-icon pl-1">
+                        <i class="fal fa-images"></i>
+                    </span>
+                    <span class="menu-text pl-1"> Hero Image </span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="{{ route('galleries.index') }}" class="menu-link">
+                    <span class="menu-icon pl-1">
+                        <i class="fal fa-camera-retro"></i>
+                    </span>
+                    <span class="menu-text pl-1"> Gallery </span>
+                </a>
+            </li>
             {{-- <li class="menu-item">
                 <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
                     <span class="menu-icon">

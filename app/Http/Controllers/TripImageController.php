@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompanyProfile;
+use App\Models\TripImage;
 use Illuminate\Http\Request;
 
-class CompanyProfileController extends Controller
+class TripImageController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $company_profile = CompanyProfile::latest()->first();
-        return view('pages.company_profile.index', compact('company_profile'));
+        //
     }
 
     /**
@@ -35,7 +34,7 @@ class CompanyProfileController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CompanyProfile $companyProfile)
+    public function show(TripImage $tripImage)
     {
         //
     }
@@ -43,7 +42,7 @@ class CompanyProfileController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CompanyProfile $companyProfile)
+    public function edit(TripImage $tripImage)
     {
         //
     }
@@ -51,7 +50,7 @@ class CompanyProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CompanyProfile $companyProfile)
+    public function update(Request $request, TripImage $tripImage)
     {
         //
     }
@@ -59,7 +58,7 @@ class CompanyProfileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CompanyProfile $companyProfile)
+    public function destroy(TripImage $tripImage)
     {
         //
     }

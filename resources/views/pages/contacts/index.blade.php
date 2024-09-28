@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="mb-2" for="name">Social Media Name / Username</label>
+                        <label class="mb-2" for="name">Contact</label>
                         <input type="text" name="name" id="name" class="form-input rounded-md text-sm"
                             value="{{ old('name') }}" placeholder="write your social media name here...">
                     </div>

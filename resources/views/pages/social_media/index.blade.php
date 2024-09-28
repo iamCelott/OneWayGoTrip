@@ -220,7 +220,7 @@
                                         {{-- EndDeleteModal --}}
                                     @empty
                                         <tr class="gridjs-tr">
-                                            <td data-column-id="name" class="gridjs-td text-center" colspan="4">
+                                            <td data-column-id="name" class="gridjs-td text-center" colspan="5">
                                                 Social Media
                                                 is empty.</td>
                                         </tr>

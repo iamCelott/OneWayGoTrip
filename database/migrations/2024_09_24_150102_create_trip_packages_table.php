@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('include');
             $table->text('exclude');
             $table->text('destination');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('company_profiles', function (Blueprint $table) {
+        Schema::create('hero_backgrounds', function (Blueprint $table) {
             $table->id();
-            $table->string('white_logo');
-            $table->string('colored_logo');
-            $table->string('raw_logo');
-            $table->string('name');
-            $table->text('about_us');
-            $table->string('address');
+            $table->string('image');
             $table->timestamps();
         });
     }
@@ -28,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('company_profiles');
+        Schema::dropIfExists('hero_backgrounds');
     }
 };

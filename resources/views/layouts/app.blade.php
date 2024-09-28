@@ -34,6 +34,14 @@
     {{-- CkEditor5 --}}
     <link rel="stylesheet" href="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.css" />
 
+    {{-- Dropzone --}}
+    <link rel="stylesheet" href="../../assets/vendor/libs/dropzone/dropzone.css" />
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
+    {{-- Jquery --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -133,7 +141,11 @@
     <!-- Dashboard App js -->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
+    {{-- CkEditor --}}
     <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+
+    {{-- Dropzone --}}
+    <script src="../../assets/vendor/libs/dropzone/dropzone.js"></script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

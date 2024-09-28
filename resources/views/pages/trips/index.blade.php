@@ -42,7 +42,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="mb-2" for="description">Description</label>
+                        <label class="mb-2" for="description">Description (Optional)</label>
                         <textarea class="rounded-md text-sm" name="description" id="createDescription"
                             placeholder="write your trip description here...">{{ old('description') }}</textarea>
                     </div>
@@ -267,7 +267,7 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="mb-2" for="description">Description</label>
+                                <label class="mb-2" for="description">Description (Optional)</label>
                                 <textarea class="editDescription rounded-md text-sm" name="description"
                                     placeholder="write your trip description here...">{{ $trip->description }}</textarea>
                             </div>
@@ -344,7 +344,9 @@
                             <label class="mb-2" for="price">Choose Package</label>
                             <select class="form-select outline-none" name="package_id">
                                 @foreach ($packages as $package)
-                                    <option value="{{ $package->id }}">{{ $package->name }}</option>
+                                    <option value="{{ $package->id }}"
+                                        {{ old('package_id') == $package->id ? 'selected' : '' }}>{{ $package->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -370,7 +372,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="mb-2" for="notes">Notes</label>
+                            <label class="mb-2" for="notes">Notes (Optional)</label>
                             <textarea class="ckeditor rounded-md text-sm" name="notes" placeholder="write your trip note here...">{{ old('notes') }}</textarea>
                         </div>
                     </div>
@@ -386,7 +388,6 @@
         {{-- EndSetPackageModal --}}
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         const createImage = document.getElementById('imageCreate');
 

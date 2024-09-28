@@ -37,7 +37,14 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+        }
 
+        .ellipsis {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     </style>
 </head>
@@ -62,27 +69,46 @@
         </ul>
     </div>
 
-    <div class="p-3 lg:p-10 font-poppins">
+    <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
         <div class="flex justify-between items-center py-3 border-b-2">
             <h1 class="text-2xl font-semibold">EXPLORE OUR TOURS</h1>
-            <div class="relative w-1/2">
-                <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-sm" placeholder="search for trip here...">
+            <form action="{{ route('landing.tour') }}" method="GET" class="relative w-1/2">
+                @csrf
+                <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-sm"
+                    placeholder="search for trip here..." value="{{ request('search') }}">
                 <i class="far fa-search absolute top-3.5 left-3.5"></i>
-            </div>
+            </form>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
-            <div class="w-full h-32 bg-red-300"></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 py-3">
+            @forelse ($trips as $trip)
+                <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between shadow-lg">
+                    <a href="{{ route('landing.tour.show', $trip->slug) }}" class="cursor-pointer">
+                        <img class="w-full h-[200px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover border-b-2"
+                            src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
+                            alt="{{ $trip->name }}">
+                        <div class="px-6 pt-3 pb-3">
+                            <h3 class="mb-3 font-bold">{{ $trip->name }}</h3>
+                            <div class="ellipsis text-sm">
+                                @if ($trip->description)
+                                    {!! $trip->description !!}
+                                @else
+                                    <p>Empty description.</p>
+                                @endif
+                            </div>
+                        </div>
+                    </a>
+                    <div class="px-6 pb-6">
+                        <p><small>Created at {{ \Carbon\Carbon::parse($trip->updated_at)->format('j F Y, H:i') }}
+                            </small></p>
+                    </div>
+                </div>
+            @empty
+                <div class="">
+                    <h1 class="font-semibold">
+                        {{ request('search') ? 'Trip ' . request('search') . ' not found' : 'Trip is empty.' }}</h1>
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -91,7 +117,7 @@
             <div class="sm:w-2/3 lg:h-32 lg:w-1/3">
                 <img src="{{ asset('storage/images/logo/blue.png') }}" alt="">
             </div>
-            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-3">
+            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 lg:gap-20">
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
@@ -115,20 +141,29 @@
                 <div class="">
                     <h1 class="font-bold">FOLLOW US</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        <h2>Instagram</h2>
-                        <h2>Facebook</h2>
-                        <h2>Twitter</h2>
-                        <h2>TikTok</h2>
+                        @forelse ($social_media as $media)
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-4 h-4 object-cover">
+                                <h2><a href="{{ $media->url }}" target="__blank">{{ $media->name }}</a></h2>
+                            </div>
+                        @empty
+                            <h1>Coming Soon</h1>
+                        @endforelse
                     </div>
                 </div>
                 <div class="">
                     <h1 class="font-bold">CONTACT</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        <h2><i class="far fa-phone-alt"></i> +62 8123 0932 23</h2>
-                        <h2><i class="far fa-phone-alt"></i> +62 8123 0932 123</h2>
-                        <h2><i class="fab fa-whatsapp"></i> +62 8123 0932 123</h2>
-                        <h2><i class="fal fa-envelope"></i> Dcviriya313@gmail.com</h2>
-                        <h2><i class="far fa-user-headset"></i> Dcviriya313@gmail.com</h2>
+                        @forelse ($contacts as $contact)
+                            <div class="flex items-center gap-2">
+                                <img src="{{ asset('storage/' . $contact->icon) }}" alt="{{ $contact->name }}"
+                                    class="w-4 h-4 object-cover">
+                                <h2>{{ $contact->name }}</a></h2>
+                            </div>
+                        @empty
+                            <h1>Coming Soon</h1>
+                        @endforelse
                     </div>
                 </div>
             </div>

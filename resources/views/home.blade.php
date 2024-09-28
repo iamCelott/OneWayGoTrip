@@ -51,14 +51,15 @@
 
 <body>
     @php
-        $images = [
-            asset('storage/images/views/view1.jpg'),
-            asset('storage/images/views/view2.jpg'),
-            asset('storage/images/views/view3.jpg'),
-            asset('storage/images/views/view4.jpg'),
-            asset('storage/images/views/view5.jpg'),
-            asset('storage/images/views/view6.jpg'),
-        ];
+        $images = [];
+
+        if ($hero_backgrounds->isNotEmpty()) {
+            foreach ($hero_backgrounds as $index => $background) {
+                array_push($images, asset('storage/' . $background->image));
+            }
+        } else {
+            array_push($images, asset('storage/images/highlights/WIL05715-HDR.jpg'));
+        }
     @endphp
     <div class="w-full relative font-poppins">
         <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300" id="navbar">
@@ -86,7 +87,7 @@
         <div class="relative z-30 h-[83vh] lg:h-[87vh] xl:h-[89vh]">
             <div class="px-3">
                 <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 ">
-                    <div class="relative flex -space-x-4">
+                    {{-- <div class="relative flex -space-x-4">
                         <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
                             src="{{ asset('storage/images/avatars/huang.jpeg') }}" alt="Avatar 1" />
                         <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
@@ -95,7 +96,7 @@
                             src="{{ asset('storage/images/avatars/tim.jpeg') }}" alt="Avatar 3" />
                         <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
                             src="{{ asset('storage/images/avatars/elon.jpg') }}" alt="Avatar 4" />
-                    </div>
+                    </div> --}}
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
                     <p class="text-white font-medium text-xs sm:text-sm lg:text-lg xl:text-xl">
                         Over <span id="used-services">0</span>+ have used <br /> our services
@@ -146,46 +147,34 @@
             <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
-                        Our Tours</h1>
+                        Our Latest Tours</h1>
 
                     <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
                         satisfy you. <a href="" class="text-blue-600 hover:text-blue-900">Click here to see other
                             tours.</a></p>
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
-                    <a href="" class="image-hover relative rounded-sm">
-                        <div class="overflow-hidden">
-                            <img src="{{ asset('storage/images/views/view1.jpg') }}"
-                                class="img-trip object-cover brightness-75" alt="">
-                        </div>
-                        <div class="absolute w-full bottom-3 left-3 text-white">
-                            <h1 class="font-semibold text-xl">Komodo Island Trip</h1>
-                            <span class="text-lg">See More >> </span>
-                        </div>
-                    </a>
-
-                    <a href="" class="image-hover relative rounded-sm">
-                        <div class="overflow-hidden">
-                            <img src="{{ asset('storage/images/views/view2.jpg') }}"
-                                class="img-trip object-cover brightness-75" alt="">
-                        </div>
-                        <div class="absolute w-full bottom-3 left-3 text-white">
-                            <h1 class="font-semibold text-xl">Siaba Island Trip</h1>
-                            <span class="text-lg">See More >> </span>
-                        </div>
-                    </a>
-
-                    <a href="" class="image-hover relative rounded-sm">
-                        <div class="overflow-hidden">
-                            <img src="{{ asset('storage/images/views/view3.jpg') }}"
-                                class="img-trip object-cover brightness-75" alt="">
-                        </div>
-                        <div class="absolute w-full bottom-3 left-3 text-white">
-                            <h1 class="font-semibold text-xl">Padar Island Trip</h1>
-                            <span class="text-lg">See More >> </span>
-                        </div>
-                    </a>
+                    @foreach ($trips->take(10) as $trip)
+                        <a href="" class="image-hover relative rounded-sm">
+                            <div class="overflow-hidden">
+                                <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
+                                    class="img-trip object-cover brightness-75 h-[200px]" alt="">
+                            </div>
+                            <div class="absolute w-full bottom-3 left-3 text-white">
+                                <h1 class="font-semibold text-xl {{ $trip->image ? 'text-white' : 'text-black' }}">
+                                    {{ $trip->name }}</h1>
+                                <span class="text-lg {{ $trip->image ? 'text-white' : 'text-black' }}">See More >>
+                                </span>
+                            </div>
+                        </a>
+                    @endforeach
                 </div>
+                @if ($trips->isEmpty())
+                    <div class="py-10">
+                        <p class="text-center"><strong>We apologize, we currently do not have any new tours
+                                available</strong></p>
+                    </div>
+                @endif
             </div>
 
             <div class="mb-20">
@@ -249,34 +238,33 @@
             </div>
 
             <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
-                <h1 class="text-3xl font-bold">GALLERY</h1>
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
+                    <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
+                        Gallery</h1>
+
+                    <a href="" class="text-blue-600 hover:text-blue-900">More image >></a>
+                </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view1.jpg') }}" alt="">
-                    </div>
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view2.jpg') }}" alt="">
-                    </div>
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view3.jpg') }}" alt="">
-                    </div>
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view4.jpg') }}" alt="">
-                    </div>
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view5.jpg') }}" alt="">
-                    </div>
-                    <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
-                        <img src="{{ asset('storage/images/views/view6.jpg') }}" alt="">
-                    </div>
+                    @foreach ($galleries->take(9) as $gallery)
+                        <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease"
+                            data-aos-duration="600">
+                            <img src="{{ asset('storage/' . $gallery->image) }}" alt="">
+                        </div>
+                    @endforeach
                 </div>
+                @if ($galleries->isEmpty())
+                    <div class="py-10">
+                        <p class="text-center"><strong>We apologize, we currently do not have gallery
+                                images</strong></p>
+                    </div>
+                @endif
             </div>
         </div>
 
         <div class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
         <div class="h-[100vh] flex justify-end"
-            style="background-image: url({{ asset('storage/images/views/view5.jpg') }})">
+            style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">
                     <img src="{{ asset('storage/images/logo/white.png') }}" class="w-2/3 mb-3" alt="">
@@ -339,20 +327,29 @@
                     <div class="">
                         <h1 class="font-bold">FOLLOW US</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
-                            <h2>Instagram</h2>
-                            <h2>Facebook</h2>
-                            <h2>Twitter</h2>
-                            <h2>TikTok</h2>
+                            @forelse ($social_media as $media)
+                                <div class="flex items-center gap-2">
+                                    <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                        class="w-4 h-4 object-cover">
+                                    <h2><a href="{{ $media->url }}" target="__blank">{{ $media->name }}</a></h2>
+                                </div>
+                            @empty
+                                <h1>Coming Soon</h1>
+                            @endforelse
                         </div>
                     </div>
                     <div class="">
                         <h1 class="font-bold">CONTACT</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
-                            <h2><i class="far fa-phone-alt"></i> +62 8123 0932 23</h2>
-                            <h2><i class="far fa-phone-alt"></i> +62 8123 0932 123</h2>
-                            <h2><i class="fab fa-whatsapp"></i> +62 8123 0932 123</h2>
-                            <h2><i class="fal fa-envelope"></i> Dcviriya313@gmail.com</h2>
-                            <h2><i class="far fa-user-headset"></i> Dcviriya313@gmail.com</h2>
+                            @forelse ($contacts as $contact)
+                                <div class="flex items-center gap-2">
+                                    <img src="{{ asset('storage/' . $contact->icon) }}" alt="{{ $contact->name }}"
+                                        class="w-4 h-4 object-cover">
+                                    <h2>{{ $contact->name }}</a></h2>
+                                </div>
+                            @empty
+                                <h1>Coming Soon</h1>
+                            @endforelse
                         </div>
                     </div>
                 </div>
@@ -366,7 +363,7 @@
     <script>
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
-                loop: true,
+                loop: {{ $trips->count() < 3 ? "false" : "true" }},
                 margin: 10,
                 nav: false,
                 autoplay: true,
@@ -416,7 +413,7 @@
             }, incrementTime);
 
             var typed = new Typed('#typewriter', {
-                strings: ['Thrusted', 'The Best', 'Funniest'],
+                strings: ['Trusted', 'The Best', 'Expert', 'Reliable'],
                 typeSpeed: 80,
                 backSpeed: 60,
                 backDelay: 2000,
