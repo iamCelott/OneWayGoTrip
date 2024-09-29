@@ -25,30 +25,7 @@
     <!--- Menu -->
     <div class="scrollbar" data-simplebar>
         <ul class="menu" data-fc-type="accordion">
-            <li class="menu-title">Navigation</li>
-
-            <li class="menu-item">
-                <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
-                    <span class="menu-icon">
-                        <i class="ri-home-4-line"></i>
-                    </span>
-                    <span class="menu-text"> Dashboard </span>
-                    <span class="badge bg-success rounded-full">2</span>
-                </a>
-
-                <ul class="sub-menu hidden">
-                    <li class="menu-item">
-                        <a href="dashboard-analytics.html" class="menu-link">
-                            <span class="menu-text">Analytics</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="index.html" class="menu-link">
-                            <span class="menu-text">Ecommerce</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+            <li class="menu-title">COMPANY</li>
 
             <li class="menu-item">
                 <a href="{{ route('company_profile.index') }}" class="menu-link">

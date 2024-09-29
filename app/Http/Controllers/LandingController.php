@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyProfile;
 use App\Models\Contact;
 use App\Models\Gallery;
 use App\Models\HeroBackground;
@@ -17,24 +18,26 @@ class LandingController extends Controller
     public function index()
     {
         $social_media = SocialMedia::all();
+        $company_profile = CompanyProfile::first();
         $contacts = Contact::all();
         $trips = Trip::latest()->get();
         $hero_backgrounds = HeroBackground::all();
         $galleries = Gallery::latest()->get();
-        return view('home', compact('trips', 'social_media', 'contacts', 'hero_backgrounds', 'galleries'));
+        return view('home', compact('trips', 'social_media', 'contacts', 'hero_backgrounds', 'galleries', 'company_profile'));
     }
 
     public function tours(Request $request)
     {
         $social_media = SocialMedia::all();
         $contacts = Contact::all();
+        $company_profile = CompanyProfile::first();
 
         $search = $request->search;
         $trips = Trip::query()->when($search, function ($query) use ($search) {
             $query->whereLike('name', '%' . $search . '%');
         })->latest()->get();
 
-        return view('tours.index', compact('trips', 'social_media', 'contacts'));
+        return view('tours.index', compact('trips', 'social_media', 'contacts', 'company_profile'));
     }
 
     public function tour_show(string $slug)

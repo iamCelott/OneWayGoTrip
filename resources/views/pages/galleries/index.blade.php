@@ -66,7 +66,7 @@
             autoProcessQueue: false,
             addRemoveLinks: true,
             dictDefaultMessage: "drop file here or click to upload",
-            parallelUploads: 6,
+            parallelUploads: 20,
             init: function() {
                 const submitButton = document.getElementById("submitBtn");
                 const dropzoneInstance = this;

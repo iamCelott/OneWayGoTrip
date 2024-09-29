@@ -104,6 +104,12 @@
                                             class="fal fa-clipboard-list mr-1"></i>
                                         <span>Set Package</span></button>
                                     <button
+                                        class="addImageDetailBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                        data-fc-target="addImageDetailModal" data-fc-type="modal"
+                                        data-id="{{ $trip->id }}" data-name="{{ $trip->name }}" type="button"><i
+                                            class="fal fa-image-polaroid mr-1"></i>
+                                        <span>Add Image Detail</span></button>
+                                    <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                         data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal"
                                         type="button"><i class="far fa-pencil mr-1"></i>
@@ -156,14 +162,16 @@
                         {!! $trip->description !!}
 
                         <div class="flex space-x-4 border-b">
-                            @foreach ($trip->packages as $package)
+                            @forelse ($trip->packages as $package)
                                 <button id="tab{{ $package->id }}-btn"
                                     class="relative py-2 px-1.5 text-sm text-gray-600 hover:text-black transition duration-300 focus:outline-none">
                                     {{ $package->name }}
                                     <span
                                         class="absolute left-0 bottom-0 w-full h-0.5 bg-transparent hover:bg-black transition duration-300"></span>
                                 </button>
-                            @endforeach
+                            @empty
+                                <strong class="py-2">Trip package is empty.</strong>
+                            @endforelse
                         </div>
 
                         @foreach ($trip->packages as $package)
@@ -343,11 +351,13 @@
                         <div class="mb-3">
                             <label class="mb-2" for="price">Choose Package</label>
                             <select class="form-select outline-none" name="package_id">
-                                @foreach ($packages as $package)
+                                @forelse ($packages as $package)
                                     <option value="{{ $package->id }}"
                                         {{ old('package_id') == $package->id ? 'selected' : '' }}>{{ $package->name }}
                                     </option>
-                                @endforeach
+                                @empty
+                                    <option value="" selected>Package is empty</option>
+                                @endforelse
                             </select>
                         </div>
 
@@ -386,9 +396,85 @@
             </div>
         </div>
         {{-- EndSetPackageModal --}}
+
+        {{-- StartAddImageDetail --}}
+        <div id="addImageDetailModal"
+            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+            <div
+                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                    <h3 class="font-medium text-gray-600 dark:text-white text-lg" id="addTripImageName">
+                        Add Image Detail For
+                    </h3>
+                    <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                        data-fc-dismiss type="button">
+                        <i class="ri-close-line text-2xl"></i>
+                    </button>
+                </div>
+                <form action="{{ route('trip_images.store') }}" class="dropzone relative mb-3" id="image-detail-dropzone"
+                    method="POST">
+                    @csrf
+                    <input type="hidden" name="trip_id" id="addImageDetailTripId" value="">
+                    <button type="submit" id="submitBtn"
+                        class="bg-primary rounded-md cursor-pointer text-white px-3 py-1.5 absolute bottom-3 right-3">Add
+                        Images</button>
+                </form>
+
+                <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                    <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
+                        type="button">Close</button>
+                </div>
+            </div>
+        </div>
+        {{-- EndAddImageDetail --}}
     </div>
 
     <script>
+        // StartDropzone
+        Dropzone.autoDiscover = false;
+
+        const dropzoneElement = document.getElementById('image-detail-dropzone');
+        
+        const myDropzone = new Dropzone(dropzoneElement, {
+            url: "{{ route('trip_images.store') }}",
+            paramName: "images",
+            maxFilesize: 2,
+            acceptedFiles: ".jpeg,.jpg,.png,.svg",
+            autoProcessQueue: false,
+            addRemoveLinks: true,
+            dictDefaultMessage: "drop file here or click to upload",
+            parallelUploads: 6,
+            init: function() {
+                const submitButton = document.getElementById("submitBtn");
+                const dropzoneInstance = this;
+
+                submitButton.addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    if (dropzoneInstance.getQueuedFiles().length > 0) {
+                        dropzoneInstance.processQueue();
+                    } else {
+                        dropzoneInstance.submitForm();
+                    }
+                });
+
+                this.on("success", function(file, response) {
+                    console.log('Upload Success:', response);
+                });
+
+                this.on("queuecomplete", function() {
+                    localStorage.setItem('uploadSuccessMessage', 'Success upload image.');
+                    window.location.href = "{{ route('galleries.index') }}";
+                });
+            },
+            submitForm: function() {
+                localStorage.setItem('uploadSuccessMessage', 'Upload gambar berhasil.');
+                window.location.href = "{{ route('galleries.index') }}";
+            }
+        })
+        // EndDropzone
+
         const createImage = document.getElementById('imageCreate');
 
         createImage.addEventListener('change', function(e) {
@@ -430,8 +516,14 @@
             const id = $(this).data('id');
             const name = $(this).data('name');
             $('#packageTripName').html("Set Package And Title For " + name);
-            $('#idTrip').html(id);
             $('#trip_id').val(id);
+        })
+
+        $(document).on('click', '.addImageDetailBtn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            $('#addTripImageName').html("Add Image Detail For " + name);
+            $('#addImageDetailTripId').val(id);
         })
     </script>
 @endsection

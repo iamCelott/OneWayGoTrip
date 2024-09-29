@@ -30,6 +30,7 @@
 
         html {
             scrollbar-width: none;
+            scroll-behavior: smooth;
         }
 
         .stroked-text {
@@ -62,21 +63,72 @@
         }
     @endphp
     <div class="w-full relative font-poppins">
-        <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300" id="navbar">
+        <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center" id="navbar">
             <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
-                <img src="{{ asset('storage/images/logo/white.png') }}" class="h-8" id="navLogo" alt="">
+                <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                    class="h-8" id="navLogo" alt="">
             </a>
 
             <ul class="hidden sm:flex gap-10 items-center font-semibold">
                 <li><a href="{{ route('landing.tour') }}"
-                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
-                <li><a href="#" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a>
+                </li>
+                <li><a href="#"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a>
+                </li>
+                <li><a href="#about_us"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
                         Us</a></li>
-                <li><a href="#"
-                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a></li>
-                <li><a href="#"
-                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Contact</a></li>
+                <li><a href="#footer"
+                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Get In
+                        Touch</a></li>
             </ul>
+
+            <div class="relative sm:hidden">
+                <div class="">
+                    <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                    <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                    <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                </div>
+                <input type="checkbox" name="" id="hamburgerTrigger"
+                    class="absolute top-0 left-0 w-6 h-5 cursor-pointer opacity-0">
+            </div>
+
+            <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-64 bg-[#f5f5f5]">
+                <div class="relative">
+                    <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
+                        class="w-1/2 py-3 border-b-2 mx-auto">
+                    <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
+                        id="hamburgerMenuCloseTrigger"></i>
+                </div>
+                <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
+                    <a href="{{ route('landing.tour') }}" class="py-1">Tours</a>
+                    <a href="#" class="py-1">Gallery</a>
+                    <a href="#about_us" class="py-1">About Us</a>
+                    <a href="#footer" class="py-1">Get In Touch</a>
+                </div>
+            </div>
+
+            <script>
+                var hamburgerTrigger = document.getElementById('hamburgerTrigger');
+                var menu = document.getElementById('hamburgerMenu');
+
+                function toggleMenu() {
+                    if (hamburgerTrigger.checked) {
+                        menu.classList.remove('-top-64');
+                        menu.classList.add('top-0');
+                    } else {
+                        menu.classList.remove('top-0');
+                        menu.classList.add('-top-64');
+                    }
+                }
+
+                hamburgerTrigger.addEventListener('change', toggleMenu);
+                document.getElementById('hamburgerMenuCloseTrigger').addEventListener('click', function() {
+                    hamburgerTrigger.checked = false;
+                    toggleMenu();
+                });
+            </script>
         </div>
 
         @foreach ($images as $index => $image)
@@ -144,7 +196,7 @@
                 }
             </style>
 
-            <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="pb-0 px-6 pt-6 xl:p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Latest Tours</h1>
@@ -178,7 +230,7 @@
             </div>
 
             <div class="mb-20">
-                <h1 class="text-3xl">Why <span class="font-bold">OneWayGoTrip</span></h1>
+                <h1 class="text-3xl">Why <span class="font-bold">{{ $company_profile->name }}</span></h1>
                 <p class="mb-3">Here are the reasons why you should choose OneWayGoTrip as your travel partner</p>
 
                 <div class="grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2 gap-3">
@@ -249,7 +301,8 @@
                     @foreach ($galleries->take(9) as $gallery)
                         <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease"
                             data-aos-duration="600">
-                            <img src="{{ asset('storage/' . $gallery->image) }}" alt="">
+                            <img src="{{ asset('storage/' . $gallery->image) }}" alt=""
+                                class="w-full h-[250px] object-cover">
                         </div>
                     @endforeach
                 </div>
@@ -262,48 +315,26 @@
             </div>
         </div>
 
-        <div class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
+        <div id="about_us" class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
         <div class="h-[100vh] flex justify-end"
             style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">
-                    <img src="{{ asset('storage/images/logo/white.png') }}" class="w-2/3 mb-3" alt="">
+                    <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                        class="w-2/3 object-cover mb-3" alt="">
 
-                    <p class="mb-3 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam voluptas
-                        officiis
-                        repudiandae
-                        molestiae veniam perspiciatis fuga sequi corrupti, debitis eum maiores qui vero impedit
-                        assumenda
-                        nihil, unde, est voluptatum. Veniam.</p>
-
-                    <p class="mb-3 text-sm">Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nisi
-                        voluptatum,
-                        aliquam alias qui
-                        ex quibusdam rerum aspernatur expedita voluptas! Alias eaque delectus voluptates labore sint
-                        animi
-                        error nulla consequuntur, id recusandae rerum veritatis inventore commodi numquam vel illo,
-                        temporibus corrupti laborum dolor. Iure cupiditate deleniti dolor qui necessitatibus assumenda
-                        officia excepturi, modi eligendi quod quas ipsa ratione iste quam, pariatur eius! Ratione
-                        temporibus
-                        quasi ducimus fuga ipsum necessitatibus voluptatem suscipit, ex dolor ab soluta itaque
-                        praesentium
-                        voluptatum atque in.</p>
-
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eos, veritatis dignissimos fugit
-                        pariatur
-                        excepturi quaerat fuga at consequuntur impedit nisi corporis architecto quae ullam vitae ad a
-                        magni
-                        iste aliquid?</p>
+                    <p class="text-sm">{!! $company_profile->about_us !!}</p>
                 </div>
             </div>
         </div>
 
-        <div class="w-full bg-[#efefef] py-3">
+        <div id="footer" class="w-full bg-[#efefef] py-3">
             <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
-                <div class="sm:w-2/3 lg:h-32 lg:w-1/3">
-                    <img src="{{ asset('storage/images/logo/blue.png') }}" alt="">
+                <div class="sm:w-2/3 lg:w-1/3">
+                    <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                        alt="">
                 </div>
-                <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-3">
+                <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-5 lg:grid-rows-1 gap-3 lg:gap-10">
                     <div class="">
                         <h1 class="font-bold">NEWEST TOUR</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
@@ -318,11 +349,15 @@
                     <div class="">
                         <h1 class="font-bold">INFORMATION</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
-                            <h2>Tours</h2>
-                            <h2>About Us</h2>
-                            <h2>Gallery</h2>
-                            <h2>Contact</h2>
+                            <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
+                            <h2><a href="#">Gallery</a></h2>
+                            <h2><a href="#about_us">About Us</a></h2>
+                            <h2><a href="#footer">Get In Touch</a></h2>
                         </div>
+                    </div>
+                    <div class="">
+                        <h1 class="font-bold">ADDRESS</h1>
+                        <p class="text-xs"><i class="far fa-location"></i> {!! $company_profile->address ? $company_profile->address : 'Coming Soon' !!}</p>
                     </div>
                     <div class="">
                         <h1 class="font-bold">FOLLOW US</h1>
@@ -363,7 +398,7 @@
     <script>
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
-                loop: {{ $trips->count() < 3 ? "false" : "true" }},
+                loop: {{ $trips->count() < 3 ? 'false' : 'true' }},
                 margin: 10,
                 nav: false,
                 autoplay: true,
@@ -395,12 +430,11 @@
             });
         });
 
-
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init();
 
             let usedService = 0;
-            const targetService = 300;
+            const targetService = "{{ $company_profile->have_used_over }}";
             const incrementTime = 10;
 
             const updateCounter = setInterval(() => {
@@ -440,6 +474,7 @@
             const navbar = document.getElementById('navbar');
             const heroHeight = document.querySelectorAll('.hero-image-background')[0].offsetHeight;
             const navbarLists = document.querySelectorAll('ul li a');
+            const hamburgerLists = document.querySelectorAll('.hamburgerLists');
             const navLogo = document.getElementById('navLogo');
 
             if (window.scrollY > 0) {
@@ -454,23 +489,38 @@
                     list.classList.remove('hover:text-[rgba(255,255,255,0.8)]')
                     list.classList.add('hover:text-black')
                 });
+
+                hamburgerLists.forEach(list => {
+                    list.classList.add('bg-[rgba(0,0,0,0.5)]')
+                    list.classList.remove('bg-white')
+                });
+
                 navbar.classList.add('bg-[#f5f5f5]')
-                navLogo.src = "{{ asset('storage/images/logo/blue.png') }}"
+                navLogo.src =
+                    "{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
             } else {
                 navbarLists.forEach(list => {
                     list.classList.remove('text-[rgba(0,0,0,0.5)]')
                     list.classList.add('hover:text-[rgba(255,255,255,0.8)]')
                     list.classList.remove('hover:text-black')
                 });
+
+                hamburgerLists.forEach(list => {
+                    list.classList.remove('bg-[rgba(0,0,0,0.5)]')
+                    list.classList.add('bg-white')
+                });
+
                 navbar.classList.remove('bg-[#f5f5f5]')
-                navLogo.src = "{{ asset('storage/images/logo/white.png') }}"
+                navLogo.src =
+                    "{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"
             }
 
         })
 
         function setCopyrightYear(elementId) {
             const currentYear = new Date().getFullYear();
-            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - OneWayGoTrip';
+            var companyName = "{{ $company_profile->name }}"
+            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - ' + companyName;
         }
 
         window.onload = function() {

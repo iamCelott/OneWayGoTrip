@@ -343,7 +343,7 @@
             class="nav-link flex items-center gap-2.5 px-3 bg-black/5 border-x border-black/10">
             <img src="assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-full h-8">
             <span class="md:flex flex-col gap-0.5 text-start hidden">
-                <h5 class="text-sm">Tosha Minner</h5>
+                <h5 class="text-sm">{{ Auth::user()->name }}</h5>
                 <span class="text-xs">Founder</span>
             </span>
         </button>
@@ -361,32 +361,19 @@
             </a>
 
             <!-- item-->
-            <a href="pages-profile.html"
-                class="flex items-center gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                <i class="ri-settings-4-line text-lg align-middle"></i>
-                <span>Settings</span>
-            </a>
+            <label for="logout"
+                class="cursor-pointer flex items-center justify-start gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
 
-            <!-- item-->
-            <a href="pages-faqs.html"
-                class="flex items-center gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                <i class="ri-customer-service-2-line text-lg align-middle"></i>
-                <span>Support</span>
-            </a>
-
-            <!-- item-->
-            <a href="auth-lock-screen.html"
-                class="flex items-center gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                <i class="ri-lock-password-line text-lg align-middle"></i>
-                <span>Lock Screen</span>
-            </a>
-
-            <!-- item-->
-            <a href="auth-logout-2.html"
-                class="flex items-center gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-                <i class="ri-logout-box-line text-lg align-middle"></i>
-                <span>Logout</span>
-            </a>
+                    <i class="ri-logout-box-line text-lg align-middle"></i>
+                    <button type="submit" id="logout">
+                        <span>
+                            {{ __('Log Out') }}
+                        </span>
+                    </button>
+                </form>
+            </label>
         </div>
     </div>
 </header>

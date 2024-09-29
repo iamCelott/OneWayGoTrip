@@ -99,107 +99,22 @@
                                                     <div
                                                         class="fc-dropdown fc-dropdown-open:opacity-100 opacity-0 min-w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-md py-1 hidden">
                                                         <button
-                                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="editModal{{ $contact->id }}"
-                                                            data-fc-type="modal" type="button"><i
-                                                                class="far fa-pencil mr-1"></i>
+                                                            class="editModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                            data-fc-target="editModal" data-id="{{ $contact->id }}"
+                                                            data-icon="{{ $contact->icon }}"
+                                                            data-name="{{ $contact->name }}" data-fc-type="modal"
+                                                            type="button"><i class="far fa-pencil mr-1"></i>
                                                             <span>Edit</span></button>
                                                         <button
-                                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="deleteModal{{ $contact->id }}"
-                                                            data-fc-type="modal" type="button"><i
-                                                                class="far fa-trash mr-1"></i>
+                                                            class="deleteModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                            data-fc-target="deleteModal" data-id="{{ $contact->id }}"
+                                                            data-name="{{ $contact->name }}" data-fc-type="modal"
+                                                            type="button"><i class="far fa-trash mr-1"></i>
                                                             <span>Delete</span></button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-
-                                        {{-- StartEditModal --}}
-                                        <div id="editModal{{ $contact->id }}"
-                                            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-                                            <div
-                                                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                                                <div
-                                                    class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                    <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                                                        Edit Contact {{ $contact->name }}
-                                                    </h3>
-                                                    <button
-                                                        class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                                                        data-fc-dismiss type="button">
-                                                        <i class="ri-close-line text-2xl"></i>
-                                                    </button>
-                                                </div>
-                                                <form action="{{ route('contacts.update', $contact->id) }}"
-                                                    enctype="multipart/form-data" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="p-4 overflow-y-auto icon-container">
-                                                        <img src="{{ asset('storage/' . $contact->icon) }}"
-                                                            class="iconEditPreview w-1/2 mb-3">
-                                                        <div class="mb-3">
-                                                            <label class="mb-2" for="icon">Icon</label> -
-                                                            <small>Format: jpeg,png,jpg,gif,svg | Max: 2mb</small>
-                                                            <br>
-                                                            <input type="file" name="icon"
-                                                                value="{{ $contact->icon }}"
-                                                                class="iconEdit border w-full rounded-md">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="mb-2" for="name">Contact</label>
-                                                            <input type="text" name="name" id="name"
-                                                                class="form-input rounded-md text-sm"
-                                                                value="{{ $contact->name }}"
-                                                                placeholder="write your social media name here...">
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                                                        <button class="btn bg-light text-gray-800 transition-all"
-                                                            data-fc-dismiss type="button">Close</button>
-                                                        <button type="submit" class="btn bg-primary text-white">Save
-                                                            Change</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {{-- EndEditModal --}}
-
-                                        {{-- StartDeleteModal --}}
-                                        <div id="deleteModal{{ $contact->id }}"
-                                            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-                                            <div
-                                                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                                                <div
-                                                    class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                    <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                                                        Delete Contact {{ $contact->name }}
-                                                    </h3>
-                                                    <button
-                                                        class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                                                        data-fc-dismiss type="button">
-                                                        <i class="ri-close-line text-2xl"></i>
-                                                    </button>
-                                                </div>
-                                                <form action="{{ route('contacts.destroy', $contact->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="p-6">
-                                                        <p>Are you sure you want to remove this contact?</p>
-                                                    </div>
-                                                    <div
-                                                        class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                                                        <button class="btn bg-light text-gray-800 transition-all"
-                                                            data-fc-dismiss type="button">Close</button>
-                                                        <button type="submit"
-                                                            class="btn bg-danger text-white">Delete</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {{-- EndDeleteModal --}}
                                     @empty
                                         <tr class="gridjs-tr">
                                             <td data-column-id="name" class="gridjs-td text-center" colspan="4">
@@ -207,6 +122,86 @@
                                                 is empty.</td>
                                         </tr>
                                     @endforelse
+
+                                    {{-- StartEditModal --}}
+                                    <div id="editModal"
+                                        class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+                                        <div
+                                            class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                                            <div
+                                                class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                                                <h3 id="editTittle"
+                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <button
+                                                    class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                                                    data-fc-dismiss type="button">
+                                                    <i class="ri-close-line text-2xl"></i>
+                                                </button>
+                                            </div>
+                                            <form action="" id="editForm" enctype="multipart/form-data"
+                                                method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="p-4 overflow-y-auto icon-container">
+                                                    <img src="" class="w-1/2 mb-3" id="editIconPreview">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="icon">Icon</label> -
+                                                        <small>Format: jpeg,png,jpg,gif,svg | Max: 2mb</small>
+                                                        <br>
+                                                        <input type="file" name="icon" id="editContactIcon"
+                                                            class="border w-full rounded-md">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="name">Contact</label>
+                                                        <input type="text" name="name" id="editContactName"
+                                                            class="form-input rounded-md text-sm"
+                                                            placeholder="write your social media name here...">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                                                    <button class="btn bg-light text-gray-800 transition-all"
+                                                        data-fc-dismiss type="button">Close</button>
+                                                    <button type="submit" class="btn bg-primary text-white">Save
+                                                        Change</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{-- EndEditModal --}}
+
+                                    {{-- StartDeleteModal --}}
+                                    <div id="deleteModal"
+                                        class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+                                        <div
+                                            class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                                            <div
+                                                class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                                                <h3 id="deleteTittle"
+                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <button
+                                                    class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                                                    data-fc-dismiss type="button">
+                                                    <i class="ri-close-line text-2xl"></i>
+                                                </button>
+                                            </div>
+                                            <form action="" id="deleteForm" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="p-6">
+                                                    <p>Are you sure you want to remove this contact?</p>
+                                                </div>
+                                                <div
+                                                    class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                                                    <button class="btn bg-light text-gray-800 transition-all"
+                                                        data-fc-dismiss type="button">Close</button>
+                                                    <button type="submit"
+                                                        class="btn bg-danger text-white">Delete</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{-- EndDeleteModal --}}
                                 </tbody>
                             </table>
                         </div>
@@ -234,24 +229,43 @@
             }
         });
 
-        const editIcons = document.querySelectorAll('.iconEdit');
-        editIcons.forEach(function(editIcon) {
-            editIcon.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const iconEditPreview = editIcon.closest('.icon-container').querySelector(
-                            '.iconEditPreview');
-                        iconEditPreview.src = event.target.result;
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    const iconEditPreview = editIcon.closest('.icon-container').querySelector(
-                        '.iconEditPreview');
-                    iconEditPreview.src = '';
+        const editIcon = document.getElementById('editContactIcon');
+        editIcon.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const editIconPreview = document.getElementById('editIconPreview');
+                    editIconPreview.src = event.target.result;
                 }
-            });
+                reader.readAsDataURL(file);
+            } else {
+                const editIconPreview = document.getElementById('editIconPreview');
+                editIconPreview.src = '';
+            }
         });
+
+        $(document).on('click', '.editModalBtn', function() {
+            const id = $(this).data('id');
+            console.log(id)
+            const icon = $(this).data('icon');
+            const name = $(this).data('name');
+            const url = `{{ route('contacts.update', 'id') }}`.replace('id', id);
+
+            $('#editForm').attr("action", url);
+            $('#editTittle').html("Edit Contact " + name);
+
+            $('#editIconPreview').attr('src', '/storage/' + icon);
+            $('#editContactName').val(name);
+        })
+
+        $(document).on('click', '.deleteModalBtn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const url = `{{ route('contacts.destroy', 'id') }}`.replace('id', id);
+
+            $('#deleteForm').attr("action", url);
+            $('#deleteTittle').html("Delete Contact " + name);
+        })
     </script>
 @endsection

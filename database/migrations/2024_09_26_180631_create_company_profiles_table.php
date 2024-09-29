@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('colored_logo');
             $table->string('raw_logo');
             $table->string('name');
+            $table->integer('have_used_over');
             $table->text('about_us');
             $table->string('address');
             $table->timestamps();

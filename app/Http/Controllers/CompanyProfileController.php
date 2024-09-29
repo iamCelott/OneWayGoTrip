@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CompanyProfile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyProfileController extends Controller
 {
@@ -53,7 +54,39 @@ class CompanyProfileController extends Controller
      */
     public function update(Request $request, CompanyProfile $companyProfile)
     {
-        //
+        if ($request->hasFile('white_logo')) {
+            if ($companyProfile->white_logo && Storage::exists($companyProfile->white_logo)) {
+                Storage::delete($companyProfile->white_logo);
+            }
+    
+            $whiteLogoPath = $request->file('white_logo')->store('logos', 'public');
+            $companyProfile->white_logo = $whiteLogoPath;
+        }
+    
+        if ($request->hasFile('colored_logo')) {
+            if ($companyProfile->colored_logo && Storage::exists($companyProfile->colored_logo)) {
+                Storage::delete($companyProfile->colored_logo);
+            }
+    
+            $coloredLogoPath = $request->file('colored_logo')->store('logos', 'public');
+            $companyProfile->colored_logo = $coloredLogoPath;
+        }
+    
+        if ($request->hasFile('raw_logo')) {
+            if ($companyProfile->raw_logo && Storage::exists($companyProfile->raw_logo)) {
+                Storage::delete($companyProfile->raw_logo);
+            }
+    
+            $rawLogoPath = $request->file('raw_logo')->store('logos', 'public');
+            $companyProfile->raw_logo = $rawLogoPath;
+        }
+        $companyProfile->name = $request->name;
+        $companyProfile->about_us = $request->about_us;
+        $companyProfile->address = $request->address;
+        $companyProfile->save();
+
+        return redirect()->route('company_profile.index')->with('success', 'Success updated company profile.');
+    
     }
 
     /**

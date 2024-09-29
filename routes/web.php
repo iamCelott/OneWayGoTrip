@@ -9,6 +9,7 @@ use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\TripImageController;
 use App\Http\Controllers\TripPackageController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('hero_backgrounds', HeroBackgroundController::class);
     Route::resource('galleries', GalleryController::class);
     Route::resource('company_profile', CompanyProfileController::class);
+    Route::resource('trip_images', TripImageController::class);
 });
 
 require __DIR__ . '/auth.php';

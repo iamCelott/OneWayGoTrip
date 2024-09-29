@@ -50,23 +50,72 @@
 </head>
 
 <body>
-    <div class="flex sticky top-0 z-50 p-6 justify-between duration-300 bg-[#f5f5f5]" id="navbar">
-        <a href="/" class="font-bold text-2xl xl:text-3xl font-sofandi">
-            <img src="{{ asset('storage/images/logo/blue.png') }}" class="h-8" id="navLogo" alt="">
+    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center bg-[#f5f5f5]" id="navbar">
+        <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
+            <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                class="h-8" id="navLogo" alt="">
         </a>
 
         <ul class="hidden sm:flex gap-10 items-center font-semibold">
             <li><a href="{{ route('landing.tour') }}"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Tours</a></li>
-            <li><a href="#" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">About
+                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Tours</a>
+            </li>
+            <li><a href="#"
+                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Gallery</a>
+            </li>
+            <li><a href="/#about_us"
+                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">About
                     Us</a></li>
-            <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Gallery</a>
-            </li>
-            <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Contact</a>
-            </li>
+            <li><a href="#footer"
+                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Get In
+                    Touch</a></li>
         </ul>
+
+        <div class="relative sm:hidden">
+            <div class="">
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
+            </div>
+            <input type="checkbox" name="" id="hamburgerTrigger"
+                class="absolute top-0 left-0 w-6 h-5 cursor-pointer opacity-0">
+        </div>
+
+        <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-64 bg-[#f5f5f5]">
+            <div class="relative">
+                <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
+                    class="w-1/2 py-3 border-b-2 mx-auto">
+                <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
+                    id="hamburgerMenuCloseTrigger"></i>
+            </div>
+            <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
+                <a href="{{ route('landing.tour') }}" class="py-1">Tours</a>
+                <a href="#" class="py-1">Gallery</a>
+                <a href="#about_us" class="py-1">About Us</a>
+                <a href="#footer" class="py-1">Get In Touch</a>
+            </div>
+        </div>
+
+        <script>
+            var hamburgerTrigger = document.getElementById('hamburgerTrigger');
+            var menu = document.getElementById('hamburgerMenu');
+
+            function toggleMenu() {
+                if (hamburgerTrigger.checked) {
+                    menu.classList.remove('-top-64');
+                    menu.classList.add('top-0');
+                } else {
+                    menu.classList.remove('top-0');
+                    menu.classList.add('-top-64');
+                }
+            }
+
+            hamburgerTrigger.addEventListener('change', toggleMenu);
+            document.getElementById('hamburgerMenuCloseTrigger').addEventListener('click', function() {
+                hamburgerTrigger.checked = false;
+                toggleMenu();
+            });
+        </script>
     </div>
 
     <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
@@ -112,12 +161,13 @@
         </div>
     </div>
 
-    <div class="w-full bg-[#efefef] py-3">
+    <div id="footer" class="w-full bg-[#efefef] py-3">
         <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
-            <div class="sm:w-2/3 lg:h-32 lg:w-1/3">
-                <img src="{{ asset('storage/images/logo/blue.png') }}" alt="">
+            <div class="sm:w-2/3 lg:w-1/3">
+                <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                    alt="">
             </div>
-            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 lg:gap-20">
+            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-5 lg:grid-rows-1 gap-3 lg:gap-10">
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
@@ -132,11 +182,15 @@
                 <div class="">
                     <h1 class="font-bold">INFORMATION</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        <h2>Tours</h2>
-                        <h2>About Us</h2>
-                        <h2>Gallery</h2>
-                        <h2>Contact</h2>
+                        <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
+                        <h2><a href="#">Gallery</a></h2>
+                        <h2><a href="#about_us">About Us</a></h2>
+                        <h2><a href="#footer">Get In Touch</a></h2>
                     </div>
+                </div>
+                <div class="">
+                    <h1 class="font-bold">ADDRESS</h1>
+                    <p class="text-xs"><i class="far fa-location"></i> {!! $company_profile->address ? $company_profile->address : 'Coming Soon' !!}</p>
                 </div>
                 <div class="">
                     <h1 class="font-bold">FOLLOW US</h1>
@@ -174,7 +228,8 @@
     <script>
         function setCopyrightYear(elementId) {
             const currentYear = new Date().getFullYear();
-            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - OneWayGoTrip';
+            var companyName = "{{ $company_profile->name }}"
+            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - ' + companyName;
         }
 
         window.onload = function() {

@@ -50,23 +50,67 @@
 </head>
 
 <body>
-    <div class="flex sticky top-0 z-50 p-6 justify-between duration-300 bg-[#f5f5f5]" id="navbar">
-        <a href="/" class="font-bold text-2xl xl:text-3xl font-sofandi">
-            <img src="{{ asset('storage/images/logo/blue.png') }}" class="h-8" id="navLogo" alt="">
+    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center" id="navbar">
+        <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
+            <img src="{{ asset('storage/images/logo/white.png') }}" class="h-8" id="navLogo" alt="">
         </a>
 
         <ul class="hidden sm:flex gap-10 items-center font-semibold">
             <li><a href="{{ route('landing.tour') }}"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Tours</a></li>
-            <li><a href="#" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">About
+                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
+            <li><a href="#" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
                     Us</a></li>
             <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Gallery</a>
-            </li>
+                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a></li>
             <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.5)] hover:text-black">Contact</a>
-            </li>
+                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Contact</a></li>
         </ul>
+
+        <div class="relative sm:hidden">
+            <div class="">
+                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+            </div>
+            <input type="checkbox" name="" id="hamburgerTrigger"
+                class="absolute top-0 left-0 w-6 h-5 cursor-pointer opacity-0">
+        </div>
+
+        <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-64 bg-[#f5f5f5]">
+            <div class="relative">
+                <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
+                    class="w-1/2 py-3 border-b-2 mx-auto">
+                <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
+                    id="hamburgerMenuCloseTrigger"></i>
+            </div>
+            <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
+                <a href="" class="py-1">Tours</a>
+                <a href="" class="py-1">About Us</a>
+                <a href="" class="py-1">Gallery</a>
+                <a href="" class="py-1">Contact</a>
+            </div>
+        </div>
+
+        <script>
+            var hamburgerTrigger = document.getElementById('hamburgerTrigger');
+            var menu = document.getElementById('hamburgerMenu');
+
+            function toggleMenu() {
+                if (hamburgerTrigger.checked) {
+                    menu.classList.remove('-top-64');
+                    menu.classList.add('top-0');
+                } else {
+                    menu.classList.remove('top-0');
+                    menu.classList.add('-top-64');
+                }
+            }
+
+            hamburgerTrigger.addEventListener('change', toggleMenu);
+            document.getElementById('hamburgerMenuCloseTrigger').addEventListener('click', function() {
+                hamburgerTrigger.checked = false;
+                toggleMenu();
+            });
+        </script>
     </div>
 
     <div class="min-h-[100vh]">

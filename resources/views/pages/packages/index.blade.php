@@ -51,7 +51,6 @@
         </div>
         <div class="p-6">
             <div class="overflow-x-auto">
-
                 <div id="table-pagination">
                     <div role="complementary" class="gridjs gridjs-container" style="width: 100%;">
                         <div class="gridjs-wrapper mb-3" style="height: auto;">
@@ -83,94 +82,21 @@
                                                     <div
                                                         class="fc-dropdown fc-dropdown-open:opacity-100 opacity-0 min-w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-md py-1 hidden">
                                                         <button
-                                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="editModal{{ $package->id }}" data-fc-type="modal"
+                                                            class="editModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                            data-fc-target="editModal" data-id="{{ $package->id }}"
+                                                            data-name="{{ $package->name }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-pencil mr-1"></i>
                                                             <span>Edit</span></button>
                                                         <button
-                                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="deleteModal{{ $package->id }}" data-fc-type="modal"
+                                                            class="deleteModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
+                                                            data-fc-target="deleteModal" data-id="{{ $package->id }}"
+                                                            data-name="{{ $package->name }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-trash mr-1"></i>
                                                             <span>Delete</span></button>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-
-                                        {{-- StartEditModal --}}
-                                        <div id="editModal{{ $package->id }}"
-                                            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-                                            <div
-                                                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                                                <div
-                                                    class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                    <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                                                        Edit Package {{ $package->name }}
-                                                    </h3>
-                                                    <button
-                                                        class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                                                        data-fc-dismiss type="button">
-                                                        <i class="ri-close-line text-2xl"></i>
-                                                    </button>
-                                                </div>
-                                                <form action="{{ route('packages.update', $package->id) }}" method="POST">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="p-4 overflow-y-auto">
-                                                        <div class="mb-3">
-                                                            <label class="mb-2" for="name">Name</label>
-                                                            <input type="text" name="name" id="name"
-                                                                class="form-input rounded-md text-sm"
-                                                                value="{{ $package->name }}"
-                                                                placeholder="write your package name here...">
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                                                        <button class="btn bg-light text-gray-800 transition-all"
-                                                            data-fc-dismiss type="button">Close</button>
-                                                        <button type="submit" class="btn bg-primary text-white">Save
-                                                            Change</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {{-- EndEditModal --}}
-
-                                        {{-- StartDeleteModal --}}
-                                        <div id="deleteModal{{ $package->id }}"
-                                            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-                                            <div
-                                                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                                                <div
-                                                    class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                    <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                                                        Delete Package {{ $package->name }}
-                                                    </h3>
-                                                    <button
-                                                        class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                                                        data-fc-dismiss type="button">
-                                                        <i class="ri-close-line text-2xl"></i>
-                                                    </button>
-                                                </div>
-                                                <form action="{{ route('packages.destroy', $package->id) }}"
-                                                    method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <div class="p-6">
-                                                        <p>Are you sure you want to remove this package?</p>
-                                                    </div>
-                                                    <div
-                                                        class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                                                        <button class="btn bg-light text-gray-800 transition-all"
-                                                            data-fc-dismiss type="button">Close</button>
-                                                        <button type="submit"
-                                                            class="btn bg-danger text-white">Delete</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                        {{-- EndDeleteModal --}}
                                     @empty
                                         <tr class="gridjs-tr">
                                             <td data-column-id="name" class="gridjs-td text-center" colspan="4">
@@ -179,6 +105,78 @@
                                                 empty.</td>
                                         </tr>
                                     @endforelse
+
+                                    {{-- StartEditModal --}}
+                                    <div id="editModal"
+                                        class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+                                        <div
+                                            class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                                            <div
+                                                class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                                                <h3 id="editTittle"
+                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <button
+                                                    class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                                                    data-fc-dismiss type="button">
+                                                    <i class="ri-close-line text-2xl"></i>
+                                                </button>
+                                            </div>
+                                            <form action="" method="POST" id="editForm">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="p-4 overflow-y-auto">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="name">Name</label>
+                                                        <input type="text" name="name" id="editPackageName"
+                                                            class="form-input rounded-md text-sm"
+                                                            value=""
+                                                            placeholder="write your package name here...">
+                                                    </div>
+                                                </div>
+                                                <div
+                                                    class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                                                    <button class="btn bg-light text-gray-800 transition-all"
+                                                        data-fc-dismiss type="button">Close</button>
+                                                    <button type="submit" class="btn bg-primary text-white">Save
+                                                        Change</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{-- EndEditModal --}}
+
+                                    {{-- StartDeleteModal --}}
+                                    <div id="deleteModal"
+                                        class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
+                                        <div
+                                            class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
+                                            <div
+                                                class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
+                                                <h3 id="deleteTittle"
+                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <button
+                                                    class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
+                                                    data-fc-dismiss type="button">
+                                                    <i class="ri-close-line text-2xl"></i>
+                                                </button>
+                                            </div>
+                                            <form action="" method="POST" id="deleteForm">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="p-6">
+                                                    <p>Are you sure you want to remove this package?</p>
+                                                </div>
+                                                <div
+                                                    class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
+                                                    <button class="btn bg-light text-gray-800 transition-all"
+                                                        data-fc-dismiss type="button">Close</button>
+                                                    <button type="submit"
+                                                        class="btn bg-danger text-white">Delete</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    {{-- EndDeleteModal --}}
                                 </tbody>
                             </table>
                         </div>
@@ -188,4 +186,25 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).on('click', '.editModalBtn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const url = `{{ route('packages.update', 'id') }}`.replace('id', id);
+
+            $('#editForm').attr("action", url);
+            $('#editTittle').html("Edit Package " + name);
+            $('#editPackageName').val(name);
+        })
+
+        $(document).on('click', '.deleteModalBtn', function() {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            const url = `{{ route('packages.destroy', 'id') }}`.replace('id', id);
+
+            $('#deleteForm').attr("action", url);
+            $('#deleteTittle').html("Delete Package " + name);
+        })
+    </script>
 @endsection

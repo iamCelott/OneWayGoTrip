@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ContactRequest;
+use App\Http\Requests\StoreContactRequest;
+use App\Http\Requests\UpdateContactRequest;
 use App\Models\Contact;
-use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
@@ -28,7 +28,7 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ContactRequest $request)
+    public function store(StoreContactRequest $request)
     {
         $iconPath = $request->icon->store('contact_icons', 'public');
 
@@ -59,20 +59,27 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ContactRequest $request, Contact $contact)
+    public function update(UpdateContactRequest $request, Contact $contact)
     {
-        $oldIconPath = storage_path('app/public/' . $contact->icon);
+        if ($request->icon) {
 
-        if (file_exists($oldIconPath) && is_file($oldIconPath)) {
-            unlink($oldIconPath);
+            $oldIconPath = storage_path('app/public/' . $contact->icon);
+
+            if (file_exists($oldIconPath) && is_file($oldIconPath)) {
+                unlink($oldIconPath);
+            }
+
+            $iconPath = $request->icon->store('contact_icons', 'public');
+
+            $contact->update([
+                'icon' => $iconPath,
+                'name' => $request->name,
+            ]);
+        } else {
+            $contact->update([
+                'name' => $request->name,
+            ]);
         }
-
-        $iconPath = $request->icon->store('contact_icons', 'public');
-
-        $contact->update([
-            'icon' => $iconPath,
-            'name' => $request->name,
-        ]);
 
         return redirect()->route('contacts.index')->with('success', 'Success updated contact.');
     }

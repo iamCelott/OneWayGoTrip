@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class SocialMediaRequest extends FormRequest
+class UpdateSocialMediaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class SocialMediaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'icon' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'icon' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => ['required', 'string', 'max:255', Rule::unique('social_media', 'name')->ignore($this->route('social_media'))],
             'url'  => 'required|url|max:255',
         ];

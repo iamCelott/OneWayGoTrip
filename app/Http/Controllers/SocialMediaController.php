@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SocialMediaRequest;
+use App\Http\Requests\StoreSocialMediaRequest;
+use App\Http\Requests\UpdateSocialMediaRequest;
 use App\Models\SocialMedia;
-use Illuminate\Http\Request;
 
 class SocialMediaController extends Controller
 {
@@ -28,7 +28,7 @@ class SocialMediaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(SocialMediaRequest $request)
+    public function store(StoreSocialMediaRequest $request)
     {
         $iconPath = $request->icon->store('social_media_icons', 'public');
 
@@ -60,21 +60,29 @@ class SocialMediaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(SocialMediaRequest $request, SocialMedia $socialMedia)
+    public function update(UpdateSocialMediaRequest $request, SocialMedia $socialMedia)
     {
-        $oldIconPath = storage_path('app/public/' . $socialMedia->icon);
+        if ($request->icon) {
 
-        if (file_exists($oldIconPath) && is_file($oldIconPath)) {
-            unlink($oldIconPath);
+            $oldIconPath = storage_path('app/public/' . $socialMedia->icon);
+
+            if (file_exists($oldIconPath) && is_file($oldIconPath)) {
+                unlink($oldIconPath);
+            }
+
+            $iconPath = $request->icon->store('social_media_icons', 'public');
+
+            $socialMedia->update([
+                'icon' => $iconPath,
+                'name' => $request->name,
+                'url' => $request->url,
+            ]);
+        } else {
+            $socialMedia->update([
+                'name' => $request->name,
+                'url' => $request->url,
+            ]);
         }
-
-        $iconPath = $request->icon->store('social_media_icons', 'public');
-
-        $socialMedia->update([
-            'icon' => $iconPath,
-            'name' => $request->name,
-            'url' => $request->url,
-        ]);
 
         return redirect()->route('social_media.index')->with('success', 'Success updated social media.');
     }
