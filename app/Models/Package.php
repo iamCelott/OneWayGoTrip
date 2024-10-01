@@ -13,7 +13,7 @@ class Package extends Model
 
     public function trips()
     {
-        return $this->belongsToMany(Trip::class, 'trip_packages', 'package_id', 'trip_id')->withPivot('price', 'include', 'exclude', 'destination', 'notes')
+        return $this->belongsToMany(Trip::class, 'trip_packages', 'package_id', 'trip_id')->withPivot('id','price', 'include', 'exclude', 'destination', 'notes')
             ->withTimestamps();
     }
 }

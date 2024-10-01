@@ -141,52 +141,8 @@
     <!-- Dashboard App js -->
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
-    {{-- CkEditor --}}
-    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
-
     {{-- Dropzone --}}
     <script src="../../assets/vendor/libs/dropzone/dropzone.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            ClassicEditor
-                .create(document.querySelector('#createDescription'))
-                .then(editor => {
-                    editor.ui.view.editable.element.style.minHeight = '200px';
-                    editor.ui.view.editable.element.style.lineHeight = '1.6';
-                    editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px !important';
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-            document.querySelectorAll('.editDescription').forEach(editDescriptionElement => {
-                ClassicEditor
-                    .create(editDescriptionElement)
-                    .then(editor => {
-                        editor.ui.view.editable.element.style.minHeight = '200px';
-                        editor.ui.view.editable.element.style.lineHeight = '1.6';
-                        editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px';
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            });
-
-            document.querySelectorAll('.ckeditor').forEach(editDescriptionElement => {
-                ClassicEditor
-                    .create(editDescriptionElement)
-                    .then(editor => {
-                        editor.ui.view.editable.element.style.minHeight = '200px';
-                        editor.ui.view.editable.element.style.lineHeight = '1.6';
-                        editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px';
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            });
-        });
-    </script>
 </body>
 
 </html>

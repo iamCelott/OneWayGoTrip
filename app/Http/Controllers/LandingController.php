@@ -45,7 +45,8 @@ class LandingController extends Controller
         $social_media = SocialMedia::all();
         $contacts = Contact::all();
         $trip = Trip::where('slug', $slug)->firstOrFail();
-        return view('tours.show', compact('trip', 'social_media', 'contacts'));
+        $company_profile = CompanyProfile::first();
+        return view('tours.show', compact('trip', 'social_media', 'contacts', 'company_profile'));
     }
 
     /**

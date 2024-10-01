@@ -15,7 +15,7 @@ class TripPackageController extends Controller
      */
     public function index()
     {
-        return view('pages.trip_packages.index');
+        // 
     }
 
     /**
@@ -68,7 +68,17 @@ class TripPackageController extends Controller
      */
     public function update(Request $request, TripPackage $tripPackage)
     {
-        //
+        $validatedData = $request->validate([
+            'price' => 'required|string',
+            'include' => 'required|string',
+            'exclude' => 'required|string',
+            'destination' => 'required|string',
+            'notes' => 'nullable|string'
+        ]);
+
+        $tripPackage->update($validatedData);
+
+        return redirect()->back()->with('success', 'Success updated package details.');
     }
 
     /**
@@ -76,6 +86,7 @@ class TripPackageController extends Controller
      */
     public function destroy(TripPackage $tripPackage)
     {
-        //
+        $tripPackage->delete();
+        return redirect()->back()->with('success', 'Success removed package');
     }
 }

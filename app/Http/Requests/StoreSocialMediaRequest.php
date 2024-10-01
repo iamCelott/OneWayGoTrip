@@ -24,7 +24,6 @@ class StoreSocialMediaRequest extends FormRequest
     {
         return [
             'icon' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => ['required', 'string', 'max:255', Rule::unique('social_media', 'name')->ignore($this->route('social_media'))],
             'url'  => 'required|url|max:255',
         ];
     }

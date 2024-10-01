@@ -60,6 +60,13 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
+    public function setpackage(Trip $trip)
+    {
+        $existingPackageIds = $trip->packages()->pluck('package_id');
+        $packages = Package::whereNotIn('id', $existingPackageIds)->get();
+        return view('pages.trips.setpackage', compact('trip', 'packages'));
+    }
+
     public function show(Trip $trip)
     {
         //

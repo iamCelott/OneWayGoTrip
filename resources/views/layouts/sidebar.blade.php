@@ -56,15 +56,6 @@
                 </a>
             </li>
 
-            <li class="menu-item">
-                <a href="{{ route('trip_packages.index') }}" class="menu-link">
-                    <span class="menu-icon pl-1">
-                        <i class="fal fa-clipboard-list"></i>
-                    </span>
-                    <span class="menu-text pl-1"> Trip Package </span>
-                </a>
-            </li>
-
             <li class="menu-title">GET IN TOUCH</li>
 
             <li class="menu-item">

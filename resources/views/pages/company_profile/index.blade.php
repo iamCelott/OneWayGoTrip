@@ -14,7 +14,8 @@
                     <i class="ri-close-line text-2xl"></i>
                 </button>
             </div>
-            <form action="{{ route('company_profile.update', $company_profile->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('company_profile.update', $company_profile->id) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="p-4 overflow-y-auto max-h-[400px]">
@@ -55,7 +56,16 @@
 
                     <div class="mb-3">
                         <label class="mb-2" for="address">Address</label>
-                        <textarea class="ckeditor rounded-md text-sm" name="address" placeholder="write your company address here...">{{ $company_profile->address }}</textarea>
+                        <br>
+                        <textarea class="form-input rounded-md text-sm" name="address" placeholder="write your company address here..."
+                            rows="5">{{ $company_profile->address }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="mb-2" for="have_used_over">Have Used Our Service Over</label>
+                        <br>
+                        <input class="form-input rounded-md text-sm" id="have_used_over" type="number"
+                            name="have_used_over" value="{{ $company_profile->have_used_over }}">
                     </div>
                 </div>
 
@@ -69,7 +79,8 @@
     {{-- EndEditModal --}}
 
     <div class="card text-center p-6 mb-6 relative">
-        <img src="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt=""
+        <img src="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+            alt=""
             class="w-32 h-32 object-cover rounded-full p-1 border border-gray-200 bg-gray-100 dark:bg-gray-700 dark:border-gray-600 mx-auto">
         <h4 class="mb-1 mt-3 text-lg">{{ $company_profile->name }}</h4>
 
@@ -86,24 +97,68 @@
                 </p>
             </div>
 
+            <div class="mb-3">
+                <p class="text-zinc-400 "><strong>Address :</strong>
+                <p>{{ $company_profile->address }}</p>
+                </p>
+            </div>
+
             <div class="">
-                <p class="text-zinc-400 "><strong>Address :</strong> <p>{!! $company_profile->address !!}</p></p>
+                <p class="text-zinc-400 "><strong>Have Used Our Service Over :</strong>
+                    {{ $company_profile->have_used_over }}+
+                </p>
             </div>
         </div>
 
         <div class="grid grid-cols-2 pt-10 gap-3">
             <div class="p-3">
                 <h1>Colored Logo</h1>
-                <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt="">
+                <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                    alt="">
             </div>
             <div class="bg-[#1e1e1e] p-3">
                 <h1 class="text-white">White Logo</h1>
-                <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt="">
+                <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                    alt="">
             </div>
         </div>
     </div>
-
+    
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.umd.js"></script>
     <script>
+        const {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph,
+            List,
+        } = CKEDITOR;
+
+        const editors = {};
+
+        document.querySelectorAll('.ckeditor').forEach(editDescriptionElement => {
+            ClassicEditor
+                .create(editDescriptionElement, {
+                    plugins: [Essentials, Bold, Italic, Font, Paragraph, List],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'numberedList', 'bulletedList'
+                    ]
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.minHeight = '200px';
+                    editor.ui.view.editable.element.style.lineHeight = '1.6';
+                    editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px';
+                    editors[editDescriptionElement.id] = editor;
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        });
+
         const whiteLogo = document.getElementById('whiteLogoInput');
 
         whiteLogo.addEventListener('change', function(e) {

@@ -50,27 +50,30 @@
 </head>
 
 <body>
-    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center" id="navbar">
+    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center bg-[#f5f5f5]"
+        id="navbar">
         <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
-            <img src="{{ asset('storage/images/logo/white.png') }}" class="h-8" id="navLogo" alt="">
+            <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                class="h-8" id="navLogo" alt="">
         </a>
 
         <ul class="hidden sm:flex gap-10 items-center font-semibold">
             <li><a href="{{ route('landing.tour') }}"
-                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a></li>
-            <li><a href="#" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
+                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Tours</a>
+            </li>
+            <li><a href="#" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Gallery</a>
+            </li>
+            <li><a href="/#about_us" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">About
                     Us</a></li>
-            <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a></li>
-            <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Contact</a></li>
+            <li><a href="#footer" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Get In
+                    Touch</a></li>
         </ul>
 
         <div class="relative sm:hidden">
             <div class="">
-                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
-                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
-                <div class="hamburgerLists w-6 h-[3px] bg-white mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
+                <div class="hamburgerLists w-6 h-[3px] bg-[rgba(0,0,0,0.8)] mb-1.5 rounded-lg"></div>
             </div>
             <input type="checkbox" name="" id="hamburgerTrigger"
                 class="absolute top-0 left-0 w-6 h-5 cursor-pointer opacity-0">
@@ -80,14 +83,13 @@
             <div class="relative">
                 <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
                     class="w-1/2 py-3 border-b-2 mx-auto">
-                <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
-                    id="hamburgerMenuCloseTrigger"></i>
+                <i class="fas fa-times text-black text-2xl absolute top-5 right-5" id="hamburgerMenuCloseTrigger"></i>
             </div>
             <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
-                <a href="" class="py-1">Tours</a>
-                <a href="" class="py-1">About Us</a>
-                <a href="" class="py-1">Gallery</a>
-                <a href="" class="py-1">Contact</a>
+                <a href="{{ route('landing.tour') }}" class="py-1">Tours</a>
+                <a href="#" class="py-1">Gallery</a>
+                <a href="#about_us" class="py-1">About Us</a>
+                <a href="#footer" class="py-1">Get In Touch</a>
             </div>
         </div>
 
@@ -113,16 +115,130 @@
         </script>
     </div>
 
-    <div class="min-h-[100vh]">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque delectus ad illum cum exercitationem. Iste alias officia provident cum nemo reprehenderit ab rerum aut nulla. Rerum aspernatur quis cupiditate possimus!
+    <div class="min-h-[100vh] font-poppins">
+        <div class="p-10 flex gap-6">
+            <div class="w-2/3">
+                <img id="heroImg"
+                    src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
+                    alt="" class="w-full max-h-[75vh] object-cover rounded-lg mb-3">
+
+                <div class="owl-carousel">
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view1.jpg') }}" alt="">
+                    </div>
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view2.jpg') }}" alt="">
+                    </div>
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view3.jpg') }}" alt="">
+                    </div>
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view4.jpg') }}" alt="">
+                    </div>
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view5.jpg') }}" alt="">
+                    </div>
+                    <div class="overflow-hidden rounded-lg">
+                        <img class="img-detail hover:scale-105 duration-300"
+                            src="{{ asset('storage/images/views/view6.jpg') }}" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <div class="w-1/3">
+                <div class="rounded-lg bg-[#f5f5f5] p-2 h-fit mb-3">
+                    <div class="w-full bg-white rounded-md p-4">
+                        <h1 class="font-bold text-2xl mb-3">{{ $trip->name }}</h1>
+
+                        <div class="">
+                            <h1 class="text-base font-semibold text-[rgba(0,0,0,0.5)]">Description</h1>
+                            <p class="text-sm">{!! $trip->description ? $trip->description : 'Description is empty.' !!}</p>
+                        </div>
+                    </div>
+                </div>
+                @forelse ($trip->packages as $package)
+                    <div class="px-3">
+                        <details class="cursor-pointer py-5 border-b-2">
+                            <summary>{{ $package->name }}</summary>
+
+                            <div class="mb-3">
+                                <h1 class="text-[rgba(0,0,0,0.5)] font-semibold ">PRICE</h1>
+                                <p class="text-sm">{!! $package->pivot->price !!}</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h1 class="text-[rgba(0,0,0,0.5)] font-semibold ">INCLUDE</h1>
+                                <p class="text-sm">{!! $package->pivot->include !!}</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h1 class="text-[rgba(0,0,0,0.5)] font-semibold ">EXCLUDE</h1>
+                                <p class="text-sm">{!! $package->pivot->exclude !!}</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h1 class="text-[rgba(0,0,0,0.5)] font-semibold ">DESTINATIONS</h1>
+                                <p class="text-sm">{!! $package->pivot->destination !!}</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <h1 class="text-[rgba(0,0,0,0.5)] font-semibold ">NOTES</h1>
+                                <p class="text-sm">{!! $package->pivot->notes !!}</p>
+                            </div>
+                        </details>
+                    </div>
+                @empty
+                    <div class="px-3 text-center text-[rgba(0,0,0,0.5)]">
+                        <strong>Packages is empty.</strong>
+                    </div>
+                @endforelse
+            </div>
+        </div>
     </div>
 
-    <div class="w-full bg-[#efefef] py-3">
-        <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
-            <div class="sm:w-2/3 lg:h-32 lg:w-1/3">
-                <img src="{{ asset('storage/images/logo/blue.png') }}" alt="">
+    <div id="footer" class="w-full bg-[#efefef] py-3">
+        <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+            <div class="">
+                <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                    alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
+
+                <div class="flex flex-col items-center mt-3">
+                    <h1 class="font-bold mb-1">FOLLOW US</h1>
+                    <div class="text-sm md:text-lg lg:text-sm flex gap-3 flex-wrap justify-center">
+                        @forelse ($social_media as $media)
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                        @empty
+                            <h1>Coming Soon</h1>
+                        @endforelse
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 lg:gap-20">
+
+            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-6 lg:gap-6">
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
@@ -137,25 +253,16 @@
                 <div class="">
                     <h1 class="font-bold">INFORMATION</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        <h2>Tours</h2>
-                        <h2>About Us</h2>
-                        <h2>Gallery</h2>
-                        <h2>Contact</h2>
+                        <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
+                        <h2><a href="#">Gallery</a></h2>
+                        <h2><a href="#about_us">About Us</a></h2>
+                        <h2><a href="#footer">Get In Touch</a></h2>
                     </div>
                 </div>
                 <div class="">
-                    <h1 class="font-bold">FOLLOW US</h1>
-                    <div class="text-sm md:text-lg lg:text-sm">
-                        @forelse ($social_media as $media)
-                            <div class="flex items-center gap-2">
-                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
-                                    class="w-4 h-4 object-cover">
-                                <h2><a href="{{ $media->url }}" target="__blank">{{ $media->name }}</a></h2>
-                            </div>
-                        @empty
-                            <h1>Coming Soon</h1>
-                        @endforelse
-                    </div>
+                    <h1 class="font-bold">ADDRESS</h1>
+                    <p class="text-sm md:text-lg lg:text-sm">
+                        {{ $company_profile->address ? $company_profile->address : 'Coming Soon' }}</p>
                 </div>
                 <div class="">
                     <h1 class="font-bold">CONTACT</h1>
@@ -177,14 +284,64 @@
     </div>
 
     <script>
+        $(document).ready(function() {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: false,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true,
+                nav: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: false,
+                    },
+                    640: {
+                        items: 2,
+                        nav: false,
+                    },
+                    768: {
+                        items: 3,
+                        nav: false,
+                    },
+                    1024: {
+                        items: 3,
+                        nav: false,
+                    },
+                    1440: {
+                        items: 4,
+                        nav: false,
+                    }
+                }
+            });
+        });
+
         function setCopyrightYear(elementId) {
             const currentYear = new Date().getFullYear();
-            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - OneWayGoTrip';
+            var companyName = "{{ $company_profile->name }}"
+            document.getElementById(elementId).textContent = 'Copyright © ' + currentYear + ' - ' + companyName;
         }
 
         window.onload = function() {
             setCopyrightYear('copyrightYear');
         };
+
+        var imgDetail = document.querySelectorAll('.img-detail');
+        var heroImg = document.getElementById('heroImg');
+
+        imgDetail.forEach(list => {
+            list.addEventListener('mouseenter', function() {
+                var imgSrc = list.getAttribute("src");
+                heroImg.src = imgSrc;
+            })
+
+            list.addEventListener('mouseleave', function() {
+                heroImg.src =
+                    "{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}";
+            })
+        });
     </script>
 </body>
 

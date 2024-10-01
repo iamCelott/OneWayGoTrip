@@ -24,10 +24,10 @@ class TripPackageRequest extends FormRequest
         return [
             'trip_id' => 'required|exists:trips,id',
             'package_id' => 'required|exists:packages,id',
-            'price' => 'required|string|max:255',
+            'price' => 'required|string',
             'include' => 'required|string',
             'exclude' => 'required|string',
-            'destination' => 'required|string|max:255',
+            'destination' => 'required|string',
             'notes' => 'nullable|string'
         ];
     }

@@ -34,12 +34,6 @@
                         <input type="file" name="icon" id="iconCreate" value="{{ old('icon') }}"
                             class="border w-full rounded-md">
                     </div>
-
-                    <div class="mb-3">
-                        <label class="mb-2" for="name">Social Media Name / Username</label>
-                        <input type="text" name="name" id="name" class="form-input rounded-md text-sm"
-                            value="{{ old('name') }}" placeholder="write your social media name here...">
-                    </div>
                     <div class="mb-3">
                         <label class="mb-2" for="url">Url</label>
                         <input type="text" name="url" id="url" class="form-input rounded-md text-sm"
@@ -79,9 +73,6 @@
                                         <th data-column-id="icon" class="gridjs-th" style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Icon</div>
                                         </th>
-                                        <th data-column-id="name" class="gridjs-th" style="min-width: 90px; width: 158px;">
-                                            <div class="gridjs-th-content">Social Media Name</div>
-                                        </th>
                                         <th data-column-id="url" class="gridjs-th" style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Url</div>
                                         </th>
@@ -96,9 +87,8 @@
                                             <td data-column-id="id" class="gridjs-td">{{ $index + 1 }}</td>
                                             <td data-column-id="icon" class="gridjs-td flex justify-center">
                                                 <img class="w-20 h-20 object-cover" src="{{ asset('storage/' . $media->icon) }}"
-                                                    alt="{{ $media->name }}">
+                                                    alt="">
                                             </td>
-                                            <td data-column-id="name" class="gridjs-td">{{ $media->name }}</td>
                                             <td data-column-id="url" class="gridjs-td"><a
                                                     href="{{ $media->url }}">{{ $media->url }}</a></td>
                                             <td data-column-id="actions" class="gridjs-td">
@@ -113,14 +103,12 @@
                                                             class="editModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                                             data-fc-target="editModal" data-id="{{ $media->id }}"
                                                             data-icon="{{ $media->icon }}"
-                                                            data-name="{{ $media->name }}"
                                                             data-url="{{ $media->url }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-pencil mr-1"></i>
                                                             <span>Edit</span></button>
                                                         <button
                                                             class="deleteModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                                            data-fc-target="deleteModal" data-id="{{ $media->id }}"
-                                                            data-name="{{ $media->name }}" data-fc-type="modal"
+                                                            data-fc-target="deleteModal" data-id="{{ $media->id }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-trash mr-1"></i>
                                                             <span>Delete</span></button>
                                                     </div>
@@ -142,8 +130,7 @@
                                             class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
                                             <div
                                                 class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                <h3 id="editTittle"
-                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <h3 class="font-medium text-gray-600 dark:text-white text-lg">Edit Social Media</h3>
                                                 <button
                                                     class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
                                                     data-fc-dismiss type="button">
@@ -162,14 +149,6 @@
                                                         <br>
                                                         <input type="file" name="icon"
                                                             id="editMediaIcon" class="border w-full rounded-md">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label class="mb-2" for="name">Social Media Name /
-                                                            Username</label>
-                                                        <input type="text" name="name"
-                                                            class="form-input rounded-md text-sm"
-                                                            id="editMediaName"
-                                                            placeholder="write your social media name here...">
                                                     </div>
                                                     <div class="mb-3">
                                                         <label class="mb-2" for="url">Url</label>
@@ -198,8 +177,8 @@
                                             class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
                                             <div
                                                 class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                                                <h3 id="deleteTittle"
-                                                    class="font-medium text-gray-600 dark:text-white text-lg"></h3>
+                                                <h3
+                                                    class="font-medium text-gray-600 dark:text-white text-lg">Delete Social Media</h3>
                                                 <button
                                                     class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
                                                     data-fc-dismiss type="button">
@@ -269,24 +248,18 @@
         $(document).on('click', '.editModalBtn', function() {
             const id = $(this).data('id');
             const icon = $(this).data('icon');
-            const name = $(this).data('name');
             const platformUrl = $(this).data('url');
             const url = `{{ route('social_media.update', 'id') }}`.replace('id', id);
 
             $('#editForm').attr("action", url);
-            $('#editTittle').html("Edit Platform " + name);
             $('#editIconPreview').attr('src', '/storage/' + icon);
-            $('#editMediaName').val(name);
             $('#editMediaUrl').val(platformUrl);
         })
 
         $(document).on('click', '.deleteModalBtn', function() {
             const id = $(this).data('id');
-            const name = $(this).data('name');
-            const url = `{{ route('social_media.destroy', 'id') }}`.replace('id', id);
-
+            const url = `{{ route('social_media.destroy', 'id') }}`.replace('id', id)
             $('#deleteForm').attr("action", url);
-            $('#deleteTittle').html("Delete Platform " + name);
         })
     </script>
 @endsection

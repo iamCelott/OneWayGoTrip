@@ -43,8 +43,7 @@
 
                     <div class="mb-3">
                         <label class="mb-2" for="description">Description (Optional)</label>
-                        <textarea class="rounded-md text-sm" name="description" id="createDescription"
-                            placeholder="write your trip description here...">{{ old('description') }}</textarea>
+                        <textarea class="ckeditor rounded-md text-sm" name="description" placeholder="write your trip description here...">{{ old('description') }}</textarea>
                     </div>
                 </div>
 
@@ -88,21 +87,10 @@
                                 </a>
                                 <div
                                     class="fc-dropdown fc-dropdown-open:opacity-100 opacity-0 min-w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-600 rounded-md py-1 hidden">
-                                    {{-- @if ($trip->packages->isNotEmpty())
-                                        <button
-                                            class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                            data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal"
-                                            type="button"><i class="far fa-pencil mr-1"></i>
-                                            <span>Edit</span></button>
-                                    @else
-                                        <p>No packages available for this trip.</p>
-                                    @endif --}}
-                                    <button
-                                        class="setPackageBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                        data-fc-target="setPackageModal" data-fc-type="modal" data-id="{{ $trip->id }}"
-                                        data-name="{{ $trip->name }}" type="button"><i
-                                            class="fal fa-clipboard-list mr-1"></i>
-                                        <span>Set Package</span></button>
+                                    <a href="{{ route('trip.setpackage', $trip->id) }}"
+                                        class="setPackageBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                        <i class="fal fa-clipboard-list mr-1"></i>
+                                        Set Package</a>
                                     <button
                                         class="addImageDetailBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                         data-fc-target="addImageDetailModal" data-fc-type="modal"
@@ -111,7 +99,9 @@
                                         <span>Add Image Detail</span></button>
                                     <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                        data-fc-target="editModal{{ $trip->id }}" data-fc-type="modal"
+                                        data-fc-target="editModal" id="editBtn" data-fc-type="modal"
+                                        data-id="{{ $trip->id }}" data-image="{{ $trip->image }}"
+                                        data-name="{{ $trip->name }}" data-description="{{ $trip->description }}"
                                         type="button"><i class="far fa-pencil mr-1"></i>
                                         <span>Edit</span></button>
                                     <button
@@ -163,7 +153,7 @@
 
                         <div class="flex space-x-4 border-b">
                             @forelse ($trip->packages as $package)
-                                <button id="tab{{ $package->id }}-btn"
+                                <button id="tab{{ $trip->id }}-{{ $package->id }}-btn"
                                     class="relative py-2 px-1.5 text-sm text-gray-600 hover:text-black transition duration-300 focus:outline-none">
                                     {{ $package->name }}
                                     <span
@@ -175,7 +165,9 @@
                         </div>
 
                         @foreach ($trip->packages as $package)
-                            <div id="tab{{ $package->id }}-content" class="tab-content hidden py-3">
+                            <div id="tab{{ $trip->id }}-{{ $package->id }}-content"
+                                class="tab-content hidden py-3">
+                                <!-- Isi konten tab -->
                                 <div class="mb-3">
                                     <strong>Price:</strong>
                                     {!! $package->pivot->price !!}
@@ -214,82 +206,32 @@
             {{-- EndDetailModal --}}
 
             <script>
-                const tabButtons = document.querySelectorAll('[id$="-btn"]');
-                const tabContents = document.querySelectorAll('[id$="-content"]');
+                document.querySelectorAll('[id^="detailModal"]').forEach(modal => {
+                    const tabButtons = modal.querySelectorAll('[id$="-btn"]');
+                    const tabContents = modal.querySelectorAll('[id$="-content"]');
 
-                tabButtons.forEach(button => {
-                    button.addEventListener('click', () => {
+                    tabButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            tabButtons.forEach(btn => {
+                                btn.classList.remove('text-black', 'font-bold');
+                                btn.querySelector('span').classList.remove('bg-black');
+                                btn.classList.add('text-gray-600');
+                            });
+                            tabContents.forEach(content => content.classList.add('hidden'));
 
-                        tabButtons.forEach(btn => {
-                            btn.classList.remove('text-black', 'font-bold');
-                            btn.querySelector('span').classList.remove('bg-black');
-                            btn.classList.add('text-gray-600');
+                            const tabId = button.id.split('-btn')[0];
+                            button.classList.add('text-black', 'font-bold');
+                            button.querySelector('span').classList.add('bg-black');
+                            modal.querySelector(`#${tabId}-content`).classList.remove('hidden');
                         });
-                        tabContents.forEach(content => content.classList.add('hidden'));
-
-                        const tabId = button.id.split('-btn')[0];
-                        button.classList.add('text-black', 'font-bold');
-                        button.querySelector('span').classList.add('bg-black');
-                        document.getElementById(`${tabId}-content`).classList.remove('hidden');
                     });
+
+                    const firstButton = tabButtons[0];
+                    if (firstButton) {
+                        firstButton.click();
+                    }
                 });
-
-                const firstButton = tabButtons[0];
-                if (firstButton) {
-                    firstButton.click();
-                }
             </script>
-
-            {{-- StartEditModal --}}
-            <div id="editModal{{ $trip->id }}"
-                class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-                <div
-                    class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                    <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                        <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                            Edit Trip {{ $trip->name }}
-                        </h3>
-                        <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                            data-fc-dismiss type="button">
-                            <i class="ri-close-line text-2xl"></i>
-                        </button>
-                    </div>
-                    <form action="{{ route('trips.update', $trip->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div class="p-4 overflow-y-auto max-h-[400px] image-container">
-                            <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                                class="imageEditPreview w-1/2 mb-3">
-                            <div class="mb-3">
-                                <label class="mb-2" for="image">Image</label>
-                                <br>
-                                <input type="file" name="image" value="{{ $trip->image }}"
-                                    class="imageEdit border w-full rounded-md">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="mb-2" for="name">Name</label>
-                                <input type="text" name="name" id="name"
-                                    class="form-input rounded-md text-sm" value="{{ $trip->name }}"
-                                    placeholder="write your trip name here...">
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="mb-2" for="description">Description (Optional)</label>
-                                <textarea class="editDescription rounded-md text-sm" name="description"
-                                    placeholder="write your trip description here...">{{ $trip->description }}</textarea>
-                            </div>
-                        </div>
-
-                        <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                            <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
-                                type="button">Close</button>
-                            <button type="submit" class="btn bg-primary text-white">Save Changes</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            {{-- EndEditModal --}}
 
             {{-- StartDeleteModal --}}
             <div id="deleteModal{{ $trip->id }}"
@@ -327,153 +269,88 @@
             </div>
         @endforelse
 
-
-        {{-- StartSetPackageModal --}}
-        <div id="setPackageModal"
+        {{-- StartEditModal --}}
+        <div id="editModal"
             class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
             <div
                 class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
                 <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                    <h3 class="font-medium text-gray-600 dark:text-white text-lg" id="packageTripName">
-                        Set Package And Detail For
+                    <h3 id="editTittle" class="font-medium text-gray-600 dark:text-white text-lg">
+                        Edit Trip
                     </h3>
                     <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
                         data-fc-dismiss type="button">
                         <i class="ri-close-line text-2xl"></i>
                     </button>
                 </div>
-                <form action="{{ route('trip_packages.store') }}" method="POST">
+                <form action="" method="POST" enctype="multipart/form-data" id="editForm">
                     @csrf
-                    <div class="p-4 max-h-[300px] overflow-y-auto">
-
-                        <input type="hidden" name="trip_id" id="trip_id" value="">
-
+                    @method('PUT')
+                    <div class="p-4 overflow-y-auto max-h-[400px] image-container">
+                        <img src="" id="imageEditPreview" class="w-1/2 mb-3">
                         <div class="mb-3">
-                            <label class="mb-2" for="price">Choose Package</label>
-                            <select class="form-select outline-none" name="package_id">
-                                @forelse ($packages as $package)
-                                    <option value="{{ $package->id }}"
-                                        {{ old('package_id') == $package->id ? 'selected' : '' }}>{{ $package->name }}
-                                    </option>
-                                @empty
-                                    <option value="" selected>Package is empty</option>
-                                @endforelse
-                            </select>
+                            <label class="mb-2" for="image">Image</label>
+                            <br>
+                            <input type="file" name="image" class="border w-full rounded-md" id="imageEditInput">
                         </div>
 
                         <div class="mb-3">
-                            <label class="mb-2" for="price">Price</label>
-                            <textarea class="ckeditor rounded-md text-sm" name="price" placeholder="write your package price here...">{{ old('price') }}</textarea>
+                            <label class="mb-2" for="editName">Name</label>
+                            <input type="text" name="name" id="editName" class="form-input rounded-md text-sm"
+                                placeholder="write your trip name here...">
                         </div>
 
                         <div class="mb-3">
-                            <label class="mb-2" for="include">Include</label>
-                            <textarea class="ckeditor rounded-md text-sm" name="include" placeholder="write your package include here...">{{ old('include') }}</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="mb-2" for="exclude">Exclude</label>
-                            <textarea class="ckeditor rounded-md text-sm" name="exclude" placeholder="write your package exclude here...">{{ old('exclude') }}</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="mb-2" for="destination">Destinations</label>
-                            <textarea class="ckeditor rounded-md text-sm" name="destination" placeholder="write your trip destination here...">{{ old('destination') }}</textarea>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="mb-2" for="notes">Notes (Optional)</label>
-                            <textarea class="ckeditor rounded-md text-sm" name="notes" placeholder="write your trip note here...">{{ old('notes') }}</textarea>
+                            <label class="mb-2" for="description">Description (Optional)</label>
+                            <textarea class="ckeditor rounded-md text-sm" id="editTripDescription" name="description"
+                                placeholder="write your trip description here..."></textarea>
                         </div>
                     </div>
 
                     <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
                         <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
                             type="button">Close</button>
-                        <button type="submit" class="btn bg-primary text-white">Set Package</button>
+                        <button type="submit" class="btn bg-primary text-white">Save Changes</button>
                     </div>
                 </form>
             </div>
         </div>
-        {{-- EndSetPackageModal --}}
-
-        {{-- StartAddImageDetail --}}
-        <div id="addImageDetailModal"
-            class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-            <div
-                class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-                <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                    <h3 class="font-medium text-gray-600 dark:text-white text-lg" id="addTripImageName">
-                        Add Image Detail For
-                    </h3>
-                    <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                        data-fc-dismiss type="button">
-                        <i class="ri-close-line text-2xl"></i>
-                    </button>
-                </div>
-                <form action="{{ route('trip_images.store') }}" class="dropzone relative mb-3" id="image-detail-dropzone"
-                    method="POST">
-                    @csrf
-                    <input type="hidden" name="trip_id" id="addImageDetailTripId" value="">
-                    <button type="submit" id="submitBtn"
-                        class="bg-primary rounded-md cursor-pointer text-white px-3 py-1.5 absolute bottom-3 right-3">Add
-                        Images</button>
-                </form>
-
-                <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                    <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss
-                        type="button">Close</button>
-                </div>
-            </div>
-        </div>
-        {{-- EndAddImageDetail --}}
     </div>
 
+    <script src="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.umd.js"></script>
     <script>
-        // StartDropzone
-        Dropzone.autoDiscover = false;
+        const {
+            ClassicEditor,
+            Essentials,
+            Bold,
+            Italic,
+            Font,
+            Paragraph,
+            List,
+        } = CKEDITOR;
 
-        const dropzoneElement = document.getElementById('image-detail-dropzone');
-        
-        const myDropzone = new Dropzone(dropzoneElement, {
-            url: "{{ route('trip_images.store') }}",
-            paramName: "images",
-            maxFilesize: 2,
-            acceptedFiles: ".jpeg,.jpg,.png,.svg",
-            autoProcessQueue: false,
-            addRemoveLinks: true,
-            dictDefaultMessage: "drop file here or click to upload",
-            parallelUploads: 6,
-            init: function() {
-                const submitButton = document.getElementById("submitBtn");
-                const dropzoneInstance = this;
+        const editors = {};
 
-                submitButton.addEventListener("click", function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    if (dropzoneInstance.getQueuedFiles().length > 0) {
-                        dropzoneInstance.processQueue();
-                    } else {
-                        dropzoneInstance.submitForm();
-                    }
+        document.querySelectorAll('.ckeditor').forEach(editDescriptionElement => {
+            ClassicEditor
+                .create(editDescriptionElement, {
+                    plugins: [Essentials, Bold, Italic, Font, Paragraph, List],
+                    toolbar: [
+                        'undo', 'redo', '|', 'bold', 'italic', '|',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                        'numberedList', 'bulletedList'
+                    ]
+                })
+                .then(editor => {
+                    editor.ui.view.editable.element.style.minHeight = '200px';
+                    editor.ui.view.editable.element.style.lineHeight = '1.6';
+                    editor.ui.view.editable.element.style.padding = '0px 20px 0px 20px';
+                    editors[editDescriptionElement.id] = editor;
+                })
+                .catch(error => {
+                    console.error(error);
                 });
-
-                this.on("success", function(file, response) {
-                    console.log('Upload Success:', response);
-                });
-
-                this.on("queuecomplete", function() {
-                    localStorage.setItem('uploadSuccessMessage', 'Success upload image.');
-                    window.location.href = "{{ route('galleries.index') }}";
-                });
-            },
-            submitForm: function() {
-                localStorage.setItem('uploadSuccessMessage', 'Upload gambar berhasil.');
-                window.location.href = "{{ route('galleries.index') }}";
-            }
-        })
-        // EndDropzone
+        });
 
         const createImage = document.getElementById('imageCreate');
 
@@ -491,39 +368,38 @@
             }
         });
 
-        const editImages = document.querySelectorAll('.imageEdit');
-
-        editImages.forEach(function(editImage) {
-            editImage.addEventListener('change', function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const imageEditPreview = editImage.closest('.image-container').querySelector(
-                            '.imageEditPreview');
-                        imageEditPreview.src = event.target.result;
-                    }
-                    reader.readAsDataURL(file);
-                } else {
-                    const imageEditPreview = editImage.closest('.image-container').querySelector(
-                        '.imageEditPreview');
-                    imageEditPreview.src = '';
+        const editImages = document.getElementById('imageEditInput');
+        editImages.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const imageEditPreview = document.getElementById('imageEditPreview');
+                    imageEditPreview.src = event.target.result;
                 }
-            });
+                reader.readAsDataURL(file);
+            } else {
+                const imageEditPreview = document.getElementById('imageEditPreview');
+                imageEditPreview.src = '';
+            }
         });
 
-        $(document).on('click', '.setPackageBtn', function() {
+        $(document).on('click', '#editBtn', function() {
             const id = $(this).data('id');
+            const image = $(this).data('image');
             const name = $(this).data('name');
-            $('#packageTripName').html("Set Package And Title For " + name);
-            $('#trip_id').val(id);
-        })
+            const description = $(this).data('description');
+            const url = `{{ route('trips.update', 'id') }}`.replace('id', id);
 
-        $(document).on('click', '.addImageDetailBtn', function() {
-            const id = $(this).data('id');
-            const name = $(this).data('name');
-            $('#addTripImageName').html("Add Image Detail For " + name);
-            $('#addImageDetailTripId').val(id);
+            $('#editForm').attr("action", url);
+            $('#editTittle').html("Edit Trip " + name);
+
+            const imagePath = image ? '/storage/' + image : '/storage/images/not_found/image_not_available.png';
+            $('#imageEditPreview').attr('src', imagePath);
+            $('#editName').val(name);
+            if (editors['editTripDescription']) {
+                editors['editTripDescription'].setData(description);
+            }
         })
     </script>
 @endsection

@@ -50,7 +50,8 @@
 </head>
 
 <body>
-    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center bg-[#f5f5f5]" id="navbar">
+    <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center bg-[#f5f5f5]"
+        id="navbar">
         <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
             <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                 class="h-8" id="navLogo" alt="">
@@ -60,14 +61,11 @@
             <li><a href="{{ route('landing.tour') }}"
                     class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Tours</a>
             </li>
-            <li><a href="#"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Gallery</a>
+            <li><a href="#" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Gallery</a>
             </li>
-            <li><a href="/#about_us"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">About
+            <li><a href="/#about_us" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">About
                     Us</a></li>
-            <li><a href="#footer"
-                    class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Get In
+            <li><a href="#footer" class="text-sm lg:text-lg duration-300 text-[rgba(0,0,0,0.8)]">Get In
                     Touch</a></li>
         </ul>
 
@@ -85,8 +83,7 @@
             <div class="relative">
                 <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
                     class="w-1/2 py-3 border-b-2 mx-auto">
-                <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
-                    id="hamburgerMenuCloseTrigger"></i>
+                <i class="fas fa-times text-black text-2xl absolute top-5 right-5" id="hamburgerMenuCloseTrigger"></i>
             </div>
             <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
                 <a href="{{ route('landing.tour') }}" class="py-1">Tours</a>
@@ -129,7 +126,7 @@
             </form>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 py-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
             @forelse ($trips as $trip)
                 <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between shadow-lg">
                     <a href="{{ route('landing.tour.show', $trip->slug) }}" class="cursor-pointer">
@@ -162,12 +159,43 @@
     </div>
 
     <div id="footer" class="w-full bg-[#efefef] py-3">
-        <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
-            <div class="sm:w-2/3 lg:w-1/3">
+        <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+            <div class="">
                 <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
-                    alt="">
+                    alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
+
+                <div class="flex flex-col items-center mt-3">
+                    <h1 class="font-bold mb-1">FOLLOW US</h1>
+                    <div class="text-sm md:text-lg lg:text-sm flex gap-3 flex-wrap justify-center">
+                        @forelse ($social_media as $media)
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                            <a href="{{ $media->url }}" target="__blank">
+                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                    class="w-8 h-8 object-cover">
+                            </a>
+                        @empty
+                            <h1>Coming Soon</h1>
+                        @endforelse
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-5 lg:grid-rows-1 gap-3 lg:gap-10">
+
+            <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-6 lg:gap-6">
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
@@ -190,21 +218,8 @@
                 </div>
                 <div class="">
                     <h1 class="font-bold">ADDRESS</h1>
-                    <p class="text-xs"><i class="far fa-location"></i> {!! $company_profile->address ? $company_profile->address : 'Coming Soon' !!}</p>
-                </div>
-                <div class="">
-                    <h1 class="font-bold">FOLLOW US</h1>
-                    <div class="text-sm md:text-lg lg:text-sm">
-                        @forelse ($social_media as $media)
-                            <div class="flex items-center gap-2">
-                                <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
-                                    class="w-4 h-4 object-cover">
-                                <h2><a href="{{ $media->url }}" target="__blank">{{ $media->name }}</a></h2>
-                            </div>
-                        @empty
-                            <h1>Coming Soon</h1>
-                        @endforelse
-                    </div>
+                    <p class="text-sm md:text-lg lg:text-sm">
+                        {{ $company_profile->address ? $company_profile->address : 'Coming Soon' }}</p>
                 </div>
                 <div class="">
                     <h1 class="font-bold">CONTACT</h1>
@@ -223,7 +238,7 @@
             </div>
         </div>
         <div class="text-center pt-3 border-t-2" id="copyrightYear"></div>
-    </div>
+    </div>  
 
     <script>
         function setCopyrightYear(elementId) {

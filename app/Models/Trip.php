@@ -12,7 +12,7 @@ class Trip extends Model
     protected $guarded = ['id'];
     public function packages()
     {
-        return $this->belongsToMany(Package::class, 'trip_packages', 'trip_id', 'package_id')->withPivot('price', 'include', 'exclude', 'destination', 'notes')
+        return $this->belongsToMany(Package::class, 'trip_packages', 'trip_id', 'package_id')->withPivot('id','price', 'include', 'exclude', 'destination', 'notes')
             ->withTimestamps();
     }
 }

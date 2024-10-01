@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('trip/{trip}/set_packages', [TripController::class, 'setpackage'])->name('trip.setpackage');
     Route::resource('trips', TripController::class);
     Route::resource('trip_packages', TripPackageController::class);
     Route::resource('packages', PackageController::class);

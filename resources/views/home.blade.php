@@ -76,11 +76,9 @@
                 <li><a href="#"
                         class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a>
                 </li>
-                <li><a href="#about_us"
-                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
+                <li><a href="#about_us" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
                         Us</a></li>
-                <li><a href="#footer"
-                        class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Get In
+                <li><a href="#footer" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Get In
                         Touch</a></li>
             </ul>
 
@@ -207,7 +205,7 @@
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     @foreach ($trips->take(10) as $trip)
-                        <a href="" class="image-hover relative rounded-sm">
+                        <a href="{{ route('trips.show', $trip->id) }}" class="image-hover relative rounded-sm">
                             <div class="overflow-hidden">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                                     class="img-trip object-cover brightness-75 h-[200px]" alt="">
@@ -316,7 +314,7 @@
         </div>
 
         <div id="about_us" class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
-        <div class="h-[100vh] flex justify-end"
+        <div class="h-[100vh] flex"
             style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">
@@ -329,12 +327,27 @@
         </div>
 
         <div id="footer" class="w-full bg-[#efefef] py-3">
-            <div class="p-6 flex flex-col lg:flex-row gap-3 lg:gap-10 mb-3">
-                <div class="sm:w-2/3 lg:w-1/3">
+            <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+                <div class="">
                     <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
-                        alt="">
+                        alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
+
+                    <div class="flex flex-col items-center mt-3">
+                        <h1 class="font-bold mb-1">FOLLOW US</h1>
+                        <div class="text-sm md:text-lg lg:text-sm flex gap-3 flex-wrap justify-center">
+                            @forelse ($social_media as $media)
+                                <a href="{{ $media->url }}" target="__blank">
+                                    <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
+                                        class="w-8 h-8 object-cover">
+                                </a>
+                            @empty
+                                <h1>Coming Soon</h1>
+                            @endforelse
+                        </div>
+                    </div>
                 </div>
-                <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-5 lg:grid-rows-1 gap-3 lg:gap-10">
+
+                <div class="grid grid-cols-2 grid-rows-2 lg:grid-cols-4 lg:grid-rows-1 gap-6 lg:gap-6">
                     <div class="">
                         <h1 class="font-bold">NEWEST TOUR</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
@@ -357,21 +370,7 @@
                     </div>
                     <div class="">
                         <h1 class="font-bold">ADDRESS</h1>
-                        <p class="text-xs"><i class="far fa-location"></i> {!! $company_profile->address ? $company_profile->address : 'Coming Soon' !!}</p>
-                    </div>
-                    <div class="">
-                        <h1 class="font-bold">FOLLOW US</h1>
-                        <div class="text-sm md:text-lg lg:text-sm">
-                            @forelse ($social_media as $media)
-                                <div class="flex items-center gap-2">
-                                    <img src="{{ asset('storage/' . $media->icon) }}" alt="{{ $media->name }}"
-                                        class="w-4 h-4 object-cover">
-                                    <h2><a href="{{ $media->url }}" target="__blank">{{ $media->name }}</a></h2>
-                                </div>
-                            @empty
-                                <h1>Coming Soon</h1>
-                            @endforelse
-                        </div>
+                        <p class="text-sm md:text-lg lg:text-sm">{{ $company_profile->address ? $company_profile->address : 'Coming Soon' }}</p>
                     </div>
                     <div class="">
                         <h1 class="font-bold">CONTACT</h1>

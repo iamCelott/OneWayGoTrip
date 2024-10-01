@@ -58,35 +58,36 @@ class CompanyProfileController extends Controller
             if ($companyProfile->white_logo && Storage::exists($companyProfile->white_logo)) {
                 Storage::delete($companyProfile->white_logo);
             }
-    
+
             $whiteLogoPath = $request->file('white_logo')->store('logos', 'public');
             $companyProfile->white_logo = $whiteLogoPath;
         }
-    
+
         if ($request->hasFile('colored_logo')) {
             if ($companyProfile->colored_logo && Storage::exists($companyProfile->colored_logo)) {
                 Storage::delete($companyProfile->colored_logo);
             }
-    
+
             $coloredLogoPath = $request->file('colored_logo')->store('logos', 'public');
             $companyProfile->colored_logo = $coloredLogoPath;
         }
-    
+
         if ($request->hasFile('raw_logo')) {
             if ($companyProfile->raw_logo && Storage::exists($companyProfile->raw_logo)) {
                 Storage::delete($companyProfile->raw_logo);
             }
-    
+
             $rawLogoPath = $request->file('raw_logo')->store('logos', 'public');
             $companyProfile->raw_logo = $rawLogoPath;
         }
         $companyProfile->name = $request->name;
         $companyProfile->about_us = $request->about_us;
         $companyProfile->address = $request->address;
+        $companyProfile->have_used_over = $request->have_used_over;
         $companyProfile->save();
 
         return redirect()->route('company_profile.index')->with('success', 'Success updated company profile.');
-    
+
     }
 
     /**

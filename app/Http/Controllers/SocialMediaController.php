@@ -34,7 +34,6 @@ class SocialMediaController extends Controller
 
         SocialMedia::create([
             'icon' => $iconPath,
-            'name' => $request->name,
             'url' => $request->url,
         ]);
 
@@ -74,12 +73,10 @@ class SocialMediaController extends Controller
 
             $socialMedia->update([
                 'icon' => $iconPath,
-                'name' => $request->name,
                 'url' => $request->url,
             ]);
         } else {
             $socialMedia->update([
-                'name' => $request->name,
                 'url' => $request->url,
             ]);
         }
