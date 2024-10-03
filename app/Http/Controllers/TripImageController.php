@@ -28,6 +28,7 @@ class TripImageController extends Controller
      */
     public function store(Request $request)
     {
+
         $images = $request->images;
         $imagePath = $images->store('trip_detail_images', 'public');
 

@@ -91,12 +91,10 @@
                                         class="setPackageBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
                                         <i class="fal fa-clipboard-list mr-1"></i>
                                         Set Package</a>
-                                    <button
-                                        class="addImageDetailBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
-                                        data-fc-target="addImageDetailModal" data-fc-type="modal"
-                                        data-id="{{ $trip->id }}" data-name="{{ $trip->name }}" type="button"><i
-                                            class="fal fa-image-polaroid mr-1"></i>
-                                        <span>Add Image Detail</span></button>
+                                    <a href="{{ route('trip.setimage', $trip->id) }}"
+                                        class="setPackageBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+                                        <i class="fal fa-image-polaroid mr-1"></i>
+                                        Set Image Detail</a>
                                     <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                         data-fc-target="editModal" id="editBtn" data-fc-type="modal"
@@ -149,7 +147,7 @@
                             alt="{{ $trip->name }}">
                         <h1 class="card-title mb-3">{{ $trip->name }}</h1>
 
-                        {!! $trip->description !!}
+                        {!! $trip->description ? $trip->description : 'Empty description.' !!}
 
                         <div class="flex space-x-4 border-b">
                             @forelse ($trip->packages as $package)

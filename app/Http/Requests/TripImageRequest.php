@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class TripPackageRequest extends FormRequest
+class TripImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,8 @@ class TripPackageRequest extends FormRequest
     {
         return [
             'trip_id' => 'required|exists:trips,id',
-            'package_id' => 'required|exists:packages,id',
-            'price' => 'required|string',
-            'include' => 'required|string',
-            'exclude' => 'required|string',
-            'itinerary' => 'required|string',
-            'notes' => 'nullable|string'
+            'image' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
+            'category' => 'required|string|max:255',
         ];
     }
 }

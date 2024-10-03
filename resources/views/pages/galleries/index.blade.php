@@ -5,6 +5,7 @@
         <h1 class="text-2xl font-bold text-black dark:text-gray-400 mb-3 sm:m-0">GALLERIES</h1>
     </div>
 
+    <small class="mb-1">Format: jpeg,png,jpg,svg - Max 2mb</small>
     <form action="{{ route('galleries.store') }}" class="dropzone relative mb-3" id="gallery-dropzone" method="POST">
         @csrf
         <button type="submit" id="submitBtn"
@@ -12,49 +13,53 @@
             Images</button>
     </form>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3">
-        @forelse ($galleries as $gallery)
-            <div class="relative overflow-hidden">
-                <i data-fc-type="modal" data-fc-target="deleteModal" data-id="{{ $gallery->id }}"
-                    class="deleteModalBtn far fa-trash-alt absolute top-0 right-0 p-2 text-red-600 bg-white cursor-pointer"></i>
-                <img src="{{ asset('storage/' . $gallery->image) }}" alt="" class="object-cover rounded-md">
-            </div>
-        @empty
-            <div class="">
-                <h1 class="font-semibold">Gallery is empty.</h1>
-            </div>
-        @endforelse
-    </div>
-
-    {{-- StartDeleteModal --}}
-    <div id="deleteModal" class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
-        <div
-            class="-translate-y-5 fc-modal-open:translate-y-0 fc-modal-open:opacity-100 opacity-0 duration-300 ease-in-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto flex flex-col bg-white shadow-sm rounded dark:bg-gray-800">
-            <div class="flex justify-between items-center py-2.5 px-4 border-b dark:border-gray-700">
-                <h3 class="font-medium text-gray-600 dark:text-white text-lg">
-                    Delete Image
-                </h3>
-                <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 dark:text-gray-200"
-                    data-fc-dismiss type="button">
-                    <i class="ri-close-line text-2xl"></i>
-                </button>
-            </div>
-            <form action="" method="POST" id="deleteForm">
-                @csrf
-                @method('DELETE')
-                <div class="p-6">
-                    <p>Are you sure you want to remove this image?</p>
+    <form action="{{ route('galleries.destroy_multiple') }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <button type="submit" id="deleteBtn" class="bg-red-500 duration-300 rounded-md text-white px-3 py-1.5 mb-3"
+            disabled>
+            Delete Selected Images
+        </button>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3">
+            @forelse ($galleries as $gallery)
+                <div class="relative overflow-hidden">
+                    <input type="checkbox" name="image_id[]"
+                        class="absolute top-2 right-2 h-6 w-6 text-primary-300 bg-white cursor-pointer border-2 border-gray-300 rounded-md focus:ring-2 focus:ring-primary-500 transition-all duration-300 appearance-none checked:bg-primary-600 checked:border-primary-600 checkbox-image"
+                        value="{{ $gallery->id }}">
+                    <div
+                        class="absolute top-2 right-2 hidden group-hover:block h-6 w-6 rounded-md border border-gray-300 bg-white flex items-center justify-center transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-primary-600 hidden checkbox-gallery-svg"
+                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <img src="{{ asset('storage/' . $gallery->image) }}" alt="" class="object-cover rounded-md">
                 </div>
-                <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
-                    <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss type="button">Close</button>
-                    <button type="submit" class="btn bg-danger text-white">Delete</button>
+            @empty
+                <div class="">
+                    <h1 class="font-semibold">Gallery is empty.</h1>
                 </div>
-            </form>
+            @endforelse
         </div>
-    </div>
-    {{-- EndDeleteModal --}}
+    </form>
 
     <script>
+        $(document).ready(function() {
+            function toggleDeleteButton() {
+                if ($('.checkbox-image:checked').length > 0) {
+                    $('#deleteBtn').prop('disabled', false).removeClass('bg-red-300').addClass('bg-red-500');
+                } else {
+                    $('#deleteBtn').prop('disabled', true).removeClass('bg-red-500').addClass('bg-red-300');;
+                }
+            }
+
+            $('.checkbox-image').on('change', function() {
+                toggleDeleteButton();
+            });
+
+            toggleDeleteButton();
+        });
+
         Dropzone.autoDiscover = false;
 
         const dropzoneElement = document.getElementById('gallery-dropzone');
@@ -95,13 +100,6 @@
                 localStorage.setItem('uploadSuccessMessage', 'Upload gambar berhasil.');
                 window.location.href = "{{ route('galleries.index') }}";
             }
-        })
-
-        $(document).on('click', '.deleteModalBtn', function() {
-            const id = $(this).data('id');
-            console.log(id);
-            let url = `{{ route('galleries.destroy', 'id') }}`.replace('id', id);
-            $('#deleteForm').attr('action', url);
         })
     </script>
 @endsection

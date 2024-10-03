@@ -344,7 +344,7 @@
             <img src="assets/images/users/avatar-1.jpg" alt="user-image" class="rounded-full h-8">
             <span class="md:flex flex-col gap-0.5 text-start hidden">
                 <h5 class="text-sm">{{ Auth::user()->name }}</h5>
-                <span class="text-xs">Founder</span>
+                <span class="text-xs">Admin</span>
             </span>
         </button>
 
@@ -354,7 +354,7 @@
             <h6 class="flex items-center py-2 px-3 text-xs text-gray-800 dark:text-gray-400">Welcome !</h6>
 
             <!-- item-->
-            <a href="pages-profile.html"
+            <a href="{{ route('profile.edit') }}"
                 class="flex items-center gap-2 py-1.5 px-4 text-sm text-gray-800 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300">
                 <i class="ri-account-circle-line text-lg align-middle"></i>
                 <span>My Account</span>

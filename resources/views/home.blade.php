@@ -73,7 +73,7 @@
                 <li><a href="{{ route('landing.tour') }}"
                         class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Tours</a>
                 </li>
-                <li><a href="#"
+                <li><a href="{{ route('landing.gallery') }}"
                         class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Gallery</a>
                 </li>
                 <li><a href="#about_us" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
@@ -92,18 +92,18 @@
                     class="absolute top-0 left-0 w-6 h-5 cursor-pointer opacity-0">
             </div>
 
-            <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-64 bg-[#f5f5f5]">
+            <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-96 bg-[#f5f5f5]">
                 <div class="relative">
-                    <img src="{{ asset('storage/images/logo/blue.png') }}" alt=""
-                        class="w-1/2 py-3 border-b-2 mx-auto">
+                    <a href="/"><img src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt=""
+                        class="w-1/2 py-3 border-b-2 mx-auto"></a>
                     <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
                         id="hamburgerMenuCloseTrigger"></i>
                 </div>
                 <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
-                    <a href="{{ route('landing.tour') }}" class="py-1">Tours</a>
-                    <a href="#" class="py-1">Gallery</a>
-                    <a href="#about_us" class="py-1">About Us</a>
-                    <a href="#footer" class="py-1">Get In Touch</a>
+                    <a href="{{ route('landing.tour') }}" class="py-1 font-semibold">Tours</a>
+                    <a href="{{ route('landing.gallery') }}" class="py-1 font-semibold">Gallery</a>
+                    <a href="#about_us" class="py-1 font-semibold">About Us</a>
+                    <a href="#footer" class="py-1 font-semibold">Get In Touch</a>
                 </div>
             </div>
 
@@ -113,11 +113,11 @@
 
                 function toggleMenu() {
                     if (hamburgerTrigger.checked) {
-                        menu.classList.remove('-top-64');
+                        menu.classList.remove('-top-96');
                         menu.classList.add('top-0');
                     } else {
                         menu.classList.remove('top-0');
-                        menu.classList.add('-top-64');
+                        menu.classList.add('-top-96');
                     }
                 }
 
@@ -137,16 +137,6 @@
         <div class="relative z-30 h-[83vh] lg:h-[87vh] xl:h-[89vh]">
             <div class="px-3">
                 <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 ">
-                    {{-- <div class="relative flex -space-x-4">
-                        <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
-                            src="{{ asset('storage/images/avatars/huang.jpeg') }}" alt="Avatar 1" />
-                        <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
-                            src="{{ asset('storage/images/avatars/mark.jpeg') }}" alt="Avatar 2" />
-                        <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
-                            src="{{ asset('storage/images/avatars/tim.jpeg') }}" alt="Avatar 3" />
-                        <img class="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 rounded-full border-2 border-white object-cover"
-                            src="{{ asset('storage/images/avatars/elon.jpg') }}" alt="Avatar 4" />
-                    </div> --}}
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
                     <p class="text-white font-medium text-xs sm:text-sm lg:text-lg xl:text-xl">
                         Over <span id="used-services">0</span>+ have used <br /> our services
@@ -205,10 +195,10 @@
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     @foreach ($trips->take(10) as $trip)
-                        <a href="{{ route('trips.show', $trip->id) }}" class="image-hover relative rounded-sm">
+                        <a href="{{ route('landing.tour.show', $trip->slug) }}" class="image-hover relative rounded-sm">
                             <div class="overflow-hidden">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                                    class="img-trip object-cover brightness-75 h-[200px]" alt="">
+                                    class="img-trip object-cover brightness-75 h-[250px]" alt="">
                             </div>
                             <div class="absolute w-full bottom-3 left-3 text-white">
                                 <h1 class="font-semibold text-xl {{ $trip->image ? 'text-white' : 'text-black' }}">
@@ -351,26 +341,27 @@
                     <div class="">
                         <h1 class="font-bold">NEWEST TOUR</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
-                            <h2>Siaba Island</h2>
-                            <h2>Comodo Island</h2>
-                            <h2>Padar Island</h2>
-                            <h2>Pink Beach</h2>
-                            <h2>Taka Makasar Island</h2>
-                            <h2>Manta Point</h2>
+                            @forelse ($trips->take(10) as $trip)
+                                <h2><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
+                                </h2>
+                            @empty
+                                <h2>Coming Soon</h2>
+                            @endforelse
                         </div>
                     </div>
                     <div class="">
                         <h1 class="font-bold">INFORMATION</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
                             <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
-                            <h2><a href="#">Gallery</a></h2>
+                            <h2><a href="{{ route('landing.gallery') }}">Gallery</a></h2>
                             <h2><a href="#about_us">About Us</a></h2>
                             <h2><a href="#footer">Get In Touch</a></h2>
                         </div>
                     </div>
                     <div class="">
                         <h1 class="font-bold">ADDRESS</h1>
-                        <p class="text-sm md:text-lg lg:text-sm">{{ $company_profile->address ? $company_profile->address : 'Coming Soon' }}</p>
+                        <p class="text-sm md:text-lg lg:text-sm">
+                            {{ $company_profile->address ? $company_profile->address : 'Coming Soon' }}</p>
                     </div>
                     <div class="">
                         <h1 class="font-bold">CONTACT</h1>
@@ -397,7 +388,7 @@
     <script>
         $(document).ready(function() {
             $('.owl-carousel').owlCarousel({
-                loop: {{ $trips->count() < 3 ? 'false' : 'true' }},
+                loop: {{ $trips->count() < 4 ? 'false' : 'true' }},
                 margin: 10,
                 nav: false,
                 autoplay: true,

@@ -7,6 +7,7 @@ use App\Models\Trip;
 use Illuminate\Http\Request;
 use App\Helpers\SlugHelper;
 use App\Models\Package;
+use App\Models\TripImage;
 use Illuminate\Support\Facades\Storage;
 
 class TripController extends Controller
@@ -65,6 +66,35 @@ class TripController extends Controller
         $existingPackageIds = $trip->packages()->pluck('package_id');
         $packages = Package::whereNotIn('id', $existingPackageIds)->get();
         return view('pages.trips.setpackage', compact('trip', 'packages'));
+    }
+
+    public function setimage(Trip $trip)
+    {
+        $trip_images = TripImage::where('trip_id', $trip->id)->latest()->get();
+        return view('pages.trips.setimage', compact('trip_images', 'trip'));
+    }
+
+    public function deleteimage(Request $request, Trip $trip)
+    {
+        if (!$request->has('image_id')) {
+            return redirect()->route('galleries.index')->with('error', 'No images selected.');
+        }
+
+        $imageId = $request->input('image_id');
+
+        $images = TripImage::whereIn('id', $imageId)->get();
+
+        foreach ($images as $image) {
+            $imagePath = storage_path('app/public/' . $image->image);
+
+            if (file_exists($imagePath) && is_file($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $image->delete();
+        }
+
+        return redirect()->back()->with('success', 'Success deleted image.');
     }
 
     public function show(Trip $trip)

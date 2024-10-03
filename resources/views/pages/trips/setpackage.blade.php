@@ -49,8 +49,8 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="mb-2" for="destination">Destinations</label>
-                        <textarea class="ckeditor rounded-md text-sm" name="destination" placeholder="write your trip destination here...">{{ old('destination') }}</textarea>
+                        <label class="mb-2" for="itinerary">Itinerary</label>
+                        <textarea class="ckeditor rounded-md text-sm" name="itinerary" placeholder="write your trip itinerary here...">{{ old('itinerary') }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -91,7 +91,7 @@
                                 data-id="{{ $package->pivot->id }}" data-price="{{ $package->pivot->price }}"
                                 data-include="{{ $package->pivot->include }}"
                                 data-exclude="{{ $package->pivot->exclude }}"
-                                data-destination="{{ $package->pivot->destination }}"
+                                data-itinerary="{{ $package->pivot->itinerary }}"
                                 data-notes="{{ $package->pivot->notes }}"><i class="far fa-pencil mr-1"></i>
                                 <span>Edit</span></button>
                             <button
@@ -119,7 +119,7 @@
 
                     <div class="mb-3">
                         <h1 class="text-lg font-bold text-[rgba(0,0,0,0.7)]">DESTINATIONS</h1>
-                        <p>{!! $package->pivot->destination !!}</p>
+                        <p>{!! $package->pivot->itinerary !!}</p>
                     </div>
                     <div class="mb-3">
                         <h1 class="text-lg font-bold text-[rgba(0,0,0,0.7)]">NOTES</h1>
@@ -171,9 +171,9 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="mb-2" for="destination">Destinations</label>
-                            <textarea id="editPackageDestinations" class="ckeditor rounded-md text-sm" name="destination"
-                                placeholder="write your trip destination here..."></textarea>
+                            <label class="mb-2" for="itinerary">Itinerary</label>
+                            <textarea id="editPackageItinerary" class="ckeditor rounded-md text-sm" name="itinerary"
+                                placeholder="write your trip itinerary here..."></textarea>
                         </div>
 
                         <div class="mb-3">
@@ -264,7 +264,7 @@
             var price = $(this).data('price');
             var include = $(this).data('include');
             var exclude = $(this).data('exclude');
-            var destination = $(this).data('destination');
+            var itinerary = $(this).data('itinerary');
             var notes = $(this).data('notes');
             var url = `{{ route('trip_packages.update', 'id') }}`.replace('id', id);
 
@@ -279,14 +279,14 @@
             if (editors['editPackageExclude']) {
                 editors['editPackageExclude'].setData(exclude);
             }
-            if (editors['editPackageDestinations']) {
-                editors['editPackageDestinations'].setData(destination);
+            if (editors['editPackageItinerary']) {
+                editors['editPackageItinerary'].setData(itinerary);
             }
             if (editors['editPackageNotes']) {
                 editors['editPackageNotes'].setData(notes);
             }
         });
-        
+
         $(document).on('click', '#deleteBtn', function() {
             var id = $(this).data('id');
             var url = `{{ route('trip_packages.destroy', 'id') }}`.replace('id', id);

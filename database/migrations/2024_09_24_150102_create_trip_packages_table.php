@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('price');
             $table->text('include');
             $table->text('exclude');
-            $table->text('destination');
+            $table->text('itinerary');
             $table->text('notes')->nullable();
             $table->timestamps();
         });

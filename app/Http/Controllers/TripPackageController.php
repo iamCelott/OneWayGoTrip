@@ -38,7 +38,7 @@ class TripPackageController extends Controller
             'price' => $request->price,
             'include' => $request->include,
             'exclude' => $request->exclude,
-            'destination' => $request->destination,
+            'itinerary' => $request->itinerary,
             'notes' => $request->notes,
         ];
 
@@ -72,7 +72,7 @@ class TripPackageController extends Controller
             'price' => 'required|string',
             'include' => 'required|string',
             'exclude' => 'required|string',
-            'destination' => 'required|string',
+            'itinerary' => 'required|string',
             'notes' => 'nullable|string'
         ]);
 

@@ -66,13 +66,24 @@ class GalleryController extends Controller
      */
     public function destroy(Gallery $gallery)
     {
-        $imagePath = storage_path('app/public/' . $gallery->image);
+        //
+    }
 
-        if (file_exists($imagePath) && is_file($imagePath)) {
-            unlink($imagePath);
+    public function destroy_multiple(Request $request)
+    {
+        $imageId = $request->input('image_id');
+
+        $images = Gallery::whereIn('id', $imageId)->get();
+
+        foreach ($images as $image) {
+            $imagePath = storage_path('app/public/' . $image->image);
+
+            if (file_exists($imagePath) && is_file($imagePath)) {
+                unlink($imagePath);
+            }
+
+            $image->delete();
         }
-
-        $gallery->delete();
-        return redirect()->route('galleries.index')->with('success', 'Success deleted image.');
+        return redirect()->route('galleries.index')->with('success', 'Success delete selected image.');
     }
 }

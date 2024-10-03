@@ -8,6 +8,7 @@ use App\Models\Gallery;
 use App\Models\HeroBackground;
 use App\Models\SocialMedia;
 use App\Models\Trip;
+use App\Models\TripImage;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -45,8 +46,20 @@ class LandingController extends Controller
         $social_media = SocialMedia::all();
         $contacts = Contact::all();
         $trip = Trip::where('slug', $slug)->firstOrFail();
+        $trip_images = TripImage::where('trip_id', $trip->id)->latest()->get();
         $company_profile = CompanyProfile::first();
-        return view('tours.show', compact('trip', 'social_media', 'contacts', 'company_profile'));
+        $trips = Trip::latest()->get();
+        return view('tours.show', compact('trips', 'trip', 'social_media', 'contacts', 'company_profile', 'trip_images'));
+    }
+
+    public function galleries()
+    {
+        $social_media = SocialMedia::all();
+        $contacts = Contact::all();
+        $company_profile = CompanyProfile::first();
+        $galleries = Gallery::latest()->get();
+        $trips = Trip::latest()->get();
+        return view('gallery', compact('trips', 'social_media', 'contacts', 'company_profile', 'galleries'));
     }
 
     /**
