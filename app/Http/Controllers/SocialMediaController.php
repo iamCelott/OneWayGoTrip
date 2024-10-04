@@ -13,7 +13,7 @@ class SocialMediaController extends Controller
      */
     public function index()
     {
-        $social_media = SocialMedia::latest()->get();
+        $social_media = SocialMedia::all();
         return view('pages.social_media.index', compact('social_media'));
     }
 

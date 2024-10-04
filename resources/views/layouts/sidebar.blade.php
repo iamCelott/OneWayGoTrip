@@ -50,9 +50,18 @@
             <li class="menu-item">
                 <a href="{{ route('packages.index') }}" class="menu-link">
                     <span class="menu-icon">
-                        <i class="fal fa-anchor"></i>
+                        <i class="fal fa-clock"></i>
                     </span>
                     <span class="menu-text"> Package </span>
+                </a>
+            </li>
+
+            <li class="menu-item">
+                <a href="{{ route('categories.index') }}" class="menu-link">
+                    <span class="menu-icon">
+                        <i class="fal fa-anchor"></i>
+                    </span>
+                    <span class="menu-text"> Category </span>
                 </a>
             </li>
 

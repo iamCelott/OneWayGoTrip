@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneWayGoTrip</title>
+    <link rel="icon"
+        href="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+        type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
 
     <!-- CSS CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
@@ -94,8 +98,9 @@
 
             <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-96 bg-[#f5f5f5]">
                 <div class="relative">
-                    <a href="/"><img src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt=""
-                        class="w-1/2 py-3 border-b-2 mx-auto"></a>
+                    <a href="/"><img
+                            src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                            alt="" class="w-1/2 py-3 border-b-2 mx-auto"></a>
                     <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
                         id="hamburgerMenuCloseTrigger"></i>
                 </div>
@@ -195,7 +200,8 @@
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     @foreach ($trips->take(10) as $trip)
-                        <a href="{{ route('landing.tour.show', $trip->slug) }}" class="image-hover relative rounded-sm">
+                        <a href="{{ route('landing.tour.show', $trip->slug) }}"
+                            class="image-hover relative rounded-sm">
                             <div class="overflow-hidden">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                                     class="img-trip object-cover brightness-75 h-[250px]" alt="">
@@ -224,7 +230,7 @@
                 <div class="grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2 gap-3">
                     <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
                         class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
-                        <img src="{{ asset('storage/images/views/view1-square.jpg') }}" class="w-full sm:w-1/3"
+                        <img src="{{ asset('storage/images/whychoose/img1.jpg') }}" class="w-full sm:w-1/3"
                             alt="">
                         <div class="mt-3 sm:mt-0">
                             <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#1</span>
@@ -238,7 +244,7 @@
 
                     <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
                         class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
-                        <img src="{{ asset('storage/images/views/view2-square.jpg') }}" class="w-full sm:w-1/3"
+                        <img src="{{ asset('storage/images/whychoose/img2.jpg') }}" class="w-full sm:w-1/3"
                             alt="">
                         <div class="mt-3 sm:mt-0">
                             <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#2</span>
@@ -251,7 +257,7 @@
 
                     <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
                         class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
-                        <img src="{{ asset('storage/images/views/view3-square.jpg') }}" class="w-full sm:w-1/3"
+                        <img src="{{ asset('storage/images/whychoose/img3.jpg') }}" class="w-full sm:w-1/3"
                             alt="">
                         <div class="mt-3 sm:mt-0">
                             <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#3</span>
@@ -264,7 +270,7 @@
 
                     <div data-aos="zoom-in" data-aos-easing="ease" data-aos-duration="600"
                         class="aspect-w-16 aspect-h-9 flex flex-col sm:flex-row sm:gap-3">
-                        <img src="{{ asset('storage/images/views/view4-square.jpg') }}" class="w-full sm:w-1/3"
+                        <img src="{{ asset('storage/images/whychoose/img4.jpg') }}" class="w-full sm:w-1/3"
                             alt="">
                         <div class="mt-3 sm:mt-0">
                             <span class="font-semibold text-xl md:text-2xl lg:text-lg xl:text-xl">#4</span>
@@ -304,7 +310,7 @@
         </div>
 
         <div id="about_us" class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
-        <div class="h-[100vh] flex"
+        <div class="h-[100vh] flex justify-end"
             style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">

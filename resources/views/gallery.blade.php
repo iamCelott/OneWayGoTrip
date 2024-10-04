@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneWayGoTrip</title>
+    <link rel="icon"
+        href="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+        type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
 
@@ -127,7 +130,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
                 @foreach ($galleries as $gallery)
                     <div class="overflow-hidden rounded-lg">
-                        <img class="hover:scale-105 duration-300 object-cover w-full h-[150px] md:h-[200px] lg:h-[250px]"
+                        <img class="hover:scale-105 duration-300 object-cover w-full h-[250px]"
                             src="{{ asset('storage/' . $gallery->image) }}" alt="">
                     </div>
                 @endforeach

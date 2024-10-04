@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneWayGoTrip</title>
+    <link rel="icon"
+        href="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+        type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
 
@@ -65,17 +68,12 @@
             border-color: black;
         }
 
-        /* position dots up a bit */
         .flickity-page-dots {
-            bottom: -22px;
+            display: none
         }
 
-        /* dots are lines */
         .flickity-page-dots .dot {
-            height: 4px;
-            width: 40px;
-            margin: 0;
-            border-radius: 0;
+            display: none
         }
     </style>
 </head>
@@ -149,13 +147,34 @@
     </div>
 
     <div class="min-h-[100vh] font-poppins">
-        <div class="p-3 md:p-10 flex flex-col lg:flex-row gap-6">
+        <div class="px-3 md:px-10 pt-5">
+            <div class="md:flex hidden items-center gap-2.5 font-semibold">
+                <div class="flex items-center gap-2">
+                    <a href="/" class="text-sm font-medium text-slate-700 dark:text-slate-400">Home</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="mt-0.5 fal fa-angle-right text-base text-slate-400 rtl:rotate-180"></i>
+                    <a href="{{ route('landing.tour') }}"
+                        class="text-sm font-medium text-slate-700 dark:text-slate-400">Tours</a>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <i class="mt-0.5 fal fa-angle-right text-base text-slate-400 rtl:rotate-180"></i>
+                    <a href="{{ route('landing.tour.show', $trip->slug) }}"
+                        class="text-sm font-medium text-slate-700 dark:text-slate-400"
+                        aria-current="page">{{ $trip->name }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="p-3 md:px-10 md:pb-10 md:pt-5 flex flex-col lg:flex-row gap-6">
             <!-- Deskripsi Section (dipindah ke atas pada tampilan mobile) -->
             <div class="w-full lg:w-1/3 lg:order-1">
                 <div class="rounded-lg bg-[#f5f5f5] p-2 h-fit mb-3">
-                    <div class="w-full bg-white rounded-md p-4">
-                        <h1 class="font-bold text-2xl mb-3">{{ $trip->name }}</h1>
-                        <div class="px-3">
+                    <div class="w-full bg-white rounded-md p-6">
+                        <h1 class="font-semibold text-xl">{{ $trip->name }}</h1>
+                        <h1 class="text-lg font-semibold mb-3 text-[#0097b2]">{{ $trip->category->name }}</h1>
+                        <div class="">
                             <h1 class="text-base font-semibold text-[rgba(0,0,0,0.5)]">Description</h1>
                             <p class="text-sm">{!! $trip->description ? $trip->description : 'Description is empty.' !!}</p>
                         </div>
@@ -169,14 +188,16 @@
                     src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                     alt="" class="w-full max-h-[75vh] object-cover rounded-lg mb-3">
 
-                <div class="main-carousel" data-flickity='{ "autoPlay": true }'>
-                    @foreach ($trip_images as $image)
-                        <div class="carousel-cell h-[150px] md:h-[200px] lg:h-[250px] overflow-hidden rounded-lg">
-                            <img class="img-detail hover:scale-105 duration-300 object-cover"
-                                src="{{ asset('storage/' . $image->image) }}" alt="">
-                        </div>
-                    @endforeach
-                </div>
+                @if ($trip_images->isNotEmpty())
+                    <div class="main-carousel" data-flickity='{ "autoPlay": true }'>
+                        @foreach ($trip_images as $image)
+                            <div class="carousel-cell h-[150px] md:h-[200px] lg:h-[250px] overflow-hidden rounded-lg">
+                                <img class="img-detail hover:scale-105 duration-300 object-cover"
+                                    src="{{ asset('storage/' . $image->image) }}" alt="">
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
                 @if ($trip_images->isEmpty())
                     <div class="py-10">
                         <p class="text-center"><strong>We apologize, we currently do not have trip detail
@@ -194,7 +215,9 @@
                                 class="absolute left-0 bottom-0 w-full h-0.5 bg-transparent hover:bg-black transition duration-300"></span>
                         </button>
                     @empty
-                        <strong class="py-2">Trip package is empty.</strong>
+                        <h2 class="text-center py-3">
+                            <strong>Trip package is empty.</strong>
+                        </h2>
                     @endforelse
                 </div>
 
@@ -327,6 +350,7 @@
         $(document).ready(function() {
             $('.main-carousel').flickity({
                 cellAlign: 'left',
+                pageDots: false,
                 contain: true,
             });
         });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\CompanyProfile;
 use App\Models\Contact;
 use App\Models\Gallery;
 use App\Models\HeroBackground;
+use App\Models\Package;
 use App\Models\SocialMedia;
 use App\Models\Trip;
 use App\Models\TripImage;
@@ -32,13 +34,28 @@ class LandingController extends Controller
         $social_media = SocialMedia::all();
         $contacts = Contact::all();
         $company_profile = CompanyProfile::first();
+        $categories = Category::all();
+        $packages = Package::all();
 
         $search = $request->search;
-        $trips = Trip::query()->when($search, function ($query) use ($search) {
-            $query->whereLike('name', '%' . $search . '%');
-        })->latest()->get();
+        $filterPackage = $request->filterPackage;
+        $filterCategory = $request->filterCategory;
 
-        return view('tours.index', compact('trips', 'social_media', 'contacts', 'company_profile'));
+        $trips = Trip::with(relations: ['packages', 'trip_images', 'category'])
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            })
+            ->when($filterPackage, function ($query) use ($filterPackage) {
+                $query->whereHas('packages', function ($query) use ($filterPackage) {
+                    $query->where('packages.id', $filterPackage);
+                });
+            })
+            ->when($filterCategory, function ($query) use ($filterCategory) {
+                $query->where('category_id', $filterCategory);
+            })
+            ->latest()->get();
+
+        return view('tours.index', compact('categories', 'packages', 'trips', 'social_media', 'contacts', 'company_profile'));
     }
 
     public function tour_show(string $slug)

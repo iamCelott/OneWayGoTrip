@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OneWayGoTrip</title>
+    <link rel="icon"
+        href="{{ $company_profile->raw_logo ? asset('storage/' . $company_profile->raw_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+        type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     @vite('resources/css/app.css')
 
     <!-- CSS CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
@@ -118,38 +122,60 @@
     </div>
 
     <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
-        <div class="flex justify-between items-center py-3 border-b-2">
-            <h1 class="text-2xl font-semibold">EXPLORE OUR TOURS</h1>
-            <form action="{{ route('landing.tour') }}" method="GET" class="relative w-1/2">
-                @csrf
-                <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-sm"
-                    placeholder="search for trip here..." value="{{ request('search') }}">
-                <i class="far fa-search absolute top-3.5 left-3.5"></i>
+        <div class="lg:flex justify-between items-center py-3 border-b-2">
+            <h1 class="text-2xl font-semibold mb-3 lg:mb-0">EXPLORE OUR TOURS</h1>
+            <form action="{{ route('landing.tour') }}" method="GET" class="md:flex gap-2" id="search_filter_form">
+                <div class="relative flex-grow mb-3 md:mb-0">
+                    @csrf
+                    <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-base"
+                        placeholder="search..." value="{{ request('search') }}">
+                    <i class="far fa-search absolute top-3.5 left-3.5"></i>
+                </div>
+                <div class="flex gap-3">
+                    <select class="rounded-md flex-grow" id="category_id" name="filterCategory"
+                        onchange="document.getElementById('search_filter_form').submit();">
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ request('filterCategory') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <select class="rounded-md flex-grow" id="package_id" name="filterPackage"
+                        onchange="document.getElementById('search_filter_form').submit();">
+                        @foreach ($packages as $package)
+                            <option value="{{ $package->id }}"
+                                {{ request('filterPackage') == $package->id ? 'selected' : '' }}>
+                                {{ $package->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
             </form>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3 px-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3">
             @forelse ($trips as $trip)
                 <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between shadow-lg">
                     <a href="{{ route('landing.tour.show', $trip->slug) }}" class="cursor-pointer">
-                        <img class="w-full h-[200px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover border-b-2"
+                        <img class="w-full h-[250px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover border-b-2"
                             src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                             alt="{{ $trip->name }}">
-                        <div class="px-6 pt-3 pb-3">
-                            <h3 class="mb-3 font-bold">{{ $trip->name }}</h3>
-                            <div class="ellipsis text-sm">
+                        <div class="p-3">
+                            <h1 class="text-lg font-bold">{{ $trip->name }}</h1>
+                            <h3 class="font-semibold text-[#0097b2]">{{ $trip->category->name }}</h3>
+                            {{-- <div class="ellipsis text-sm">
                                 @if ($trip->description)
                                     {!! $trip->description !!}
                                 @else
                                     <p>Empty description.</p>
                                 @endif
-                            </div>
+                            </div> --}}
+                            <p><small>Created at {{ \Carbon\Carbon::parse($trip->updated_at)->format('j F Y, H:i') }}
+                                </small></p>
                         </div>
                     </a>
-                    <div class="px-6 pb-6">
-                        <p><small>Created at {{ \Carbon\Carbon::parse($trip->updated_at)->format('j F Y, H:i') }}
-                            </small></p>
-                    </div>
                 </div>
             @empty
                 <div class="">

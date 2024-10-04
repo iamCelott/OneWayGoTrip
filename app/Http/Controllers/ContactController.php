@@ -13,7 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::latest()->get();
+        $contacts = Contact::all();
         return view('pages.contacts.index', compact('contacts'));
     }
 

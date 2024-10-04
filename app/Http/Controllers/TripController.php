@@ -6,6 +6,7 @@ use App\Http\Requests\TripRequest;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use App\Helpers\SlugHelper;
+use App\Models\Category;
 use App\Models\Package;
 use App\Models\TripImage;
 use Illuminate\Support\Facades\Storage;
@@ -18,12 +19,13 @@ class TripController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $trips = Trip::query()->when($search, function ($query, $search) {
+        $trips = Trip::with(['packages', 'trip_images', 'category'])->when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', '%' . $search . '%');
         })->latest()->paginate(6);
 
         $packages = Package::all();
-        return view('pages.trips.index', compact('trips', 'packages'));
+        $categories = Category::all();
+        return view('pages.trips.index', compact('trips', 'packages', 'categories'));
     }
 
     /**
@@ -44,6 +46,7 @@ class TripController extends Controller
             Trip::create([
                 'image' => $imagePath,
                 'name' => $request->name,
+                'category_id' => $request->category_id,
                 'description' => $request->description,
                 'slug' => SlugHelper::generateSlug($request->name),
             ]);
@@ -128,6 +131,7 @@ class TripController extends Controller
             $trip->update([
                 'image' => $imagePath,
                 'name' => $request->name,
+                'category_id' => $request->category_id,
                 'description' => $request->description,
                 'slug' => SlugHelper::generateSlug($request->name),
             ]);

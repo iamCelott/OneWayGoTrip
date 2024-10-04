@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('galleries', GalleryController::class);
     Route::resource('company_profile', CompanyProfileController::class);
     Route::resource('trip_images', TripImageController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 require __DIR__ . '/auth.php';

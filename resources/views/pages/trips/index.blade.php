@@ -42,6 +42,24 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="mb-2" for="category_id">Trip Category</label>
+                        <select class="form-select" id="category_id" name="category_id">
+                            @if ($categories->isEmpty())
+                                <option value="" selected>Trip category is empty</option>
+                            @else
+                                <option value="" selected>Select Trip Category Here</option>
+                            @endif
+
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="mb-2" for="description">Description (Optional)</label>
                         <textarea class="ckeditor rounded-md text-sm" name="description" placeholder="write your trip description here...">{{ old('description') }}</textarea>
                     </div>
@@ -296,6 +314,23 @@
                             <label class="mb-2" for="editName">Name</label>
                             <input type="text" name="name" id="editName" class="form-input rounded-md text-sm"
                                 placeholder="write your trip name here...">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="mb-2" for="category_id">Trip Category</label>
+                            <select class="form-select" id="category_id" name="category_id">
+                                @if ($categories->isEmpty())
+                                    <option value="" selected>Trip category is empty</option>
+                                @else
+                                    <option value="" selected>Select Trip Category Here</option>
+                                @endif
+
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}">
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="mb-3">

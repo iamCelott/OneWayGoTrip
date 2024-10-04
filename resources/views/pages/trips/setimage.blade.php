@@ -11,7 +11,7 @@
         @csrf
         <input type="hidden" name="trip_id" value="{{ $trip->id }}">
         <button type="submit" id="submitBtn"
-            class="rounded-md cursor-pointer text-white px-3 py-1.5 absolute bottom-3 right-3">Add
+            class="bg-primary rounded-md cursor-pointer text-white px-3 py-1.5 absolute bottom-3 right-3">Add
             Images</button>
     </form>
 
@@ -62,7 +62,9 @@
 
             toggleDeleteButton();
         });
+    </script>
 
+    <script>
         Dropzone.autoDiscover = false;
 
         const dropzoneElement = document.getElementById('tripimage-dropzone');
