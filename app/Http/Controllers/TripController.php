@@ -139,6 +139,7 @@ class TripController extends Controller
         } else {
             $trip->update([
                 'name' => $request->name,
+                'category_id' => $request->category_id,
                 'description' => $request->description,
                 'slug' => SlugHelper::generateSlug($request->name),
             ]);

@@ -137,13 +137,13 @@
         </div>
 
         @foreach ($images as $index => $image)
-            <div class="hero-image-background inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
+            <div class="hero-image-background absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
                 style="background-image: url('{{ $image }}');" id="image-{{ $index }}"></div>
         @endforeach
 
         <div class="absolute top-0 left-0 z-30 w-full h-screen">
             <div class="px-3 py-16">
-                <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 ">
+                <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4">
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
                     <p class="text-white font-medium text-xs sm:text-sm lg:text-lg xl:text-xl">
                         Over <span id="used-services">0</span>+ have used <br /> our services
@@ -161,15 +161,14 @@
                         <span class="font-bold">
                             Your <span class="text-5xl md:text-5xl sm:text-4xl xl:text-7xl stroked-text"
                                 id="typewriter"></span>
-                            Travel
-                            Partner
+                            Travel Partner
                         </span>
                     </h1>
                 </div>
             </div>
         </div>
 
-
+        <div class="w-full h-screen"></div>
 
         {{-- Main Content --}}
         <div class="p-6 lg:p-10">
@@ -199,7 +198,7 @@
                         Our Latest Tours</h1>
 
                     <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
-                        satisfy you. <a href="" class="text-blue-600 hover:text-blue-900">Click here to see other
+                        satisfy you. <a href="{{ route('landing.tour') }}" class="text-blue-600 hover:text-blue-900">Click here to see other
                             tours.</a></p>
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
