@@ -67,7 +67,8 @@
         }
     @endphp
     <div class="w-full relative font-poppins">
-        <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center" id="navbar">
+        <div class="flex fixed z-50 w-full top-0  p-6 text-white justify-between duration-300 items-center"
+            id="navbar">
             <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
                 <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                     class="h-8" id="navLogo" alt="">
@@ -82,7 +83,8 @@
                 </li>
                 <li><a href="#about_us" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">About
                         Us</a></li>
-                <li><a href="#footer" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Get In
+                <li><a href="#footer" class="text-sm lg:text-lg duration-300 hover:text-[rgba(255,255,255,0.8)]">Get
+                        In
                         Touch</a></li>
             </ul>
 
@@ -135,12 +137,12 @@
         </div>
 
         @foreach ($images as $index => $image)
-            <div class="hero-image-background absolute inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
+            <div class="hero-image-background inset-0 bg-cover h-screen bg-center transition-opacity brightness-75 duration-1000 ease-in-out z-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }}"
                 style="background-image: url('{{ $image }}');" id="image-{{ $index }}"></div>
         @endforeach
 
-        <div class="relative z-30 h-[90vh] sm:h-[93vh] lg:h-[90vh] xl:h-[91vh]">
-            <div class="px-3">
+        <div class="absolute top-0 left-0 z-30 w-full h-screen">
+            <div class="px-3 py-16">
                 <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 ">
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
                     <p class="text-white font-medium text-xs sm:text-sm lg:text-lg xl:text-xl">
@@ -167,6 +169,8 @@
             </div>
         </div>
 
+
+
         {{-- Main Content --}}
         <div class="p-6 lg:p-10">
 
@@ -189,7 +193,7 @@
                 }
             </style>
 
-            <div class="pb-0 px-6 pt-6 xl:p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 xl:p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Latest Tours</h1>
@@ -348,7 +352,8 @@
                         <h1 class="font-bold">NEWEST TOUR</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
                             @forelse ($trips->take(5) as $index=> $trip)
-                                <h2 class="mb-1"><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
+                                <h2 class="mb-1"><a
+                                        href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
                                 </h2>
                             @empty
                                 <h2>Coming Soon</h2>

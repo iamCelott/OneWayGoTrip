@@ -25,6 +25,7 @@ class TripRequest extends FormRequest
         return [
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => ['required', 'string', 'max:255', Rule::unique('trips', 'name')->ignore($this->route('trip'))],
+            'category_id' => 'required|exists:categories,id',
             'description' => 'nullable|string',
         ];
     }
