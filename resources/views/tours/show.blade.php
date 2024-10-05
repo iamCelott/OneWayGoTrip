@@ -49,7 +49,6 @@
         }
 
         .carousel-cell {
-            width: 66%;
             margin-right: 10px;
             border-radius: 5px;
         }
@@ -186,13 +185,13 @@
             <div class="w-full lg:w-2/3 mb-6 lg:mb-0">
                 <img id="heroImg"
                     src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                    alt="" class="w-full max-h-[75vh] object-cover rounded-lg mb-3">
+                    alt="" class="w-full max-h-[80vh] rounded-lg mb-3">
 
                 @if ($trip_images->isNotEmpty())
                     <div class="main-carousel" data-flickity='{ "autoPlay": true }'>
                         @foreach ($trip_images as $image)
-                            <div class="carousel-cell h-[150px] md:h-[200px] lg:h-[250px] overflow-hidden rounded-lg">
-                                <img class="img-detail hover:scale-105 duration-300 object-cover"
+                            <div class="carousel-cell overflow-hidden rounded-lg">
+                                <img class="img-detail w-52 h-[140px] hover:scale-105 duration-300 object-bottom"
                                     src="{{ asset('storage/' . $image->image) }}" alt="">
                             </div>
                         @endforeach
@@ -267,7 +266,7 @@
 
 
     <div id="footer" class="w-full bg-[#efefef] py-3">
-        <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+        <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3">
             <div class="">
                 <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                     alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
@@ -291,8 +290,9 @@
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        @forelse ($trips->take(10) as $trip)
-                            <h2><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
+                        @forelse ($trips->take(5) as $index=> $trip)
+                            <h2 class="mb-1"><a
+                                    href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
                             </h2>
                         @empty
                             <h2>Coming Soon</h2>
@@ -304,7 +304,7 @@
                     <div class="text-sm md:text-lg lg:text-sm">
                         <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
                         <h2><a href="{{ route('landing.gallery') }}">Gallery</a></h2>
-                        <h2><a href="/#about_us">About Us</a></h2>
+                        <h2><a href="#about_us">About Us</a></h2>
                         <h2><a href="#footer">Get In Touch</a></h2>
                     </div>
                 </div>

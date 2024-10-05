@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <h1 class="text-lg font-bold text-[rgba(0,0,0,0.7)]">DESTINATIONS</h1>
+                        <h1 class="text-lg font-bold text-[rgba(0,0,0,0.7)]">ITINERARY</h1>
                         <p>{!! $package->pivot->itinerary !!}</p>
                     </div>
                     <div class="mb-3">
@@ -246,7 +246,22 @@
                         'undo', 'redo', '|', 'bold', 'italic', '|',
                         'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
                         'numberedList', 'bulletedList'
-                    ]
+                    ],
+                    fontSize: {
+                        options: [
+                            9,
+                            11,
+                            13,
+                            'default',
+                            17,
+                            19,
+                            21,
+                            25,
+                            30,
+                            36
+                        ]
+                    }
+
                 })
                 .then(editor => {
                     editor.ui.view.editable.element.style.minHeight = '200px';

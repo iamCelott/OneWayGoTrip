@@ -12,7 +12,8 @@
     @vite('resources/css/app.css')
 
     <!-- CSS CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" />
 
@@ -85,10 +86,10 @@
 
         <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-96 bg-[#f5f5f5]">
             <div class="relative">
-                <a href="/"><img src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}" alt=""
-                    class="w-1/2 py-3 border-b-2 mx-auto"></a>
-                <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
-                    id="hamburgerMenuCloseTrigger"></i>
+                <a href="/"><img
+                        src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                        alt="" class="w-1/2 py-3 border-b-2 mx-auto"></a>
+                <i class="fas fa-times text-black text-2xl absolute top-5 right-5" id="hamburgerMenuCloseTrigger"></i>
             </div>
             <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
                 <a href="{{ route('landing.tour') }}" class="py-1 font-semibold">Tours</a>
@@ -130,7 +131,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
                 @foreach ($galleries as $gallery)
                     <div class="overflow-hidden rounded-lg">
-                        <img class="hover:scale-105 duration-300 object-cover w-full h-[250px]"
+                        <img class="hover:scale-105 duration-300 w-full h-[250px]"
                             src="{{ asset('storage/' . $gallery->image) }}" alt="">
                     </div>
                 @endforeach
@@ -186,7 +187,7 @@
     </div> --}}
 
     <div id="footer" class="w-full bg-[#efefef] py-3">
-        <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+        <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3">
             <div class="">
                 <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                     alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
@@ -210,8 +211,9 @@
                 <div class="">
                     <h1 class="font-bold">NEWEST TOUR</h1>
                     <div class="text-sm md:text-lg lg:text-sm">
-                        @forelse ($trips->take(10) as $trip)
-                            <h2><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
+                        @forelse ($trips->take(5) as $index=> $trip)
+                            <h2 class="mb-1"><a
+                                    href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
                             </h2>
                         @empty
                             <h2>Coming Soon</h2>
@@ -223,7 +225,7 @@
                     <div class="text-sm md:text-lg lg:text-sm">
                         <h2><a href="{{ route('landing.tour') }}">Tours</a></h2>
                         <h2><a href="{{ route('landing.gallery') }}">Gallery</a></h2>
-                        <h2><a href="/#about_us">About Us</a></h2>
+                        <h2><a href="#about_us">About Us</a></h2>
                         <h2><a href="#footer">Get In Touch</a></h2>
                     </div>
                 </div>

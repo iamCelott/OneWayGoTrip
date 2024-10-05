@@ -139,8 +139,10 @@
                 </div>
                 <div class="px-6 pb-3 flex justify-between items-center">
                     <p><small>Created at {{ \Carbon\Carbon::parse($trip->updated_at)->format('j F Y, H:i') }} </small></p>
-                    <button class="bg-primary rounded-md px-3 py-1 text-white" data-fc-type="modal"
-                        data-fc-target="detailModal{{ $trip->id }}">Detail</button>
+                    {{-- <button class="bg-primary rounded-md px-3 py-1 text-white" data-fc-type="modal"
+                        data-fc-target="detailModal{{ $trip->id }}">Detail</button> --}}
+                    <a href="{{ route('trips.show', $trip->id) }}"
+                        class="bg-primary rounded-md px-3 py-1 text-white">Detail</a>
                 </div>
             </div>
 
@@ -372,7 +374,21 @@
                         'undo', 'redo', '|', 'bold', 'italic', '|',
                         'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
                         'numberedList', 'bulletedList'
-                    ]
+                    ],
+                    fontSize: {
+                        options: [
+                            9,
+                            11,
+                            13,
+                            'default',
+                            17,
+                            19,
+                            21,
+                            25,
+                            30,
+                            36
+                        ]
+                    }
                 })
                 .then(editor => {
                     editor.ui.view.editable.element.style.minHeight = '200px';

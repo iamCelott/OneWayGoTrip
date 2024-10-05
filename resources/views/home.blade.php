@@ -139,7 +139,7 @@
                 style="background-image: url('{{ $image }}');" id="image-{{ $index }}"></div>
         @endforeach
 
-        <div class="relative z-30 h-[83vh] lg:h-[87vh] xl:h-[89vh]">
+        <div class="relative z-30 h-[90vh] sm:h-[93vh] lg:h-[90vh] xl:h-[91vh]">
             <div class="px-3">
                 <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 ">
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
@@ -204,7 +204,7 @@
                             class="image-hover relative rounded-sm">
                             <div class="overflow-hidden">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                                    class="img-trip object-cover brightness-75 h-[250px]" alt="">
+                                    class="img-trip brightness-75 h-[250px]" alt="">
                             </div>
                             <div class="absolute w-full bottom-3 left-3 text-white">
                                 <h1 class="font-semibold text-xl {{ $trip->image ? 'text-white' : 'text-black' }}">
@@ -293,10 +293,10 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
                     @foreach ($galleries->take(9) as $gallery)
-                        <div class="h-full object-cover" data-aos="fade-up" data-aos-easing="ease"
+                        <div class="h-full rounded-lg overflow-hidden" data-aos="fade-up" data-aos-easing="ease"
                             data-aos-duration="600">
                             <img src="{{ asset('storage/' . $gallery->image) }}" alt=""
-                                class="w-full h-[250px] object-cover">
+                                class="w-full h-[250px] hover:scale-105">
                         </div>
                     @endforeach
                 </div>
@@ -310,7 +310,7 @@
         </div>
 
         <div id="about_us" class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
-        <div class="h-[100vh] flex justify-end"
+        <div class="lg:h-[100vh] flex justify-end"
             style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">
@@ -323,7 +323,7 @@
         </div>
 
         <div id="footer" class="w-full bg-[#efefef] py-3">
-            <div class="p-6 flex flex-col lg:flex-row gap-20 lg:gap-3 mb-3">
+            <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3">
                 <div class="">
                     <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                         alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">
@@ -347,8 +347,8 @@
                     <div class="">
                         <h1 class="font-bold">NEWEST TOUR</h1>
                         <div class="text-sm md:text-lg lg:text-sm">
-                            @forelse ($trips->take(10) as $trip)
-                                <h2><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
+                            @forelse ($trips->take(5) as $index=> $trip)
+                                <h2 class="mb-1"><a href="{{ route('landing.tour.show', $trip->slug) }}">{{ $trip->name }}</a>
                                 </h2>
                             @empty
                                 <h2>Coming Soon</h2>

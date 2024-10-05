@@ -104,28 +104,6 @@
                     <span class="menu-text pl-1"> Gallery </span>
                 </a>
             </li>
-            {{-- <li class="menu-item">
-                <a href="javascript:void(0)" data-fc-type="collapse" class="menu-link">
-                    <span class="menu-icon">
-                        <i class="ri-mail-line"></i>
-                    </span>
-                    <span class="menu-text"> Email </span>
-                    <span class="menu-arrow"></span>
-                </a>
-
-                <ul class="sub-menu hidden">
-                    <li class="menu-item">
-                        <a href="apps-email-inbox.html" class="menu-link">
-                            <span class="menu-text">Inbox</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="apps-email-read.html" class="menu-link">
-                            <span class="menu-text">Read Email</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> --}}
         </ul>
     </div>
 </div>
