@@ -50,6 +50,121 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .img-wrapper {
+            position: relative;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+        }
+
+        .img-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2ms ease;
+        }
+
+        .img-overlay i {
+            color: #fff;
+            font-size: 3em;
+        }
+
+        #overlay {
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #overlay img {
+            margin: 0;
+            width: 80%;
+            height: auto;
+            object-fit: contain;
+            padding: 5%;
+        }
+
+        @media screen and (min-width: 768px) {
+            #overlay img {
+                width: 60%;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            #overlay img {
+                width: 50%;
+            }
+        }
+
+        #nextButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+        }
+
+        #nextButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #nextButton {
+                font-size: 3em;
+            }
+        }
+
+        #prevButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+        }
+
+        #prevButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #prevButton {
+                font-size: 3em;
+            }
+        }
+
+        #exitButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        #exitButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #exitButton {
+                font-size: 3em;
+            }
+        }
     </style>
 </head>
 
@@ -127,64 +242,105 @@
             <h1 class="text-2xl font-bold">GALLERY</h1>
         </div>
 
-        <div class="">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
-                @foreach ($galleries as $gallery)
-                    <div class="overflow-hidden rounded-lg">
-                        <img class="hover:scale-105 duration-300 w-full h-[250px]"
-                            src="{{ asset('storage/' . $gallery->image) }}" alt="">
-                    </div>
-                @endforeach
-            </div>
-            @if ($galleries->isEmpty())
-                <div class="mt-10">
-                    <p class="text-center"><strong>Sorry, we don't have any images at this time</strong></p>
-                </div>
-            @endif
-        </div>
-    </div>
-    {{-- <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
-        <div class="flex justify-between items-center py-3 border-b-2">
-            <h1 class="text-2xl font-semibold">EXPLORE OUR TOURS</h1>
-            <form action="{{ route('landing.tour') }}" method="GET" class="relative w-1/2">
-                @csrf
-                <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-sm"
-                    placeholder="search for trip here..." value="{{ request('search') }}">
-                <i class="far fa-search absolute top-3.5 left-3.5"></i>
-            </form>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-3 px-3">
-            @forelse ($trips as $trip)
-                <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between shadow-lg">
-                    <a href="{{ route('landing.tour.show', $trip->slug) }}" class="cursor-pointer">
-                        <img class="w-full h-[200px] sm:rounded-tl-md sm:rounded-none rounded-t-md object-cover border-b-2"
-                            src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
-                            alt="{{ $trip->name }}">
-                        <div class="px-6 pt-3 pb-3">
-                            <h3 class="mb-3 font-bold">{{ $trip->name }}</h3>
-                            <div class="ellipsis text-sm">
-                                @if ($trip->description)
-                                    {!! $trip->description !!}
-                                @else
-                                    <p>Empty description.</p>
-                                @endif
+        <section id="gallery">
+            <div class="container mx-auto">
+                <div id="image-gallery">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
+                        @foreach ($galleries as $gallery)
+                            <div class="image relative rounded-lg overflow-hidden cursor-pointer" data-aos="fade-up"
+                                data-aos-easing="ease" data-aos-duration="600">
+                                <div class="img-wrapper relative">
+                                    <a href="{{ asset('storage/' . $gallery->image) }}">
+                                        <img class="hover:scale-105 duration-300 w-full h-[250px]"
+                                            src="{{ asset('storage/' . $gallery->image) }}" alt="">
+                                    </a>
+                                    <div
+                                        class="img-overlay absolute inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center transition-opacity duration-600">
+                                        <i class="fa fa-plus-circle text-white text-2xl"></i>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                    <div class="px-6 pb-6">
-                        <p><small>Created at {{ \Carbon\Carbon::parse($trip->updated_at)->format('j F Y, H:i') }}
-                            </small></p>
+                        @endforeach
                     </div>
+                    @if ($galleries->isEmpty())
+                        <div class="mt-10">
+                            <p class="text-center"><strong>Sorry, we don't have any images at this time</strong></p>
+                        </div>
+                    @endif
                 </div>
-            @empty
-                <div class="">
-                    <h1 class="font-semibold">
-                        {{ request('search') ? 'Trip ' . request('search') . ' not found' : 'Trip is empty.' }}</h1>
-                </div>
-            @endforelse
-        </div>
-    </div> --}}
+            </div>
+        </section>
+
+        <script>
+            $(".img-wrapper").hover(
+                function() {
+                    $(this).find(".img-overlay").animate({
+                        opacity: 1
+                    }, 200);
+                },
+                function() {
+                    $(this).find(".img-overlay").animate({
+                        opacity: 0
+                    }, 200);
+                }
+            );
+
+            var $overlay = $('<div id="overlay"></div>');
+            var $image = $("<img>");
+            var $prevButton = $('<div id="prevButton"><i class="far fa-chevron-left"></i></div>');
+            var $nextButton = $('<div id="nextButton"><i class="far fa-chevron-right"></i></div>');
+            var $exitButton = $('<div id="exitButton"><i class="fal fa-times"></i></div>');
+
+            $overlay.append($image).prepend($prevButton).append($nextButton).append($exitButton);
+            $("#gallery").append($overlay);
+
+            $overlay.hide();
+
+            $(".img-overlay").click(function(event) {
+                event.preventDefault();
+                var imageLocation = $(this).prev().attr("href");
+                $image.attr("src", imageLocation);
+                $overlay.fadeIn("slow");
+            });
+
+            $overlay.click(function() {
+                $(this).fadeOut("slow");
+            });
+
+            $nextButton.click(function(event) {
+                $("#overlay img").hide();
+                var $currentImgSrc = $("#overlay img").attr("src");
+                var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+                var $nextImg = $currentImg.closest(".image").next().find(
+                    "img");
+
+                var $images = $("#image-gallery img");
+                if ($nextImg.length > 0) {
+                    $("#overlay img").attr("src", $nextImg.attr("src")).fadeIn(800);
+                } else {
+
+                    $("#overlay img").attr("src", $($images[0]).attr("src")).fadeIn(800);
+                }
+                event.stopPropagation();
+            });
+
+            $prevButton.click(function(event) {
+                $("#overlay img").hide();
+                var $currentImgSrc = $("#overlay img").attr("src");
+                var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+                var $prevImg = $currentImg.closest(".image").prev().find(
+                    "img");
+
+                var $images = $("#image-gallery img");
+                if ($prevImg.length > 0) {
+                    $("#overlay img").attr("src", $prevImg.attr("src")).fadeIn(800);
+                } else {
+                    $("#overlay img").attr("src", $($images[$images.length - 1]).attr("src")).fadeIn(800);
+                }
+                event.stopPropagation();
+            });
+        </script>
+    </div>
 
     <div id="footer" class="w-full bg-[#efefef] py-3">
         <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3">
@@ -253,7 +409,12 @@
         <div class="text-center pt-3 border-t-2" id="copyrightYear"></div>
     </div>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init();
+        })
+
         function setCopyrightYear(elementId) {
             const currentYear = new Date().getFullYear();
             var companyName = "{{ $company_profile->name }}"

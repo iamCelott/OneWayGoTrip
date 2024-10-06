@@ -51,6 +51,121 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
+        .img-wrapper {
+            position: relative;
+        }
+
+        .img-wrapper img {
+            width: 100%;
+        }
+
+        .img-overlay {
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.2ms ease;
+        }
+
+        .img-overlay i {
+            color: #fff;
+            font-size: 3em;
+        }
+
+        #overlay {
+            background: rgba(0, 0, 0, 0.7);
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #overlay img {
+            margin: 0;
+            width: 80%;
+            height: auto;
+            object-fit: contain;
+            padding: 5%;
+        }
+
+        @media screen and (min-width: 768px) {
+            #overlay img {
+                width: 60%;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            #overlay img {
+                width: 50%;
+            }
+        }
+
+        #nextButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+        }
+
+        #nextButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #nextButton {
+                font-size: 3em;
+            }
+        }
+
+        #prevButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+        }
+
+        #prevButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #prevButton {
+                font-size: 3em;
+            }
+        }
+
+        #exitButton {
+            color: #fff;
+            font-size: 2em;
+            transition: opacity 0.8s;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+        }
+
+        #exitButton:hover {
+            opacity: 0.7;
+        }
+
+        @media screen and (min-width: 768px) {
+            #exitButton {
+                font-size: 3em;
+            }
+        }
     </style>
 </head>
 
@@ -101,7 +216,7 @@
             <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-96 bg-[#f5f5f5]">
                 <div class="relative">
                     <a href="/"><img
-                            src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                            src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                             alt="" class="w-1/2 py-3 border-b-2 mx-auto"></a>
                     <i class="fas fa-times text-black text-2xl absolute top-5 right-5"
                         id="hamburgerMenuCloseTrigger"></i>
@@ -192,20 +307,21 @@
                 }
             </style>
 
-            <div class="p-6 xl:p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 xl:p-6 rounded-lg mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Latest Tours</h1>
 
                     <p class="border-b-2 text-[rgba(0,0,0,0.8)]">Here's some interesting tours that will definitely
-                        satisfy you. <a href="{{ route('landing.tour') }}" class="text-blue-600 hover:text-blue-900">Click here to see other
+                        satisfy you. <a href="{{ route('landing.tour') }}"
+                            class="text-blue-600 hover:text-blue-900">Click here to see other
                             tours.</a></p>
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     @foreach ($trips->take(10) as $trip)
                         <a href="{{ route('landing.tour.show', $trip->slug) }}"
-                            class="image-hover relative rounded-sm">
-                            <div class="overflow-hidden">
+                            class="image-hover relative">
+                            <div class="overflow-hidden rounded-lg">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                                     class="img-trip brightness-75 h-[250px]" alt="">
                             </div>
@@ -286,7 +402,7 @@
                 </div>
             </div>
 
-            <div class="p-6 rounded-sm mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 rounded-lg mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Gallery</h1>
@@ -294,27 +410,111 @@
                     <a href="" class="text-blue-600 hover:text-blue-900">More image >></a>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 py-3">
-                    @foreach ($galleries->take(9) as $gallery)
-                        <div class="h-full rounded-lg overflow-hidden" data-aos="fade-up" data-aos-easing="ease"
-                            data-aos-duration="600">
-                            <img src="{{ asset('storage/' . $gallery->image) }}" alt=""
-                                class="w-full h-[250px] hover:scale-105">
+                <section id="gallery">
+                    <div class="container mx-auto">
+                        <div id="image-gallery">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
+                                @foreach ($galleries->take(9) as $gallery)
+                                    <div class="image relative rounded-lg overflow-hidden cursor-pointer"
+                                        data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
+                                        <div class="img-wrapper relative">
+                                            <a href="{{ asset('storage/' . $gallery->image) }}">
+                                                <img class="hover:scale-105 duration-300 w-full h-[250px]"
+                                                    src="{{ asset('storage/' . $gallery->image) }}" alt="">
+                                            </a>
+                                            <div
+                                                class="img-overlay absolute inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center transition-opacity duration-600">
+                                                <i class="fa fa-plus-circle text-white text-2xl"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            @if ($galleries->isEmpty())
+                                <div class="mt-10">
+                                    <p class="text-center"><strong>Sorry, we don't have any images at this
+                                            time</strong></p>
+                                </div>
+                            @endif
                         </div>
-                    @endforeach
-                </div>
-                @if ($galleries->isEmpty())
-                    <div class="py-10">
-                        <p class="text-center"><strong>We apologize, we currently do not have gallery
-                                images</strong></p>
                     </div>
-                @endif
+                </section>
+
+                <script>
+                    $(".img-wrapper").hover(
+                        function() {
+                            $(this).find(".img-overlay").animate({
+                                opacity: 1
+                            }, 200);
+                        },
+                        function() {
+                            $(this).find(".img-overlay").animate({
+                                opacity: 0
+                            }, 200);
+                        }
+                    );
+
+                    var $overlay = $('<div id="overlay"></div>');
+                    var $image = $("<img>");
+                    var $prevButton = $('<div id="prevButton"><i class="far fa-chevron-left"></i></div>');
+                    var $nextButton = $('<div id="nextButton"><i class="far fa-chevron-right"></i></div>');
+                    var $exitButton = $('<div id="exitButton"><i class="fal fa-times"></i></div>');
+
+                    $overlay.append($image).prepend($prevButton).append($nextButton).append($exitButton);
+                    $("#gallery").append($overlay);
+
+                    $overlay.hide();
+
+                    $(".img-overlay").click(function(event) {
+                        event.preventDefault();
+                        var imageLocation = $(this).prev().attr("href");
+                        $image.attr("src", imageLocation);
+                        $overlay.fadeIn("slow");
+                    });
+
+                    $overlay.click(function() {
+                        $(this).fadeOut("slow");
+                    });
+
+                    $nextButton.click(function(event) {
+                        $("#overlay img").hide();
+                        var $currentImgSrc = $("#overlay img").attr("src");
+                        var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+                        var $nextImg = $currentImg.closest(".image").next().find(
+                            "img");
+
+                        var $images = $("#image-gallery img");
+                        if ($nextImg.length > 0) {
+                            $("#overlay img").attr("src", $nextImg.attr("src")).fadeIn(800);
+                        } else {
+
+                            $("#overlay img").attr("src", $($images[0]).attr("src")).fadeIn(800);
+                        }
+                        event.stopPropagation();
+                    });
+
+                    $prevButton.click(function(event) {
+                        $("#overlay img").hide();
+                        var $currentImgSrc = $("#overlay img").attr("src");
+                        var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
+                        var $prevImg = $currentImg.closest(".image").prev().find(
+                            "img");
+
+                        var $images = $("#image-gallery img");
+                        if ($prevImg.length > 0) {
+                            $("#overlay img").attr("src", $prevImg.attr("src")).fadeIn(800);
+                        } else {
+                            $("#overlay img").attr("src", $($images[$images.length - 1]).attr("src")).fadeIn(800);
+                        }
+                        event.stopPropagation();
+                    });
+                </script>
             </div>
         </div>
 
         <div id="about_us" class="text-center text-3xl mb-3">About <span class="font-semibold">Us</span></div>
-        <div class="lg:h-[100vh] flex justify-end"
-            style="background-size: 100%;background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
+        <div class="h-[100vh] flex justify-end"
+            style="background-repeat: no-repeat; background-size: cover; background-image: url({{ asset('storage/images/highlights/WIL05715-HDR.jpg') }});">
             <div class="bg-[rgba(0,0,0,0.5)] w-full lg:w-1/2 flex justify-center items-center">
                 <div class="text-white h-4/5 w-3/4 overflow-auto">
                     <img src="{{ $company_profile->white_logo ? asset('storage/' . $company_profile->white_logo) : asset('storage/images/not_found/image_not_available.png') }}"

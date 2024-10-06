@@ -127,10 +127,11 @@
             <form action="{{ route('landing.tour') }}" method="GET" class="md:flex gap-2" id="search_filter_form">
                 <div class="relative flex-grow mb-3 md:mb-0">
                     @csrf
-                    <input type="text" name="search" class="w-full outline-none rounded-md px-10 text-base"
-                        placeholder="search..." value="{{ request('search') }}">
+                    <input type="search" name="search"
+                        class="w-full outline-none rounded-md px-10 text-base" placeholder="search..."
+                        value="{{ request('search') }}">
                     <i class="far fa-search absolute top-3.5 left-3.5"></i>
-                </div>
+                </div>  
                 <div class="flex gap-3">
                     <select class="rounded-md flex-grow" id="category_id" name="filterCategory"
                         onchange="document.getElementById('search_filter_form').submit();">
