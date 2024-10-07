@@ -103,7 +103,8 @@ class TripController extends Controller
 
     public function show(Trip $trip)
     {
-        return view('pages.trips.show', compact('trip'));
+        $trip_images = TripImage::where('trip_id', $trip->id)->latest()->get();
+        return view('pages.trips.show', compact('trip', 'trip_images'));
     }
 
     /**

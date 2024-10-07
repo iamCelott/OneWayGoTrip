@@ -28,7 +28,7 @@
             class="fc-dropdown fc-dropdown-open:opacity-100 hidden opacity-0 w-40 z-50 transition-all duration-300 bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg py-2">
         </div>
     </div>
-    
+
     <!-- Fullscreen Toggle Button -->
     <div class="md:flex hidden">
         <button data-toggle="fullscreen" type="button" class="nav-link p-2">
@@ -44,7 +44,7 @@
     <div class="relative">
         <button data-fc-type="dropdown" data-fc-placement="bottom-end" type="button"
             class="nav-link flex items-center gap-2.5 px-3 bg-black/5 border-x border-black/10">
-            <span class="md:flex flex-col gap-0.5 text-start hidden">
+            <span class="md:flex flex-col gap-0.5 text-start">
                 <h5 class="text-sm">{{ Auth::user()->name }}</h5>
                 <span class="text-xs">Admin</span>
             </span>

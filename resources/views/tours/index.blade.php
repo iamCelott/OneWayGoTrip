@@ -87,14 +87,14 @@
         <div id="hamburgerMenu" class="w-full sm:hidden absolute duration-300 left-0 -top-96 bg-[#f5f5f5]">
             <div class="relative">
                 <a href="/"><img
-                        src="{{ $company_profile->blue_logo ? asset('storage/' . $company_profile->blue_logo) : asset('storage/images/not_found/image_not_available.png') }}"
+                        src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                         alt="" class="w-1/2 py-3 border-b-2 mx-auto"></a>
                 <i class="fas fa-times text-black text-2xl absolute top-5 right-5" id="hamburgerMenuCloseTrigger"></i>
             </div>
             <div class="flex flex-col text-lg p-3 text-[rgba(0,0,0,0.8)]">
                 <a href="{{ route('landing.tour') }}" class="py-1 font-semibold">Tours</a>
                 <a href="{{ route('landing.gallery') }}" class="py-1 font-semibold">Gallery</a>
-                <a href="#about_us" class="py-1 font-semibold">About Us</a>
+                <a href="/#about_us" class="py-1 font-semibold">About Us</a>
                 <a href="#footer" class="py-1 font-semibold">Get In Touch</a>
             </div>
         </div>
@@ -131,7 +131,7 @@
                         class="w-full outline-none rounded-md px-10 text-base" placeholder="search..."
                         value="{{ request('search') }}">
                     <i class="far fa-search absolute top-3.5 left-3.5"></i>
-                </div>  
+                </div>
                 <div class="flex gap-3">
                     <select class="rounded-md flex-grow" id="category_id" name="filterCategory"
                         onchange="document.getElementById('search_filter_form').submit();">
