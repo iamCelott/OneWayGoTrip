@@ -49,8 +49,8 @@
                         <div class="carousel-cell overflow-hidden">
                             <img class="img-detail w-52 h-[140px] hover:scale-105 duration-300 object-bottom"
                                 src="{{ asset('storage/' . $image->image) }}" alt="">
-                        </div>  
-                    @endforeach
+                        </div>
+                    @endforeach 
                 </div>
             @endif
             @if ($trip_images->isEmpty())

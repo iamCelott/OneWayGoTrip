@@ -170,6 +170,16 @@
 </head>
 
 <body>
+
+    <div class="fixed z-50 bottom-5 right-5">
+        <a href="https://weixin//dl/chat?Onewaygo21" target="_blank">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcHkfGrxRkBok7GAPVf_4tge5ujWEtb8rvqg&s"
+                alt="" class="w-12 h-12 rounded-lg mb-3" style="filter: grayscale(100%)">
+        </a>
+        <img src="https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN"
+            alt="" class="w-12 h-12 rounded-lg" style="filter: grayscale(100%)">
+    </div>
+
     @php
         $images = [];
 
@@ -319,8 +329,7 @@
                 </div>
                 <div data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600" class="owl-carousel">
                     @foreach ($trips->take(10) as $trip)
-                        <a href="{{ route('landing.tour.show', $trip->slug) }}"
-                            class="image-hover relative">
+                        <a href="{{ route('landing.tour.show', $trip->slug) }}" class="image-hover relative">
                             <div class="overflow-hidden rounded-lg">
                                 <img src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                                     class="img-trip brightness-75 h-[250px]" alt="">
