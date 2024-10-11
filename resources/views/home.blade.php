@@ -275,7 +275,7 @@
                     </p>
                 </div>
 
-                <div class="flex w-full my-10 sm:my-20 items-center justify-center" data-aos="zoom-in-down"
+                <div class="flex w-full my-10 sm:my-20 md:my-32 lg:my-52 items-center justify-center" data-aos="zoom-in-down"
                     data-aos-duration="1150" data-aos-easing="ease">
                     <h1 class="text-white text-4xl sm:text-3xl md:text-4xl xl:text-6xl font-poppins text-center">
                         <span class="font-semibold">
@@ -317,7 +317,7 @@
                 }
             </style>
 
-            <div class="p-6 xl:p-6 rounded-lg mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 xl:p-6 rounded-lg mb-20 container mx-auto" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Our Latest Tours</h1>
@@ -351,7 +351,7 @@
                 @endif
             </div>
 
-            <div class="mb-20">
+            <div class="mb-20 container mx-auto">
                 <h1 class="text-3xl">Why <span class="font-bold">{{ $company_profile->name }}</span></h1>
                 <p class="mb-3">Here are the reasons why you should choose OneWayGoTrip as your travel partner</p>
 
@@ -411,7 +411,7 @@
                 </div>
             </div>
 
-            <div class="p-6 rounded-lg mb-20" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
+            <div class="p-6 rounded-lg mb-20 container mx-auto" style="box-shadow: 0px 0px 20px rgba(0,0,0,0.2)">
                 <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-3">
                     <h1 class="text-3xl font-bold mb-3 text-[rgba(0,0,0,0.8)]">
                         Gallery</h1>
@@ -420,15 +420,15 @@
                 </div>
 
                 <section id="gallery">
-                    <div class="container mx-auto">
+                    <div class="mx-auto container">
                         <div id="image-gallery">
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
                                 @foreach ($galleries->take(9) as $gallery)
                                     <div class="image relative rounded-lg overflow-hidden cursor-pointer"
                                         data-aos="fade-up" data-aos-easing="ease" data-aos-duration="600">
                                         <div class="img-wrapper relative">
                                             <a href="{{ asset('storage/' . $gallery->image) }}">
-                                                <img class="hover:scale-105 duration-300 w-full h-[250px]"
+                                                <img class="hover:scale-105 duration-300 w-full h-[200px] xl:h-[250px] 2xl:h-[300px]"
                                                     src="{{ asset('storage/' . $gallery->image) }}" alt="">
                                             </a>
                                             <div

@@ -10,6 +10,7 @@
             text-overflow: ellipsis;
         }
     </style>
+
     {{-- StartCreateModal --}}
     <div id="createModal" class="w-full h-full fixed top-0 left-0 z-50 transition-all duration-500 hidden overflow-y-auto">
         <div
@@ -26,6 +27,15 @@
             <form action="{{ route('contacts.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="p-4 overflow-y-auto">
+                    <img src="" alt="" id="logoCreatePreview" class="w-1/2 mb-3">
+                    <div class="mb-3">
+                        <label class="mb-2" for="logo">Logo</label> - <small>Format: jpeg,png,jpg,gif,svg | Max:
+                            2mb</small>
+                        <br>
+                        <input type="file" name="logo" id="logoCreate" value="{{ old('logo') }}"
+                            class="border w-full rounded-md">
+                    </div>
+
                     <img src="" alt="" id="iconCreatePreview" class="w-1/2 mb-3">
                     <div class="mb-3">
                         <label class="mb-2" for="icon">Icon</label> - <small>Format: jpeg,png,jpg,gif,svg | Max:
@@ -38,8 +48,38 @@
                     <div class="mb-3">
                         <label class="mb-2" for="name">Contact</label>
                         <input type="text" name="name" id="name" class="form-input rounded-md text-sm"
-                            value="{{ old('name') }}" placeholder="write your social media name here...">
+                            value="{{ old('name') }}" placeholder="write your contact name here...">
                     </div>
+
+                    <div class="flex items-center mb-3">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="show_hero" name="show_hero" >
+                            <div class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600"></div>
+                            <div class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white"></div>
+                        </label>
+
+                        <label class="ml-2" for="show_hero">Show This Contact As Sticky Button?</label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" id="has_qrcode" name="has_qrcode" >
+                            <div class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600"></div>
+                            <div class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white"></div>
+                        </label>
+
+                        <label class="ml-2" for="has_qrcode">Has QR Code</label>
+                    </div>
+
+                    <img src="" alt="" id="qrCodeCreatePreview" class="w-1/2 mb-3 mt-3">
+                    <div class="mb-3">
+                        <label class="mb-2" for="qrCodeCreate">QR Code</label> - <small>Format: jpeg,png,jpg,gif,svg | Max:
+                            2mb</small>
+                        <br>
+                        <input type="file" name="qr_code" id="qrCodeCreate" value="{{ old('qr_code') }}"
+                            class="border w-full rounded-md">
+                    </div>
+
                 </div>
                 <div class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
                     <button class="btn bg-light text-gray-800 transition-all" data-fc-dismiss type="button">Close</button>
@@ -49,6 +89,17 @@
         </div>
     </div>
     {{-- EndCreateModal --}}
+
+    <script>
+        const qrCodeCheckbox = document.getElementById('has_qrcode');
+        const qrCodeInput = document.getElementById('qrCodeCreate');
+        function toggleQRCodeInput() {
+            qrCodeInput.disabled = !qrCodeCheckbox.checked;
+        }
+        window.addEventListener('DOMContentLoaded', toggleQRCodeInput);
+        qrCodeCheckbox.addEventListener('change', toggleQRCodeInput);
+    </script>
+
 
     <div class="card">
         <div class="card-header">
@@ -70,11 +121,20 @@
                                         <th data-column-id="id" class="gridjs-th" style="width: 120px;">
                                             <div class="gridjs-th-content">No</div>
                                         </th>
+                                        <th data-column-id="logo" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                            <div class="gridjs-th-content">Logo</div>
+                                        </th>
                                         <th data-column-id="icon" class="gridjs-th" style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Icon</div>
                                         </th>
                                         <th data-column-id="name" class="gridjs-th" style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Contact</div>
+                                        </th>
+                                        <th data-column-id="qr_code" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                            <div class="gridjs-th-content">QR Code</div>
+                                        </th>
+                                        <th data-column-id="show_hero" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                            <div class="gridjs-th-content">Show To Hero</div>
                                         </th>
                                         <th data-column-id="actions" class="gridjs-th" style="width: 100px;">
                                             <div class="gridjs-th-content">Actions</div>
@@ -117,7 +177,7 @@
                                         </tr>
                                     @empty
                                         <tr class="gridjs-tr">
-                                            <td data-column-id="name" class="gridjs-td text-center" colspan="4">
+                                            <td data-column-id="name" class="gridjs-td text-center" colspan="7">
                                                 Contact
                                                 is empty.</td>
                                         </tr>
@@ -155,7 +215,7 @@
                                                         <label class="mb-2" for="name">Contact</label>
                                                         <input type="text" name="name" id="editContactName"
                                                             class="form-input rounded-md text-sm"
-                                                            placeholder="write your social media name here...">
+                                                            placeholder="write your contact name here...">
                                                     </div>
                                                 </div>
                                                 <div
@@ -214,7 +274,6 @@
 
     <script>
         const createIcon = document.getElementById('iconCreate');
-
         createIcon.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -226,6 +285,36 @@
                 reader.readAsDataURL(file);
             } else {
                 iconCreatePreview.src = '';
+            }
+        });
+
+        const createLogo = document.getElementById('logoCreate');
+        createLogo.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const logoCreatePreview = document.getElementById('logoCreatePreview');
+                    logoCreatePreview.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                logoCreatePreview.src = '';
+            }
+
+        });
+        const qrCodeCreate = document.getElementById('qrCodeCreate');
+        qrCodeCreate.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const qrCodeCreatePreview = document.getElementById('qrCodeCreatePreview');
+                    qrCodeCreatePreview.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                qrCodeCreatePreview.src = '';
             }
         });
 

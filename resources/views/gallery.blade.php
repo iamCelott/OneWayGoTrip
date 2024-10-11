@@ -236,14 +236,14 @@
         </script>
     </div>
 
-    <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
+    <div class="p-3 lg:p-10 font-poppins min-h-[100vh] container mx-auto">
 
         <div class="flex justify-between items-center py-3 border-b-2 mb-3">
             <h1 class="text-2xl font-bold">GALLERY</h1>
         </div>
 
         <section id="gallery">
-            <div class="container mx-auto">
+            <div class="container">
                 <div id="image-gallery">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
                         @foreach ($galleries as $gallery)
@@ -251,7 +251,7 @@
                                 data-aos-easing="ease" data-aos-duration="600">
                                 <div class="img-wrapper relative">
                                     <a href="{{ asset('storage/' . $gallery->image) }}">
-                                        <img class="hover:scale-105 duration-300 w-full h-[250px]"
+                                        <img class="hover:scale-105 duration-300 w-full h-[200px] xl:h-[250px] 2xl:h-[300px]"
                                             src="{{ asset('storage/' . $gallery->image) }}" alt="">
                                     </a>
                                     <div

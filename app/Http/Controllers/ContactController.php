@@ -30,11 +30,29 @@ class ContactController extends Controller
      */
     public function store(StoreContactRequest $request)
     {
-        $iconPath = $request->icon->store('contact_icons', 'public');
+        $iconPath = null;
+        $logoPath = null;
+        $qrCodePath = null;
+
+        if ($request->hasFile('logo')) {
+            $logoPath = $request->logo->store('contact_logos', 'public');
+        }
+
+        if ($request->hasFile('icon')) {
+            $iconPath = $request->icon->store('contact_icons', 'public');
+        }
+
+        if ($request->hasFile('qr_code')) {
+            $qrCodePath = $request->qr_code->store('contact_qrcodes', 'public');
+        }
 
         Contact::create([
+            'logo' => $logoPath,
             'icon' => $iconPath,
             'name' => $request->name,
+            'has_qrcode' => $request->has_qrcode,
+            'qr_code' => $qrCodePath,
+            'show_hero' => $request->show_hero,
         ]);
 
         return redirect()->route('contacts.index')->with('success', 'Success created contact.');

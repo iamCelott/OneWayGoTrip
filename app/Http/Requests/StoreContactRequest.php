@@ -23,8 +23,20 @@ class StoreContactRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'logo' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'icon' => 'required|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'name' => ['required', 'string', 'max:255', Rule::unique('social_media', 'name')->ignore($this->route('social_media'))],
+            'name' => ['required', 'string', 'max:255', Rule::unique('contacts', 'name')->ignore($this->route('contact'))],
+            'has_qrcode' => 'required|boolean',
+            'qr_code' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'show_hero' => 'required|boolean',
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'show_hero' => $this->has('show_hero') ? true : false,
+            'has_qrcode' => $this->has('has_qrcode') ? true : false,
+        ]);
     }
 }

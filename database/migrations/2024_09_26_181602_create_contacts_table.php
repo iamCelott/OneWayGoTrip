@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
+            $table->string('logo')->nullable();
             $table->string('icon');
             $table->string('name')->unique();
+            $table->boolean('has_qrcode');
+            $table->string('qr_code')->nullable();
+            $table->boolean('show_hero');
             $table->timestamps();
         });
     }

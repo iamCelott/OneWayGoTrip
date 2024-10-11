@@ -121,7 +121,7 @@
         </script>
     </div>
 
-    <div class="p-3 lg:p-10 font-poppins min-h-[100vh]">
+    <div class="p-3 lg:p-10 font-poppins min-h-[100vh] container mx-auto">
         <div class="lg:flex justify-between items-center py-3 border-b-2">
             <h1 class="text-2xl font-semibold mb-3 lg:mb-0">EXPLORE OUR TOURS</h1>
             <form action="{{ route('landing.tour') }}" method="GET" class="md:flex gap-2" id="search_filter_form">
