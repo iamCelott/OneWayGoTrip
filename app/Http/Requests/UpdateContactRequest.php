@@ -26,6 +26,7 @@ class UpdateContactRequest extends FormRequest
             'logo' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'icon' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => ['required', 'string', 'max:255', Rule::unique('contacts', 'name')->ignore($this->route('contact'))],
+            'url' => 'nullable|url',
             'has_qrcode' => 'required|boolean',
             'qr_code' => 'nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'show_hero' => 'required|boolean',

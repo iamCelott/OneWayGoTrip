@@ -169,21 +169,6 @@
 </head>
 
 <body>
-    <div class="fixed z-50 bottom-5 right-5">
-        @foreach ($showed_contacts as $contact)
-            @if ($contact->has_qrcode == true)
-                <a href="{{ route('landing.contact_show', $contact->name) }}" target="_blank">
-                    <img src="{{ asset('storage/' . $contact->logo) }}" alt=""
-                        class="w-12 h-12 rounded-lg mb-3">
-                </a>
-            @else
-                <a href="{{ $contact->url }}" target="_blank">
-                    <img src="{{ asset('storage/' . $contact->logo) }}" alt=""
-                        class="w-12 h-12 rounded-lg mb-3">
-                </a>
-            @endif
-        @endforeach
-    </div>
     <div class="flex sticky top-0 z-50 p-6 text-white justify-between duration-300 items-center bg-[#f5f5f5]"
         id="navbar">
         <a href="/" class="text-white font-bold text-2xl xl:text-3xl font-sofandi">
@@ -251,110 +236,14 @@
         </script>
     </div>
 
-    <div class="p-3 lg:p-10 font-poppins min-h-[100vh] container mx-auto">
-
-        <div class="flex justify-between items-center py-3 border-b-2 mb-3">
-            <h1 class="text-2xl font-bold">GALLERY</h1>
+    <div class="container mx-auto min-h-screen">
+        <div class="flex flex-col items-center p-3 my-10">
+            <img src="{{ asset('storage/' . $contact->qr_code) }}" alt="" class="w-[400px] h-[450px] mb-3 object-cover">
+            <h1>Contact Number/Id: <span class="font-bold">{{ $contact->name }}</span></h1>
+            @if ($contact->url)
+                <a href="{{ $contact->url }}" class="text-blue-500 hover:underline">Click here to open...</a>
+            @endif
         </div>
-
-        <section id="gallery">
-            <div class="container">
-                <div id="image-gallery">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-3 gap-3">
-                        @foreach ($galleries as $gallery)
-                            <div class="image relative rounded-lg overflow-hidden cursor-pointer" data-aos="fade-up"
-                                data-aos-easing="ease" data-aos-duration="600">
-                                <div class="img-wrapper relative">
-                                    <a href="{{ asset('storage/' . $gallery->image) }}">
-                                        <img class="hover:scale-105 duration-300 w-full h-[200px] xl:h-[250px] 2xl:h-[300px]"
-                                            src="{{ asset('storage/' . $gallery->image) }}" alt="">
-                                    </a>
-                                    <div
-                                        class="img-overlay absolute inset-0 bg-black bg-opacity-50 opacity-0 flex items-center justify-center transition-opacity duration-600">
-                                        <i class="fa fa-plus-circle text-white text-2xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    @if ($galleries->isEmpty())
-                        <div class="mt-10">
-                            <p class="text-center"><strong>Sorry, we don't have any images at this time</strong></p>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </section>
-
-        <script>
-            $(".img-wrapper").hover(
-                function() {
-                    $(this).find(".img-overlay").animate({
-                        opacity: 1
-                    }, 200);
-                },
-                function() {
-                    $(this).find(".img-overlay").animate({
-                        opacity: 0
-                    }, 200);
-                }
-            );
-
-            var $overlay = $('<div id="overlay"></div>');
-            var $image = $("<img>");
-            var $prevButton = $('<div id="prevButton"><i class="far fa-chevron-left"></i></div>');
-            var $nextButton = $('<div id="nextButton"><i class="far fa-chevron-right"></i></div>');
-            var $exitButton = $('<div id="exitButton"><i class="fal fa-times"></i></div>');
-
-            $overlay.append($image).prepend($prevButton).append($nextButton).append($exitButton);
-            $("#gallery").append($overlay);
-
-            $overlay.hide();
-
-            $(".img-overlay").click(function(event) {
-                event.preventDefault();
-                var imageLocation = $(this).prev().attr("href");
-                $image.attr("src", imageLocation);
-                $overlay.fadeIn("slow");
-            });
-
-            $overlay.click(function() {
-                $(this).fadeOut("slow");
-            });
-
-            $nextButton.click(function(event) {
-                $("#overlay img").hide();
-                var $currentImgSrc = $("#overlay img").attr("src");
-                var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
-                var $nextImg = $currentImg.closest(".image").next().find(
-                    "img");
-
-                var $images = $("#image-gallery img");
-                if ($nextImg.length > 0) {
-                    $("#overlay img").attr("src", $nextImg.attr("src")).fadeIn(800);
-                } else {
-
-                    $("#overlay img").attr("src", $($images[0]).attr("src")).fadeIn(800);
-                }
-                event.stopPropagation();
-            });
-
-            $prevButton.click(function(event) {
-                $("#overlay img").hide();
-                var $currentImgSrc = $("#overlay img").attr("src");
-                var $currentImg = $('#image-gallery img[src="' + $currentImgSrc + '"]');
-                var $prevImg = $currentImg.closest(".image").prev().find(
-                    "img");
-
-                var $images = $("#image-gallery img");
-                if ($prevImg.length > 0) {
-                    $("#overlay img").attr("src", $prevImg.attr("src")).fadeIn(800);
-                } else {
-                    $("#overlay img").attr("src", $($images[$images.length - 1]).attr("src")).fadeIn(800);
-                }
-                event.stopPropagation();
-            });
-        </script>
     </div>
 
     <div id="footer" class="w-full bg-[#efefef] py-3">

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->string('icon');
             $table->string('name')->unique();
+            $table->text('url')->nullable();
             $table->boolean('has_qrcode');
             $table->string('qr_code')->nullable();
             $table->boolean('show_hero');

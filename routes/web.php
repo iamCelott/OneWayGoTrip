@@ -18,6 +18,7 @@ Route::get('/', [LandingController::class, 'index'])->name('landing.index');
 Route::get('/tours', [LandingController::class, 'tours'])->name('landing.tour');
 Route::get('/tour/{slug}', [LandingController::class, 'tour_show'])->name('landing.tour.show');
 Route::get('/gallery', [LandingController::class, 'galleries'])->name('landing.gallery');
+Route::get('/contact_show/{name}', [LandingController::class, 'contact_show'])->name('landing.contact_show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

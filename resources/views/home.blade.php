@@ -172,12 +172,19 @@
 <body>
 
     <div class="fixed z-50 bottom-5 right-5">
-        <a href="https://weixin//dl/chat?Onewaygo21" target="_blank">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcHkfGrxRkBok7GAPVf_4tge5ujWEtb8rvqg&s"
-                alt="" class="w-12 h-12 rounded-lg mb-3" style="filter: grayscale(100%)">
-        </a>
-        <img src="https://play-lh.googleusercontent.com/bYtqbOcTYOlgc6gqZ2rwb8lptHuwlNE75zYJu6Bn076-hTmvd96HH-6v7S0YUAAJXoJN"
-            alt="" class="w-12 h-12 rounded-lg" style="filter: grayscale(100%)">
+        @foreach ($showed_contacts as $contact)
+            @if ($contact->has_qrcode == true)
+                <a href="{{ route('landing.contact_show', $contact->name) }}" target="_blank">
+                    <img src="{{ asset('storage/' . $contact->logo) }}" alt=""
+                        class="w-12 h-12 rounded-lg mb-3">
+                </a>
+            @else
+                <a href="{{ $contact->url }}" target="_blank">
+                    <img src="{{ asset('storage/' . $contact->logo) }}" alt=""
+                        class="w-12 h-12 rounded-lg mb-3">
+                </a>
+            @endif
+        @endforeach
     </div>
 
     @php
@@ -275,8 +282,8 @@
                     </p>
                 </div>
 
-                <div class="flex w-full my-10 sm:my-20 md:my-32 lg:my-52 items-center justify-center" data-aos="zoom-in-down"
-                    data-aos-duration="1150" data-aos-easing="ease">
+                <div class="flex w-full my-10 sm:my-20 md:my-32 lg:my-52 items-center justify-center"
+                    data-aos="zoom-in-down" data-aos-duration="1150" data-aos-easing="ease">
                     <h1 class="text-white text-4xl sm:text-3xl md:text-4xl xl:text-6xl font-poppins text-center">
                         <span class="font-semibold">
                             Explore the World with
@@ -535,7 +542,7 @@
         </div>
 
         <div id="footer" class="w-full bg-[#efefef] py-3">
-            <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3">
+            <div class="p-6 flex flex-col lg:flex-row gap-10 lg:gap-3 mb-3 container mx-auto">
                 <div class="">
                     <img src="{{ $company_profile->colored_logo ? asset('storage/' . $company_profile->colored_logo) : asset('storage/images/not_found/image_not_available.png') }}"
                         alt="" class="w-full md:w-1/2 lg:w-2/3 mx-auto">

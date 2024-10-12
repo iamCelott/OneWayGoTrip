@@ -26,7 +26,8 @@ class LandingController extends Controller
         $trips = Trip::latest()->get();
         $hero_backgrounds = HeroBackground::all();
         $galleries = Gallery::latest()->get();
-        return view('home', compact('trips', 'social_media', 'contacts', 'hero_backgrounds', 'galleries', 'company_profile'));
+        $showed_contacts = Contact::where('show_hero', true)->get();
+        return view('home', compact('showed_contacts', 'trips', 'social_media', 'contacts', 'hero_backgrounds', 'galleries', 'company_profile'));
     }
 
     public function tours(Request $request)
@@ -77,6 +78,16 @@ class LandingController extends Controller
         $galleries = Gallery::latest()->get();
         $trips = Trip::latest()->get();
         return view('gallery', compact('trips', 'social_media', 'contacts', 'company_profile', 'galleries'));
+    }
+
+    public function contact_show(string $name)
+    {
+        $social_media = SocialMedia::all();
+        $contacts = Contact::all();
+        $contact = Contact::where('name', $name)->firstOrFail();
+        $company_profile = CompanyProfile::first();
+        $trips = Trip::latest()->get();
+        return view('contact_show', compact('contact', 'social_media', 'contacts', 'company_profile', 'trips'));
     }
 
     /**

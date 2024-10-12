@@ -51,11 +51,19 @@
                             value="{{ old('name') }}" placeholder="write your contact name here...">
                     </div>
 
+                    <div class="mb-3">
+                        <label class="mb-2" for="url">Url</label>
+                        <input type="text" name="url" id="url" class="form-input rounded-md text-sm"
+                            value="{{ old('url') }}" placeholder="write your contact url here...">
+                    </div>
+
                     <div class="flex items-center mb-3">
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" id="show_hero" name="show_hero" >
+                            <input type="checkbox" class="sr-only peer" id="show_hero" name="show_hero">
                             <div class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600"></div>
-                            <div class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white"></div>
+                            <div
+                                class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white">
+                            </div>
                         </label>
 
                         <label class="ml-2" for="show_hero">Show This Contact As Sticky Button?</label>
@@ -63,9 +71,11 @@
 
                     <div class="flex items-center">
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" class="sr-only peer" id="has_qrcode" name="has_qrcode" >
+                            <input type="checkbox" class="sr-only peer" id="has_qrcode" name="has_qrcode">
                             <div class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600"></div>
-                            <div class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white"></div>
+                            <div
+                                class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white">
+                            </div>
                         </label>
 
                         <label class="ml-2" for="has_qrcode">Has QR Code</label>
@@ -73,7 +83,8 @@
 
                     <img src="" alt="" id="qrCodeCreatePreview" class="w-1/2 mb-3 mt-3">
                     <div class="mb-3">
-                        <label class="mb-2" for="qrCodeCreate">QR Code</label> - <small>Format: jpeg,png,jpg,gif,svg | Max:
+                        <label class="mb-2" for="qrCodeCreate">QR Code</label> - <small>Format: jpeg,png,jpg,gif,svg |
+                            Max:
                             2mb</small>
                         <br>
                         <input type="file" name="qr_code" id="qrCodeCreate" value="{{ old('qr_code') }}"
@@ -93,6 +104,7 @@
     <script>
         const qrCodeCheckbox = document.getElementById('has_qrcode');
         const qrCodeInput = document.getElementById('qrCodeCreate');
+
         function toggleQRCodeInput() {
             qrCodeInput.disabled = !qrCodeCheckbox.checked;
         }
@@ -121,19 +133,28 @@
                                         <th data-column-id="id" class="gridjs-th" style="width: 120px;">
                                             <div class="gridjs-th-content">No</div>
                                         </th>
-                                        <th data-column-id="logo" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                        <th data-column-id="logo" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Logo</div>
                                         </th>
-                                        <th data-column-id="icon" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                        <th data-column-id="icon" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Icon</div>
                                         </th>
-                                        <th data-column-id="name" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                        <th data-column-id="name" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Contact</div>
                                         </th>
-                                        <th data-column-id="qr_code" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                        <th data-column-id="url" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
+                                            <div class="gridjs-th-content">Url</div>
+                                        </th>
+                                        <th data-column-id="qr_code" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">QR Code</div>
                                         </th>
-                                        <th data-column-id="show_hero" class="gridjs-th" style="min-width: 90px; width: 158px;">
+                                        <th data-column-id="show_hero" class="gridjs-th"
+                                            style="min-width: 90px; width: 158px;">
                                             <div class="gridjs-th-content">Show To Hero</div>
                                         </th>
                                         <th data-column-id="actions" class="gridjs-th" style="width: 100px;">
@@ -145,11 +166,37 @@
                                     @forelse ($contacts as $index => $contact)
                                         <tr class="gridjs-tr text-center">
                                             <td data-column-id="id" class="gridjs-td">{{ $index + 1 }}</td>
-                                            <td data-column-id="icon" class="gridjs-td flex justify-center">
-                                                <img class="w-20 h-20" src="{{ asset('storage/' . $contact->icon) }}"
-                                                    alt="{{ $contact->name }}">
+                                            <td data-column-id="logo" class="gridjs-td">
+                                                @if ($contact->logo)
+                                                    <img class="w-20 h-20 mx-auto"
+                                                        src="{{ asset('storage/' . $contact->logo) }}" alt="">
+                                                @else
+                                                    This contact does not have a logo image
+                                                @endif
+                                            </td>
+                                            <td data-column-id="icon" class="gridjs-td">
+                                                <img class="w-20 h-20 mx-auto"
+                                                    src="{{ asset('storage/' . $contact->icon) }}" alt="">
                                             </td>
                                             <td data-column-id="name" class="gridjs-td">{{ $contact->name }}</td>
+                                            <td data-column-id="url" class="gridjs-td">
+                                                {{ $contact->url ? $contact->url : 'This contact does not have a link' }}
+                                            </td>
+                                            <td data-column-id="icon" class="gridjs-td">
+                                                @if ($contact->qr_code)
+                                                    <img class="w-20 h-20 mx-auto"
+                                                        src="{{ asset('storage/' . $contact->qr_code) }}" alt="">
+                                                @else
+                                                    This contact does not have a QR code
+                                                @endif
+                                            </td>
+                                            <td data-column-id="icon" class="gridjs-td">
+                                                @if ($contact->show_hero == true)
+                                                    Yes
+                                                @else
+                                                    No
+                                                @endif
+                                            </td>
                                             <td data-column-id="actions" class="gridjs-td">
                                                 <div>
                                                     <a href="javascript: void(0);" data-fc-type="dropdown"
@@ -161,7 +208,12 @@
                                                         <button
                                                             class="editModalBtn w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                                             data-fc-target="editModal" data-id="{{ $contact->id }}"
+                                                            data-logo="{{ $contact->logo }}"
                                                             data-icon="{{ $contact->icon }}"
+                                                            data-has_qrcode="{{ $contact->has_qrcode }}"
+                                                            data-qrcode="{{ $contact->qr_code }}"
+                                                            data-show_hero="{{ $contact->show_hero }}"
+                                                            data-url="{{ $contact->url }}"
                                                             data-name="{{ $contact->name }}" data-fc-type="modal"
                                                             type="button"><i class="far fa-pencil mr-1"></i>
                                                             <span>Edit</span></button>
@@ -177,7 +229,7 @@
                                         </tr>
                                     @empty
                                         <tr class="gridjs-tr">
-                                            <td data-column-id="name" class="gridjs-td text-center" colspan="7">
+                                            <td data-column-id="name" class="gridjs-td text-center" colspan="8">
                                                 Contact
                                                 is empty.</td>
                                         </tr>
@@ -203,6 +255,18 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="p-4 overflow-y-auto icon-container">
+
+                                                    <img src="" alt="" id="editLogoPreview"
+                                                        class="w-1/2 mb-3">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="logo">Logo</label> - <small>Format:
+                                                            jpeg,png,jpg,gif,svg | Max:
+                                                            2mb</small>
+                                                        <br>
+                                                        <input type="file" name="logo" id="editContactLogo"
+                                                            class="border w-full rounded-md">
+                                                    </div>
+
                                                     <img src="" class="w-1/2 mb-3" id="editIconPreview">
                                                     <div class="mb-3">
                                                         <label class="mb-2" for="icon">Icon</label> -
@@ -217,6 +281,58 @@
                                                             class="form-input rounded-md text-sm"
                                                             placeholder="write your contact name here...">
                                                     </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="url">Url</label>
+                                                        <input type="text" name="url" id="editContactUrl"
+                                                            class="form-input rounded-md text-sm"
+                                                            placeholder="write your contact url here...">
+                                                    </div>
+
+                                                    <div class="flex items-center mb-3">
+                                                        <label class="relative inline-flex items-center cursor-pointer">
+                                                            <input type="checkbox" class="sr-only peer"
+                                                                id="editContactShowHero" name="show_hero">
+                                                            <div
+                                                                class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600">
+                                                            </div>
+                                                            <div
+                                                                class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white">
+                                                            </div>
+                                                        </label>
+
+                                                        <label class="ml-2" for="show_hero">Show This Contact As Sticky
+                                                            Button?</label>
+                                                    </div>
+
+                                                    <div class="flex items-center">
+                                                        <label class="relative inline-flex items-center cursor-pointer">
+                                                            <input type="checkbox" class="sr-only peer"
+                                                                id="editContactHasQrCode" name="has_qrcode">
+                                                            <div
+                                                                class="w-[3.1rem] h-[1.7rem] bg-gray-200 rounded-full peer peer-checked:bg-blue-600">
+                                                            </div>
+                                                            <div
+                                                                class="absolute left-1 top-1 w-5 h-5 bg-white border rounded-full transition peer-checked:translate-x-full peer-checked:border-white">
+                                                            </div>
+                                                        </label>
+
+                                                        <label class="ml-2" for="has_qrcode">Has QR Code</label>
+                                                    </div>
+
+                                                    <img src="" alt="" id="editQrCodePreview"
+                                                        class="w-1/2 mb-3 mt-3">
+                                                    <div class="mb-3">
+                                                        <label class="mb-2" for="qrCodeEdit">QR Code</label> -
+                                                        <small>Format: jpeg,png,jpg,gif,svg |
+                                                            Max:
+                                                            2mb</small>
+                                                        <br>
+                                                        <input type="file" name="qr_code" id="editContactQrCode"
+                                                            value="{{ old('qr_code') }}"
+                                                            class="border w-full rounded-md">
+                                                    </div>
+
                                                 </div>
                                                 <div
                                                     class="flex justify-end items-center gap-2 p-4 border-t dark:border-slate-700">
@@ -318,6 +434,21 @@
             }
         });
 
+        const editLogo = document.getElementById('editContactLogo');
+        editLogo.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const editLogoPreview = document.getElementById('editLogoPreview');
+                    editLogoPreview.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                const editLogoPreview = document.getElementById('editLogoPreview');
+                editLogoPreview.src = '';
+            }
+        });
         const editIcon = document.getElementById('editContactIcon');
         editIcon.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -333,19 +464,53 @@
                 editIconPreview.src = '';
             }
         });
+        const editQrCode = document.getElementById('editContactQrCode');
+        editQrCode.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const editQrCodePreview = document.getElementById('editQrCodePreview');
+                    editQrCodePreview.src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            } else {
+                const editQrCodePreview = document.getElementById('editQrCodePreview');
+                editQrCodePreview.src = '';
+            }
+        });
 
         $(document).on('click', '.editModalBtn', function() {
             const id = $(this).data('id');
-            console.log(id)
+            const logo = $(this).data('logo');
             const icon = $(this).data('icon');
             const name = $(this).data('name');
+            const link = $(this).data('url');
+            const has_qrcode = $(this).data('has_qrcode');
+            const qr_code = $(this).data('qrcode');
+            const show_hero = $(this).data('show_hero');
             const url = `{{ route('contacts.update', 'id') }}`.replace('id', id);
 
             $('#editForm').attr("action", url);
             $('#editTittle').html("Edit Contact " + name);
 
+            $('#editLogoPreview').attr('src', '/storage/' + logo);
             $('#editIconPreview').attr('src', '/storage/' + icon);
             $('#editContactName').val(name);
+            $('#editContactUrl').val(link);
+            $('#editQrCodePreview').attr('src', '/storage/' + qr_code);
+
+            if (show_hero) {
+                $('#editContactShowHero').prop('checked', true);
+            } else {
+                $('#editContactShowHero').prop('checked', false);
+            }
+
+            if (qr_code) {
+                $('#editContactHasQrCode').prop('checked', true);
+            } else {
+                $('#editContactHasQrCode').prop('checked', false);
+            }
         })
 
         $(document).on('click', '.deleteModalBtn', function() {

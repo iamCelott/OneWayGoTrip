@@ -50,6 +50,7 @@ class ContactController extends Controller
             'logo' => $logoPath,
             'icon' => $iconPath,
             'name' => $request->name,
+            'url' => $request->url,
             'has_qrcode' => $request->has_qrcode,
             'qr_code' => $qrCodePath,
             'show_hero' => $request->show_hero,
@@ -79,25 +80,43 @@ class ContactController extends Controller
      */
     public function update(UpdateContactRequest $request, Contact $contact)
     {
-        if ($request->icon) {
+        $contact->name = $request->name;
+        $contact->url = $request->url;
+        $contact->has_qrcode = $request->has_qrcode;
+        $contact->show_hero = $request->show_hero;
 
+        if ($request->has('logo')) {
+            $oldLogoPath = storage_path('app/public/' . $contact->logo);
+
+            if (file_exists($oldLogoPath) && is_file($oldLogoPath)) {
+                unlink($oldLogoPath);
+            }
+            $logoPath = $request->logo->store('contact_logos', 'public');
+            $contact->logo = $logoPath;
+        }
+
+        if ($request->has('icon')) {
             $oldIconPath = storage_path('app/public/' . $contact->icon);
 
             if (file_exists($oldIconPath) && is_file($oldIconPath)) {
                 unlink($oldIconPath);
             }
-
             $iconPath = $request->icon->store('contact_icons', 'public');
-
-            $contact->update([
-                'icon' => $iconPath,
-                'name' => $request->name,
-            ]);
-        } else {
-            $contact->update([
-                'name' => $request->name,
-            ]);
+            $contact->icon = $iconPath;
         }
+
+        if ($request->has('qr_code')) {
+            $oldQrCodePath = storage_path('app/public/' . $contact->qr_code);
+
+            if (file_exists($oldQrCodePath) && is_file($oldQrCodePath)) {
+                unlink($oldQrCodePath);
+            }
+
+            $qrCodePath = $request->qr_code->store('contact_qrcodes', 'public');
+            $contact->qr_code = $qrCodePath;
+        }
+
+        $contact->save();
 
         return redirect()->route('contacts.index')->with('success', 'Success updated contact.');
     }
@@ -111,6 +130,18 @@ class ContactController extends Controller
 
         if (file_exists($iconPath) && is_file($iconPath)) {
             unlink($iconPath);
+        }
+
+        $logoPath = storage_path('app/public/' . $contact->logo);
+
+        if (file_exists($logoPath) && is_file($logoPath)) {
+            unlink($logoPath);
+        }
+
+        $qrCodePath = storage_path('app/public/' . $contact->qr_code);
+
+        if (file_exists($qrCodePath) && is_file($qrCodePath)) {
+            unlink($qrCodePath);
         }
 
         $contact->delete();
