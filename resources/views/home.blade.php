@@ -274,15 +274,15 @@
         @endforeach
 
         <div class="absolute top-0 left-0 z-30 w-full h-screen">
-            <div class="px-3 py-16">
-                <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4">
+            <div class="px-3 py-16 h-full">
+                <div class="flex items-center space-x-2 gap-1 md:gap-2 p-4 absolute">
                     <div class="w-[2px] h-9 sm:h-10 lg:h-12 xl:h-14 bg-white"></div>
                     <p class="text-white font-medium text-xs sm:text-sm lg:text-lg xl:text-xl">
                         Over <span id="used-services">0</span>+ have used <br /> our services
                     </p>
                 </div>
 
-                <div class="flex w-full my-10 sm:my-20 md:my-32 lg:my-52 items-center justify-center"
+                <div class="flex w-full sm:h-full my-24 sm:my-0 sm:items-center justify-center"
                     data-aos="zoom-in-down" data-aos-duration="1150" data-aos-easing="ease">
                     <h1 class="text-white text-4xl sm:text-3xl md:text-4xl xl:text-6xl font-poppins text-center">
                         <span class="font-semibold">

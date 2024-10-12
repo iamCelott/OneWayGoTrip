@@ -41,6 +41,7 @@ class LandingController extends Controller
         $search = $request->search;
         $filterPackage = $request->filterPackage;
         $filterCategory = $request->filterCategory;
+        $showed_contacts = Contact::where('show_hero', true)->get();
 
         $trips = Trip::with(relations: ['packages', 'trip_images', 'category'])
             ->when($search, function ($query) use ($search) {
@@ -56,7 +57,7 @@ class LandingController extends Controller
             })
             ->latest()->get();
 
-        return view('tours.index', compact('categories', 'packages', 'trips', 'social_media', 'contacts', 'company_profile'));
+        return view('tours.index', compact('categories', 'packages', 'trips', 'social_media', 'contacts', 'company_profile', 'showed_contacts'));
     }
 
     public function tour_show(string $slug)
@@ -64,10 +65,11 @@ class LandingController extends Controller
         $social_media = SocialMedia::all();
         $contacts = Contact::all();
         $trip = Trip::where('slug', $slug)->firstOrFail();
-        $trip_images = TripImage::where('trip_id', $trip->id)->latest()->get();
+        $trip_images = TripImage::where('trip_id', $trip->id)->get();
         $company_profile = CompanyProfile::first();
         $trips = Trip::latest()->get();
-        return view('tours.show', compact('trips', 'trip', 'social_media', 'contacts', 'company_profile', 'trip_images'));
+        $showed_contacts = Contact::where('show_hero', true)->get();
+        return view('tours.show', compact('trips', 'trip', 'social_media', 'contacts', 'company_profile', 'trip_images', 'showed_contacts'));
     }
 
     public function galleries()
@@ -77,7 +79,8 @@ class LandingController extends Controller
         $company_profile = CompanyProfile::first();
         $galleries = Gallery::latest()->get();
         $trips = Trip::latest()->get();
-        return view('gallery', compact('trips', 'social_media', 'contacts', 'company_profile', 'galleries'));
+        $showed_contacts = Contact::where('show_hero', true)->get();
+        return view('gallery', compact('trips', 'social_media', 'contacts', 'company_profile', 'galleries', 'showed_contacts'));
     }
 
     public function contact_show(string $name)
