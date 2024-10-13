@@ -205,7 +205,7 @@
                     <div class="main-carousel" data-flickity='{ "autoPlay": true }'>
                         @foreach ($trip_images as $image)
                             <div class="carousel-cell overflow-hidden rounded-lg">
-                                <img class="img-detail w-52 h-[140px] hover:scale-105 duration-300 object-bottom"
+                                <img class="img-detail w-52 xl:w-72 h-[140px] xl:h-[20  0px] hover:scale-105 duration-300 object-bottom"
                                     src="{{ asset('storage/' . $image->image) }}" alt="">
                             </div>
                         @endforeach

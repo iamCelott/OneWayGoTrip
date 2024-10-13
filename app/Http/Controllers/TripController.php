@@ -21,7 +21,7 @@ class TripController extends Controller
         $search = $request->search;
         $trips = Trip::with(['packages', 'trip_images', 'category'])->when($search, function ($query, $search) {
             return $query->where('name', 'LIKE', '%' . $search . '%');
-        })->latest()->paginate(6);
+        })->latest()->paginate(9);
 
         $packages = Package::all();
         $categories = Category::all();

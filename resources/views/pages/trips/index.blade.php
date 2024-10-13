@@ -89,7 +89,7 @@
         </form>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-3 mb-20">
         @forelse ($trips as $trip)
             <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between">
                 <div>
@@ -118,7 +118,8 @@
                                         data-fc-target="editModal" id="editBtn" data-fc-type="modal"
                                         data-id="{{ $trip->id }}" data-image="{{ $trip->image }}"
                                         data-name="{{ $trip->name }}" data-description="{{ $trip->description }}"
-                                        type="button"><i class="far fa-pencil mr-1"></i>
+                                        data-category-id="{{ $trip->category_id }}" type="button"><i
+                                            class="far fa-pencil mr-1"></i>
                                         <span>Edit</span></button>
                                     <button
                                         class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
@@ -319,8 +320,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="mb-2" for="category_id">Trip Category</label>
-                            <select class="form-select" id="category_id" name="category_id">
+                            <label class="mb-2" for="editCategory">Trip Category</label>
+                            <select class="form-select" id="editCategory" name="category_id">
                                 @if ($categories->isEmpty())
                                     <option value="" selected>Trip category is empty</option>
                                 @else
@@ -351,6 +352,7 @@
             </div>
         </div>
     </div>
+    {{ $trips->links() }}
 
     <script src="https://cdn.ckeditor.com/ckeditor5/43.1.1/ckeditor5.umd.js"></script>
     <script>
@@ -438,6 +440,7 @@
             const image = $(this).data('image');
             const name = $(this).data('name');
             const description = $(this).data('description');
+            const category_id = $(this).data('category-id')
             const url = `{{ route('trips.update', 'id') }}`.replace('id', id);
 
             $('#editForm').attr("action", url);
@@ -449,6 +452,8 @@
             if (editors['editTripDescription']) {
                 editors['editTripDescription'].setData(description);
             }
+
+            $('#editCategory').val(category_id);
         })
     </script>
 @endsection
