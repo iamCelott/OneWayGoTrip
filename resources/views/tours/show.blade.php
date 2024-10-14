@@ -239,12 +239,6 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div class="flex flex-col w-full space-y-4">
                                 <div>
-                                    <strong class="text-[rgba(0,0,0,0.5)]">Price:</strong>
-                                    <div>
-                                        {!! $package->pivot->price !!}
-                                    </div>
-                                </div>
-                                <div>
                                     <strong class="text-[rgba(0,0,0,0.5)]">What Will You Get:</strong>
                                     <div>
                                         {!! $package->pivot->include !!}

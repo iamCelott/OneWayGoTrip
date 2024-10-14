@@ -21,7 +21,7 @@
                     <input type="hidden" name="trip_id" value="{{ $trip->id }}">
 
                     <div class="mb-3">
-                        <label class="mb-2" for="price">Choose Package</label>
+                        <label class="mb-2" for="">Choose Package</label>
                         <select class="form-select outline-none" name="package_id">
                             @forelse ($packages as $package)
                                 <option value="{{ $package->id }}"
@@ -31,11 +31,6 @@
                                 <option value="" selected>Package is empty</option>
                             @endforelse
                         </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="mb-2" for="price">Price</label>
-                        <textarea class="ckeditor rounded-md text-sm" name="price" placeholder="write your package price here...">{{ old('price') }}</textarea>
                     </div>
 
                     <div class="mb-3">
@@ -88,8 +83,7 @@
                             <button
                                 class="w-full flex items-center py-1.5 px-5 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300"
                                 id="editBtn" data-fc-type="modal" data-fc-target="editModal" type="button"
-                                data-id="{{ $package->pivot->id }}" data-price="{{ $package->pivot->price }}"
-                                data-include="{{ $package->pivot->include }}"
+                                data-id="{{ $package->pivot->id }}" data-include="{{ $package->pivot->include }}"
                                 data-exclude="{{ $package->pivot->exclude }}"
                                 data-itinerary="{{ $package->pivot->itinerary }}"
                                 data-notes="{{ $package->pivot->notes }}"><i class="far fa-pencil mr-1"></i>
@@ -100,11 +94,6 @@
                                 data-id="{{ $package->pivot->id }}"><i class="far fa-trash mr-1"></i>
                                 <span>Delete</span></button>
                         </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <h1 class="text-lg font-bold text-[rgba(0,0,0,0.7)]">PRICE</h1>
-                        <p>{!! $package->pivot->price !!}</p>
                     </div>
 
                     <div class="mb-3">
@@ -151,12 +140,6 @@
                     @csrf
                     @method('PUT')
                     <div class="p-4 max-h-[300px] overflow-y-auto">
-
-                        <div class="mb-3">
-                            <label class="mb-2" for="price">Price</label>
-                            <textarea id="editPackagePrice" class="ckeditor rounded-md text-sm" name="price"
-                                placeholder="write your package price here..."></textarea>
-                        </div>
 
                         <div class="mb-3">
                             <label class="mb-2" for="include">Include</label>
@@ -276,7 +259,6 @@
 
         $(document).on('click', '#editBtn', function() {
             var id = $(this).data('id');
-            var price = $(this).data('price');
             var include = $(this).data('include');
             var exclude = $(this).data('exclude');
             var itinerary = $(this).data('itinerary');
@@ -285,9 +267,6 @@
 
             $('#editForm').attr('action', url);
 
-            if (editors['editPackagePrice']) {
-                editors['editPackagePrice'].setData(price);
-            }
             if (editors['editPackageInclude']) {
                 editors['editPackageInclude'].setData(include);
             }

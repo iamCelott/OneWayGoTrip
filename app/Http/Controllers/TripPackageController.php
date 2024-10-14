@@ -15,7 +15,7 @@ class TripPackageController extends Controller
      */
     public function index()
     {
-        // 
+        //
     }
 
     /**
@@ -35,7 +35,6 @@ class TripPackageController extends Controller
         $package_id = Package::find($request->package_id)->id;
 
         $pivotData = [
-            'price' => $request->price,
             'include' => $request->include,
             'exclude' => $request->exclude,
             'itinerary' => $request->itinerary,
@@ -69,7 +68,6 @@ class TripPackageController extends Controller
     public function update(Request $request, TripPackage $tripPackage)
     {
         $validatedData = $request->validate([
-            'price' => 'required|string',
             'include' => 'required|string',
             'exclude' => 'required|string',
             'itinerary' => 'required|string',

@@ -19,9 +19,22 @@ class TripController extends Controller
     public function index(Request $request)
     {
         $search = $request->search;
-        $trips = Trip::with(['packages', 'trip_images', 'category'])->when($search, function ($query, $search) {
-            return $query->where('name', 'LIKE', '%' . $search . '%');
-        })->latest()->paginate(9);
+        $classOrder = ['SUPERIOR', 'DELUXE', 'LUXURY'];
+
+        $trips = Trip::with(['packages', 'trip_images', 'category'])
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'LIKE', '%' . $search . '%');
+            })
+            ->orderByRaw("
+            CASE
+                WHEN name LIKE 'SUPERIOR%' THEN 1
+                WHEN name LIKE 'DELUXE%' THEN 2
+                WHEN name LIKE 'LUXURY%' THEN 3
+                ELSE 4
+            END
+        ")
+            ->latest()
+            ->paginate(9);
 
         $packages = Package::all();
         $categories = Category::all();

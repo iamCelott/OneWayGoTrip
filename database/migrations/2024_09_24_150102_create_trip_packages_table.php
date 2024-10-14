@@ -13,9 +13,8 @@ return new class extends Migration
     {
         Schema::create('trip_packages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('trip_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('trip_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
-            $table->text('price');
             $table->text('include');
             $table->text('exclude');
             $table->text('itinerary');

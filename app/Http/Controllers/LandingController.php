@@ -23,7 +23,14 @@ class LandingController extends Controller
         $social_media = SocialMedia::all();
         $company_profile = CompanyProfile::first();
         $contacts = Contact::all();
-        $trips = Trip::latest()->get();
+        $trips = Trip::orderByRaw("
+        CASE
+            WHEN name LIKE 'SUPERIOR%' THEN 1
+            WHEN name LIKE 'DELUXE%' THEN 2
+            WHEN name LIKE 'LUXURY%' THEN 3
+            ELSE 4
+        END
+    ")->latest()->get();
         $hero_backgrounds = HeroBackground::all();
         $galleries = Gallery::latest()->get();
         $showed_contacts = Contact::where('show_hero', true)->get();
@@ -55,6 +62,14 @@ class LandingController extends Controller
             ->when($filterCategory, function ($query) use ($filterCategory) {
                 $query->where('category_id', $filterCategory);
             })
+            ->orderByRaw("
+            CASE
+                WHEN name LIKE 'SUPERIOR%' THEN 1
+                WHEN name LIKE 'DELUXE%' THEN 2
+                WHEN name LIKE 'LUXURY%' THEN 3
+                ELSE 4
+            END
+        ")
             ->latest()->get();
 
         return view('tours.index', compact('categories', 'packages', 'trips', 'social_media', 'contacts', 'company_profile', 'showed_contacts'));
@@ -67,7 +82,15 @@ class LandingController extends Controller
         $trip = Trip::where('slug', $slug)->firstOrFail();
         $trip_images = TripImage::where('trip_id', $trip->id)->get();
         $company_profile = CompanyProfile::first();
-        $trips = Trip::latest()->get();
+        $trips = Trip::orderByRaw("
+        CASE
+            WHEN name LIKE 'SUPERIOR%' THEN 1
+            WHEN name LIKE 'DELUXE%' THEN 2
+            WHEN name LIKE 'LUXURY%' THEN 3
+            ELSE 4
+        END
+    ")
+            ->latest()->get();
         $showed_contacts = Contact::where('show_hero', true)->get();
         return view('tours.show', compact('trips', 'trip', 'social_media', 'contacts', 'company_profile', 'trip_images', 'showed_contacts'));
     }
@@ -78,7 +101,15 @@ class LandingController extends Controller
         $contacts = Contact::all();
         $company_profile = CompanyProfile::first();
         $galleries = Gallery::latest()->get();
-        $trips = Trip::latest()->get();
+        $trips = Trip::orderByRaw("
+        CASE
+            WHEN name LIKE 'SUPERIOR%' THEN 1
+            WHEN name LIKE 'DELUXE%' THEN 2
+            WHEN name LIKE 'LUXURY%' THEN 3
+            ELSE 4
+        END
+    ")
+            ->latest()->get();
         $showed_contacts = Contact::where('show_hero', true)->get();
         return view('gallery', compact('trips', 'social_media', 'contacts', 'company_profile', 'galleries', 'showed_contacts'));
     }
@@ -89,7 +120,15 @@ class LandingController extends Controller
         $contacts = Contact::all();
         $contact = Contact::where('name', $name)->firstOrFail();
         $company_profile = CompanyProfile::first();
-        $trips = Trip::latest()->get();
+        $trips = Trip::orderByRaw("
+        CASE
+            WHEN name LIKE 'SUPERIOR%' THEN 1
+            WHEN name LIKE 'DELUXE%' THEN 2
+            WHEN name LIKE 'LUXURY%' THEN 3
+            ELSE 4
+        END
+    ")
+            ->latest()->get();
         return view('contact_show', compact('contact', 'social_media', 'contacts', 'company_profile', 'trips'));
     }
 

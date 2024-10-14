@@ -187,10 +187,6 @@
                             <div id="tab{{ $trip->id }}-{{ $package->id }}-content"
                                 class="tab-content hidden py-3">
                                 <!-- Isi konten tab -->
-                                <div class="mb-3">
-                                    <strong>Price:</strong>
-                                    {!! $package->pivot->price !!}
-                                </div>
                                 <div class="sm:flex mb-3 gap-3">
                                     <div class="w-full sm:w-1/2">
                                         <strong>Include:</strong>

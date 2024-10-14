@@ -174,7 +174,7 @@
             @forelse ($trips as $trip)
                 <div class="card sm:rounded-lg overflow-hidden h-full flex flex-col justify-between shadow-lg">
                     <a href="{{ route('landing.tour.show', $trip->slug) }}" class="cursor-pointer">
-                        <img class="w-full h-[250px] sm:rounded-tl-md sm:rounded-none rounded-t-md border-b-2"
+                        <img class="w-full h-[250px] lg:h-[200px] xl:h-[275px] 2xl:h-[300px] sm:rounded-tl-md sm:rounded-none rounded-t-md border-b-2"
                             src="{{ $trip->image ? asset('storage/' . $trip->image) : asset('storage/images/not_found/image_not_available.png') }}"
                             alt="{{ $trip->name }}">
                         <div class="p-3">

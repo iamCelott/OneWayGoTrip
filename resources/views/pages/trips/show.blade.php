@@ -50,7 +50,7 @@
                             <img class="img-detail w-52 h-[140px] hover:scale-105 duration-300 object-bottom"
                                 src="{{ asset('storage/' . $image->image) }}" alt="">
                         </div>
-                    @endforeach 
+                    @endforeach
                 </div>
             @endif
             @if ($trip_images->isEmpty())
@@ -80,12 +80,6 @@
                 <div id="tab{{ $trip->id }}-{{ $package->id }}-content" class="tab-content hidden py-3">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="flex flex-col w-full space-y-4">
-                            <div>
-                                <strong class="text-[rgba(0,0,0,0.5)]">Price:</strong>
-                                <div>
-                                    {!! $package->pivot->price !!}
-                                </div>
-                            </div>
                             <div>
                                 <strong class="text-[rgba(0,0,0,0.5)]">What Will You Get:</strong>
                                 <div>
