@@ -1,21 +1,21 @@
-# Onewaygo Trip
+#OnewaygoTravel
 
-Onewaygo Trip adalah platform perjalanan yang dirancang untuk menghubungkan para petualang dengan keindahan alam Indonesia. Dengan menggunakan Laravel dan Tailwind CSS, kami menawarkan berbagai paket perjalanan yang memungkinkan Anda menjelajahi destinasi eksotis seperti Labuan Bajo dan Lombok.
+Onewaygo Trip is a travel platform designed to connect adventurers with the natural beauty of Indonesia. Using Laravel and Tailwind CSS, we offer a variety of travel packages that allow you to explore exotic destinations such as Labuan Bajo and Lombok.
 
-## Fitur
+## Feature
 
-- Paket perjalanan yang beragam
-- Desain responsif dan menarik
-- Pengalaman pengguna yang intuitif
+- Various travel packages
+- Responsive and attractive design
+- Intuitive user experience
 
-## Teknologi
+## Technology
 
-- **Laravel**: Framework PHP untuk pengembangan web
-- **Tailwind CSS**: Framework CSS untuk desain yang cepat dan responsif
+- **Laravel**: PHP framework for web development
+- **Tailwind CSS**: CSS framework for fast, responsive design
 
-## Instalasi
+## Installation
 
-1. Clone repositori ini
+1. Clone This Repository
    ```bash
    git clone https://github.com/username/repo.git
 2. Install Composer
