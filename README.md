@@ -1,4 +1,4 @@
-#OnewaygoTravel
+# OnewaygoTravel
 
 Onewaygo Trip is a travel platform designed to connect adventurers with the natural beauty of Indonesia. Using Laravel and Tailwind CSS, we offer a variety of travel packages that allow you to explore exotic destinations such as Labuan Bajo and Lombok.
 
